@@ -10,7 +10,7 @@ class OnboardingManager {
             userName: '',
             monthlyBudget: null,
             currency: 'BDT',
-            theme: 'system',
+            theme: 'light',
             pin: ''
         };
     }
