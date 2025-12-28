@@ -61,6 +61,12 @@ class App {
         window.addEventListener('hashchange', () => {
             const hash = window.location.hash.slice(1); // Remove the '#'
             const page = hash || 'home';
+
+            // Close all modals when navigating
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.classList.remove('active');
+            });
+
             this.navigateTo(page, false); // Don't update hash again
         });
     }

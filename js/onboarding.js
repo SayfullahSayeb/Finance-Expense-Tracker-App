@@ -10,7 +10,7 @@ class OnboardingManager {
             userName: '',
             monthlyBudget: null,
             currency: 'BDT',
-            theme: 'light',
+            theme: 'system',
             pin: ''
         };
     }
@@ -136,7 +136,39 @@ class OnboardingManager {
         sessionStorage.setItem('onboardingData', JSON.stringify(this.data));
     }
 
-    nextScreen() {
+    showError(title, message) {
+        const modal = document.getElementById('error-modal');
+        const msgEl = document.getElementById('error-message-text');
+        const titleEl = document.querySelector('.error-title');
+
+        if (modal && msgEl) {
+            if (title && titleEl) titleEl.textContent = title;
+            msgEl.textContent = message;
+            modal.classList.add('active');
+        } else {
+            alert(message);
+        }
+    }
+
+    nextScreen(skipValidation = false) {
+        // Validation for Name (Screen 3)
+        if (!skipValidation && this.currentScreen === 3) {
+            const nameInput = document.getElementById('user-name');
+            if (nameInput && !nameInput.value.trim()) {
+                this.showError('Name Required', 'Please enter your name to continue.');
+                return;
+            }
+        }
+
+        // Validation for Budget (Screen 4)
+        if (!skipValidation && this.currentScreen === 4) {
+            const budgetInput = document.getElementById('monthly-budget');
+            if (budgetInput && !budgetInput.value) {
+                this.showError('Budget Required', 'Please enter a monthly budget or click "Skip" if you prefer not to set one.');
+                return;
+            }
+        }
+
         this.saveCurrentScreenData();
 
         if (this.currentScreen < this.totalScreens) {
@@ -170,6 +202,22 @@ class OnboardingManager {
     }
 
     async finish(skipPIN = false) {
+        // If not skipping PIN, validate that PIN is entered
+        if (!skipPIN) {
+            const pinInputs = document.querySelectorAll('.pin-digit');
+            const pin = Array.from(pinInputs).map(input => input.value).join('');
+
+            // Check if PIN is complete (4 digits)
+            if (pin.length !== 4) {
+                // Show error message
+                this.showError('Incomplete PIN', 'Please enter a complete 4-digit PIN or click "Skip PIN" to continue without PIN protection.');
+                return; // Don't proceed
+            }
+
+            // Save the PIN
+            this.data.pin = pin;
+        }
+
         // Save current screen data if not skipping
         if (!skipPIN) {
             this.saveCurrentScreenData();
@@ -213,7 +261,13 @@ class OnboardingManager {
             if (this.data.theme === 'dark') {
                 document.documentElement.setAttribute('data-theme', 'dark');
                 localStorage.setItem('theme', 'dark');
+            } else if (this.data.theme === 'system') {
+                // Apply system theme
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+                localStorage.setItem('theme', 'system');
             } else {
+                document.documentElement.setAttribute('data-theme', 'light');
                 localStorage.setItem('theme', 'light');
             }
 

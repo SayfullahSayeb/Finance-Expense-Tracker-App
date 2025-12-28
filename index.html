@@ -27,29 +27,37 @@
             <div class="home-header-wrapper">
                 <div class="home-header-bg">
                     <div class="greeting-section">
-                        <p class="greeting-time" id="greeting-time">Good afternoon,</p>
-                        <h2 class="user-name" id="user-name">Your Name</h2>
+                        <div>
+                            <p class="greeting-time" id="greeting-time">Good afternoon,</p>
+                            <h2 class="user-name" id="user-name">Your Name</h2>
+                        </div>
+                        <a href="#settings" class="header-menu-icon">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </a>
                     </div>
                 </div>
 
                 <div class="balance-card-white">
                     <div class="balance-header">
-                        <span class="balance-label">Total Balance</span>
+                        <span class="balance-label" data-lang="currentBalance">Current Balance</span>
+                        <button class="privacy-toggle-btn" id="privacy-toggle" onclick="homeManager.togglePrivacy()">
+                            <i class="fas fa-eye" id="privacy-icon"></i>
+                        </button>
                     </div>
                     <h1 class="total-balance" id="total-balance">$0.00</h1>
 
                     <div class="income-expense-boxes">
                         <div class="income-box-teal">
-                            <i class="fas fa-arrow-down"></i>
+                            <i class="fas fa-arrow-up"></i>
                             <div>
-                                <p class="label" data-lang="income">Income</p>
+                                <p class="label" data-lang="monthlyIncome">This Month Income</p>
                                 <p class="value" id="header-income">$0</p>
                             </div>
                         </div>
                         <div class="expense-box-teal">
-                            <i class="fas fa-arrow-up"></i>
+                            <i class="fas fa-arrow-down"></i>
                             <div>
-                                <p class="label" data-lang="expense">Expenses</p>
+                                <p class="label" data-lang="monthlyExpense">This Month Expense</p>
                                 <p class="value" id="header-expense">$0</p>
                             </div>
                         </div>
@@ -61,8 +69,8 @@
                 <!-- Transactions History Section -->
                 <div class="transactions-history-section">
                     <div class="section-header">
-                        <h3 class="section-title">Transactions History</h3>
-                        <a href="#transactions" class="see-all-link">See all</a>
+                        <h3 class="section-title" data-lang="transactionsHistory">Transactions History</h3>
+                        <a href="#transactions" class="see-all-link" data-lang="seeAll">See all</a>
                     </div>
 
                     <div class="transactions-list" id="home-transactions-list">
@@ -71,34 +79,23 @@
                     </div>
                 </div>
 
-                <!-- Expense Cards Row -->
-                <div class="cards-row">
-                    <!-- Today's Expense Card -->
-                    <div class="card stats-card">
-                        <div class="card-header">
-                            <h3 data-lang="todayExpense">Today's Expense</h3>
-                            <i class="fas fa-calendar-day card-icon"></i>
-                        </div>
-                        <div class="card-body">
-                            <p class="amount" id="today-expense">৳0</p>
-                        </div>
+                <!-- Expense Overview Section -->
+                <div class="transactions-history-section">
+                    <div class="section-header">
+                        <h3 class="section-title" data-lang="financeOverview">Finance Overview</h3>
                     </div>
 
-                    <!-- Monthly Summary Card -->
-                    <div class="card stats-card">
-                        <div class="card-header">
-                            <h3 data-lang="monthlyExpense">This Month</h3>
-                            <i class="fas fa-calendar-alt card-icon"></i>
-                        </div>
-                        <div class="card-body">
-                            <p class="amount" id="month-expense">৳0</p>
+                    <div class="card" id="expense-summary-card">
+                        <div class="card-body" id="expense-summary-content">
+                            <div class="expense-overview-grid">
+                                <!-- Placeholder structure until JS loads -->
+                                <div class="expense-stat-main">
+                                    <span class="stat-label">This Month</span>
+                                    <span class="stat-value">...</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- Motivational Message -->
-                <div class="card message-card" id="motivational-card">
-                    <p id="motivational-message" class="message-text">Welcome to Finance Tracker!</p>
                 </div>
 
                 <!-- Savings Card -->
@@ -107,7 +104,7 @@
                         <h3 data-lang="savings">Savings</h3>
                         <i class="fas fa-piggy-bank card-icon"></i>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" id="savings-content">
                         <p class="amount" id="savings-amount">৳0</p>
                         <div class="progress-bar">
                             <div class="progress-fill" id="savings-progress"></div>
@@ -359,6 +356,11 @@
                         </div>
                     </div>
                 </div>
+
+                <p
+                    style="text-align: center; color: var(--text-tertiary); font-size: 12px; margin-top: 20px; margin-bottom: 80px;">
+                    Developed with <span style="color: #e25555;">♡</span> by Sayeb
+                </p>
             </div>
         </div>
 

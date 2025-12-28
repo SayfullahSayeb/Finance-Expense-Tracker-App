@@ -320,6 +320,15 @@ class TransactionsManager {
 
             // Always update home page to refresh transactions history
             await homeManager.render();
+
+            // Navigate to transactions page after adding (not editing)
+            if (!this.editingId) {
+                // Get reference to app instance
+                const appElement = document.querySelector('.app-container');
+                if (appElement && window.location.hash !== '#transactions') {
+                    window.location.hash = 'transactions';
+                }
+            }
         } catch (error) {
             console.error('Error saving transaction:', error);
             Utils.showToast('Error saving transaction');

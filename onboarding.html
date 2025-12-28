@@ -31,7 +31,7 @@
                     <li><i class="fas fa-check-circle"></i> Track income and expenses effortlessly</li>
                     <li><i class="fas fa-check-circle"></i> Set and monitor monthly budgets</li>
                     <li><i class="fas fa-check-circle"></i> Visualize spending with detailed analytics</li>
-                    </ul>
+                </ul>
             </div>
             <div class="onboarding-footer">
                 <div class="dots">
@@ -42,7 +42,7 @@
                     <span class="dot"></span>
                 </div>
                 <button class="btn-primary" onclick="onboarding.nextScreen()">Get Started</button>
-                <button class="btn-skip" onclick="onboarding.nextScreen()">Skip</button>
+                <button class="btn-skip" onclick="onboarding.nextScreen(true)">Skip</button>
             </div>
         </div>
 
@@ -79,7 +79,7 @@
                     <span class="dot"></span>
                 </div>
                 <button class="btn-primary" onclick="onboarding.nextScreen()">Continue</button>
-                <button class="btn-skip" onclick="onboarding.nextScreen()">Skip</button>
+                <button class="btn-skip" onclick="onboarding.nextScreen(true)">Skip</button>
             </div>
         </div>
 
@@ -112,7 +112,7 @@
                     <span class="dot"></span>
                 </div>
                 <button class="btn-primary" onclick="onboarding.nextScreen()">Continue</button>
-                <button class="btn-skip" onclick="onboarding.nextScreen()">Skip</button>
+                <button class="btn-skip" onclick="onboarding.nextScreen(true)">Skip</button>
             </div>
         </div>
 
@@ -155,7 +155,7 @@
                     <span class="dot"></span>
                 </div>
                 <button class="btn-primary" onclick="onboarding.nextScreen()">Continue</button>
-                <button class="btn-skip" onclick="onboarding.nextScreen()">Skip</button>
+                <button class="btn-skip" onclick="onboarding.nextScreen(true)">Skip</button>
             </div>
         </div>
 
@@ -194,6 +194,21 @@
                 <button class="btn-skip" onclick="onboarding.finish(true)">Skip PIN</button>
             </div>
         </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div class="error-modal" id="error-modal">
+        <div class="error-modal-content">
+            <div class="error-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="error-title">Attention</div>
+            <div class="error-message" id="error-message-text">Please ensure all required fields are filled correctly.
+            </div>
+            <button class="btn-error" onclick="document.getElementById('error-modal').classList.remove('active')">Got
+                it</button>
+        </div>
+    </div>
     </div>
 
     <script src="js/db.js"></script>

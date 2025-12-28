@@ -13,8 +13,8 @@ class SettingsManager {
         const language = await db.getSetting('language') || 'en';
         document.getElementById('language-select').value = language;
 
-        // Load theme
-        const theme = await db.getSetting('theme') || 'light';
+        // Load theme - default to system
+        const theme = await db.getSetting('theme') || 'system';
         document.getElementById('theme-select').value = theme;
         this.applyTheme(theme);
 

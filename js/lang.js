@@ -10,9 +10,21 @@ const translations = {
         analysis: 'Analysis',
         settings: 'Settings',
 
+        // Greetings
+        goodMorning: 'Good morning,',
+        goodAfternoon: 'Good afternoon,',
+        goodEvening: 'Good evening,',
+        goodNight: 'Good night,',
+        yourName: 'Your Name',
+        currentBalance: 'Current Balance',
+        transactionsHistory: 'Transactions History',
+        seeAll: 'See all',
+        financeOverview: 'Finance Overview',
+
         // Home Page
         todayExpense: "Today's Expense",
-        monthlyExpense: 'This Month',
+        monthlyExpense: 'This Month Expense',
+        monthlyIncome: 'This Month Income',
         incomeVsExpense: 'Income vs Expense',
         income: 'Income',
         expense: 'Expense',
@@ -66,6 +78,34 @@ const translations = {
         insights: 'Insights',
         avgDaily: 'Daily Average',
         highestCategory: 'Top Category',
+
+        // Home Page Status Messages
+        todaysExpenseLabel: "Today's Expense",
+        dailyAvgExpenseLabel: 'Daily Avg Expense',
+        noExpensesYet: 'No expenses yet this month',
+        spendingHigher: '⚠️ Spending is higher than usual today',
+        spendingUnderControl: '✔ Great! Spending is under control today',
+        noExpensesToday: '✨ No expenses today - Keep it up!',
+        spendingStable: '✔ Spending is stable this month',
+
+        // Savings Messages
+        addIncomeToTrack: 'Add income to track your savings',
+        expensesExceedIncome: '⚠️ Warning: Expenses exceed income this month',
+        excellentSaving: '🎉 Excellent! You\'re doing great. Keep saving!',
+        goodJobSaving: '✔ Good job! You\'re managing money well',
+        roomToImprove: '💡 You\'re saving, but there\'s room to improve',
+        trySaveMore: '⚠️ Try to save more this month',
+        youSpentMore: 'You spent more than you earned',
+        youSavedPercent: 'You saved {percent} of your income this month',
+
+        // Budget Messages
+        budgetExceededMsg: '⚠️ Budget exceeded! Try to reduce spending',
+        almostAtLimit: '⚠️ Warning: Almost at budget limit',
+        spendingIncreasing: '💡 Spending is increasing. Be careful!',
+        managingWell: '✔ Great! You are managing money very well',
+        spendingWellControlled: '✔ Excellent! Spending is well under control',
+        budgetExceededSub: 'You have exceeded your monthly budget',
+        trackSpendingSub: 'Track your spending smartly',
 
         // Settings
         language: 'Language',
@@ -131,16 +171,28 @@ const translations = {
         analysis: 'বিশ্লেষণ',
         settings: 'সেটিংস',
 
+        // Greetings
+        goodMorning: 'সুপ্রভাত,',
+        goodAfternoon: 'শুভ অপরাহ্ন,',
+        goodEvening: 'শুভ সন্ধ্যা,',
+        goodNight: 'শুভ রাত্রি,',
+        yourName: 'আপনার নাম',
+        currentBalance: 'বর্তমান ব্যালেন্স',
+        transactionsHistory: 'লেনদেনের ইতিহাস',
+        seeAll: 'সব দেখুন',
+        financeOverview: 'আর্থিক সারসংক্ষেপ',
+
         // Home Page
         todayExpense: 'আজকের খরচ',
-        monthlyExpense: 'এই মাসে',
-        incomeVsExpense: 'আয় বনাম খরচ',
+        monthlyExpense: 'এই মাসের খরচ',
+        monthlyIncome: 'এই মাসের আয়',
+        incomeVsExpense: 'আয় ও খরচ',
         income: 'আয়',
         expense: 'খরচ',
         savings: 'সঞ্চয়',
         monthlyBudget: 'মাসিক বাজেট',
-        setBudget: 'বাজেট সেট করুন',
-        noBudgetSet: 'কোন বাজেট সেট করা হয়নি',
+        setBudget: 'বাজেট ঠিক করুন',
+        noBudgetSet: 'বাজেট সেট করা নেই',
 
         // Transactions
         addTransaction: 'লেনদেন যোগ করুন',
@@ -188,6 +240,34 @@ const translations = {
         avgDaily: 'দৈনিক গড়',
         highestCategory: 'শীর্ষ বিভাগ',
 
+        // Home Page Status Messages
+        todaysExpenseLabel: 'আজকের খরচ',
+        dailyAvgExpenseLabel: 'দৈনিক গড় খরচ',
+        noExpensesYet: 'এই মাসে এখনো কোনো খরচ নেই',
+        spendingHigher: '⚠️ আজ খরচ বেশি হয়েছে',
+        spendingUnderControl: '✔ দারুণ! আজ খরচ নিয়ন্ত্রণে আছে',
+        noExpensesToday: '✨ আজ কোনো খরচ নেই - চমৎকার!',
+        spendingStable: '✔ এই মাসে খরচ স্থিতিশীল',
+
+        // Savings Messages
+        addIncomeToTrack: 'সঞ্চয় ট্র্যাক করতে আয় যোগ করুন',
+        expensesExceedIncome: '⚠️ সাবধান: এই মাসে খরচ আয়ের চেয়ে বেশি',
+        excellentSaving: '🎉 দুর্দান্ত! খুব ভালো সঞ্চয় হচ্ছে!',
+        goodJobSaving: '✔ চমৎকার! টাকা ভালোভাবে সামলাচ্ছেন',
+        roomToImprove: '💡 সঞ্চয় হচ্ছে, তবে আরো ভালো করা যায়',
+        trySaveMore: '⚠️ এই মাসে আরো সঞ্চয় করার চেষ্টা করুন',
+        youSpentMore: 'আয়ের চেয়ে বেশি খরচ হয়েছে',
+        youSavedPercent: 'এই মাসে আয়ের {percent} সঞ্চয় হয়েছে',
+
+        // Budget Messages
+        budgetExceededMsg: '⚠️ বাজেট শেষ! খরচ কমানোর চেষ্টা করুন',
+        almostAtLimit: '⚠️ সাবধান: বাজেট প্রায় শেষ',
+        spendingIncreasing: '💡 খরচ বাড়ছে। সাবধান থাকুন!',
+        managingWell: '✔ দারুণ! টাকা খুব ভালোভাবে সামলাচ্ছেন',
+        spendingWellControlled: '✔ চমৎকার! খরচ সম্পূর্ণ নিয়ন্ত্রণে',
+        budgetExceededSub: 'মাসিক বাজেট শেষ হয়ে গেছে',
+        trackSpendingSub: 'খরচ স্মার্টভাবে ট্র্যাক করুন',
+
         // Settings
         language: 'ভাষা',
         theme: 'থিম',
@@ -204,32 +284,32 @@ const translations = {
         appDescription: 'পেশাদার ফিন্যান্স এক্সপেন্স ট্র্যাকার - আপনার আর্থিক ব্যবস্থাপনার জন্য অফলাইন-প্রথম ওয়েব অ্যাপ্লিকেশন।',
 
         // Buttons
-        save: 'সংরক্ষণ করুন',
-        cancel: 'বাতিল করুন',
-        delete: 'মুছুন',
-        edit: 'সম্পাদনা করুন',
+        save: 'সেভ করুন',
+        cancel: 'বাতিল',
+        delete: 'ডিলিট করুন',
+        edit: 'এডিট করুন',
 
         // Messages
-        noTransactions: 'এখনও কোন লেনদেন নেই',
-        addFirstTransaction: 'শুরু করতে আপনার প্রথম লেনদেন যোগ করুন!',
-        budgetWarning: 'আপনি আপনার বাজেট সীমার কাছাকাছি!',
-        budgetExceeded: 'বাজেট অতিক্রম করেছে!',
-        dataResetConfirm: 'আপনি কি নিশ্চিত যে আপনি সমস্ত ডেটা রিসেট করতে চান? এই কাজটি পূর্বাবস্থায় ফেরানো যাবে না।',
-        dataExported: 'ডেটা সফলভাবে রপ্তানি করা হয়েছে!',
-        dataImported: 'ডেটা সফলভাবে আমদানি করা হয়েছে!',
-        transactionAdded: 'লেনদেন যোগ করা হয়েছে!',
-        transactionUpdated: 'লেনদেন আপডেট করা হয়েছে!',
-        transactionDeleted: 'লেনদেন মুছে ফেলা হয়েছে!',
-        budgetSet: 'বাজেট সফলভাবে সেট করা হয়েছে!',
-        categoryAdded: 'বিভাগ যোগ করা হয়েছে!',
+        noTransactions: 'কোনো লেনদেন নেই',
+        addFirstTransaction: 'প্রথম লেনদেন যোগ করুন!',
+        budgetWarning: 'বাজেট শেষ হয়ে আসছে!',
+        budgetExceeded: 'বাজেট শেষ!',
+        dataResetConfirm: 'সব ডেটা মুছে ফেলবেন? এটি ফেরত আনা যাবে না।',
+        dataExported: 'ডেটা এক্সপোর্ট হয়েছে!',
+        dataImported: 'ডেটা ইমপোর্ট হয়েছে!',
+        transactionAdded: 'লেনদেন যোগ হয়েছে!',
+        transactionUpdated: 'লেনদেন আপডেট হয়েছে!',
+        transactionDeleted: 'লেনদেন মুছে গেছে!',
+        budgetSet: 'বাজেট সেট হয়েছে!',
+        categoryAdded: 'ক্যাটাগরি যোগ হয়েছে!',
 
         // Motivational Messages
         motivational: {
-            goodSpending: 'দুর্দান্ত! আপনি আজ আপনার খরচ নিয়ন্ত্রণ করেছেন!',
-            highSpending: 'আজ অনেক খরচ হয়েছে। আরও সঞ্চয় করার চেষ্টা করুন!',
-            noExpense: 'আজ কোন খরচ নেই। এভাবে চালিয়ে যান!',
-            savingWell: 'চমৎকার! আপনি এই মাসে ভালো সঞ্চয় করছেন!',
-            overspending: 'সতর্কতা! আপনি এই মাসে অতিরিক্ত খরচ করছেন।',
+            goodSpending: 'দারুণ! আজ খরচ কম হয়েছে!',
+            highSpending: 'আজ বেশি খরচ হয়েছে। সাবধান!',
+            noExpense: 'আজ কোনো খরচ নেই। চমৎকার!',
+            savingWell: 'দুর্দান্ত! এই মাসে ভালো সঞ্চয় হচ্ছে!',
+            overspending: 'সাবধান! এই মাসে বেশি খরচ হচ্ছে।',
         },
 
         // Insights
@@ -240,8 +320,8 @@ const translations = {
 
         // Budget
         setMonthlyBudget: 'মাসিক বাজেট সেট করুন',
-        budgetAmount: 'বাজেট পরিমাণ',
-        remaining: 'অবশিষ্ট',
+        budgetAmount: 'বাজেট',
+        remaining: 'বাকি আছে',
         spent: 'খরচ হয়েছে',
     }
 };
