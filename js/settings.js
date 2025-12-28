@@ -26,7 +26,7 @@ class SettingsManager {
         await this.loadBudget();
 
         // Load user name and update header
-        const userName = await db.getSetting('userName') || 'Finance Tracker';
+        const userName = await db.getSetting('userName') || 'Amar Taka';
         const headerName = document.getElementById('settings-display-name');
         if (headerName) {
             headerName.textContent = userName;

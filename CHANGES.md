@@ -1,4 +1,4 @@
-# Finance Tracker - Recent Updates
+# Amar Taka - Recent Updates
 
 ## All 10 Issues Fixed ✅
 

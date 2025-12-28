@@ -25,7 +25,7 @@ If the "Clear Cache & Update" button in the app doesn't work as expected, you ca
    - ✅ Cookies and other site data
    - ✅ Cached images and files
 4. Click **"Clear data"**
-5. Reload the Finance Tracker app
+5. Reload the Amar Taka app
 
 ### Firefox:
 1. Press `Ctrl + Shift + Delete` (Windows) or `Cmd + Shift + Delete` (Mac)
@@ -35,13 +35,13 @@ If the "Clear Cache & Update" button in the app doesn't work as expected, you ca
    - ✅ Cookies
    - ✅ Cache
 4. Click **"Clear Now"**
-5. Reload the Finance Tracker app
+5. Reload the Amar Taka app
 
 ### Safari (Mac):
 1. Go to **Safari** → **Preferences** → **Privacy**
 2. Click **"Manage Website Data"**
 3. Click **"Remove All"**
-4. Confirm and reload the Finance Tracker app
+4. Confirm and reload the Amar Taka app
 
 ---
 
