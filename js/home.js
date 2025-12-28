@@ -129,6 +129,14 @@ class HomeManager {
                 .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                 .slice(0, 4);
 
+            // Payment method icons
+            const paymentIcons = {
+                'cash': 'fa-money-bill-wave',
+                'card': 'fa-credit-card',
+                'mobile': 'fa-mobile-alt',
+                'bank': 'fa-university'
+            };
+
             container.innerHTML = recentTransactions.map(transaction => {
                 // Get emoji with fallback
                 const emoji = categoriesManager.getCategoryEmoji(transaction.category) || '➕';
@@ -148,6 +156,10 @@ class HomeManager {
                     dateStr = transDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
                 }
 
+                // Get payment method
+                const paymentIcon = paymentIcons[transaction.paymentMethod] || 'fa-wallet';
+                const paymentMethodName = lang.translate(transaction.paymentMethod || 'cash');
+
                 const amountClass = transaction.type === 'income' ? 'income' : 'expense';
                 const amountPrefix = transaction.type === 'income' ? '+ ' : '- ';
 
@@ -159,8 +171,9 @@ class HomeManager {
                             </div>
                             <div class="transaction-details">
                                 <span class="category-name">${transaction.category || 'Unknown'}</span>
-                                <span class="transaction-note" style="font-size: var(--font-size-sm); color: var(--text-tertiary);">
-                                    ${dateStr}
+                                <span class="transaction-note" style="font-size: var(--font-size-sm); color: var(--text-tertiary); display: flex; align-items: center; gap: 4px;">
+                                    <i class="fas ${paymentIcon}" style="font-size: 10px;"></i>
+                                    ${paymentMethodName} • ${dateStr}
                                 </span>
                             </div>
                         </div>

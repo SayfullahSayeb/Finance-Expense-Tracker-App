@@ -24,10 +24,26 @@ class OnboardingManager {
     }
 
     async checkOnboardingStatus() {
-        const completed = await db.getSetting('onboardingCompleted');
-        if (completed) {
-            // Redirect to main app
+        // First check localStorage for quick check
+        const localStorageCheck = localStorage.getItem('onboardingCompleted');
+        if (localStorageCheck === 'true') {
+            // Already completed, redirect to main app
             window.location.href = 'index.html';
+            return;
+        }
+
+        // If not in localStorage, check database
+        try {
+            const completed = await db.getSetting('onboardingCompleted');
+            if (completed) {
+                // Also set in localStorage for faster future checks
+                localStorage.setItem('onboardingCompleted', 'true');
+                // Redirect to main app
+                window.location.href = 'index.html';
+            }
+        } catch (error) {
+            // If error checking database, assume onboarding not completed
+            console.log('Onboarding not completed, continuing...');
         }
     }
 

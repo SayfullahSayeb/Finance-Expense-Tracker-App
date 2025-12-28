@@ -194,6 +194,16 @@ class TransactionsManager {
         const emoji = categoriesManager.getCategoryEmoji(transaction.category);
         const categoryName = lang.translate(transaction.category.toLowerCase());
 
+        // Get payment method icon
+        const paymentIcons = {
+            'cash': 'fa-money-bill-wave',
+            'card': 'fa-credit-card',
+            'mobile': 'fa-mobile-alt',
+            'bank': 'fa-university'
+        };
+        const paymentIcon = paymentIcons[transaction.paymentMethod] || 'fa-wallet';
+        const paymentMethodName = lang.translate(transaction.paymentMethod || 'cash');
+
         return `
             <div class="transaction-item ${transaction.type}" data-id="${transaction.id}">
                 <div class="transaction-info">
@@ -202,7 +212,10 @@ class TransactionsManager {
                     </div>
                     <div class="transaction-details">
                         <span class="category-name">${categoryName}</span>
-                        ${transaction.note ? `<span class="transaction-note">${transaction.note}</span>` : ''}
+                        <span class="transaction-note" style="font-size: var(--font-size-sm); color: var(--text-tertiary); display: flex; align-items: center; gap: 4px;">
+                            <i class="fas ${paymentIcon}" style="font-size: 10px;"></i>
+                            ${paymentMethodName}${transaction.note ? ' • ' + transaction.note : ''}
+                        </span>
                     </div>
                 </div>
                 <div style="display: flex; align-items: center; gap: 12px;">
@@ -217,7 +230,7 @@ class TransactionsManager {
         `;
     }
 
-    openModal(transaction = null) {
+    async openModal(transaction = null) {
         const modal = document.getElementById('transaction-modal');
         const form = document.getElementById('transaction-form');
         const modalTitle = document.getElementById('modal-title');
@@ -232,20 +245,21 @@ class TransactionsManager {
             // Show delete button in edit mode
             deleteBtn.style.display = 'flex';
 
-            // Populate form
-            document.getElementById('amount').value = transaction.amount;
-            document.getElementById('category').value = transaction.category;
-            document.getElementById('payment-method').value = transaction.paymentMethod;
-            document.getElementById('date').value = Utils.formatDate(transaction.date, 'input');
-            document.getElementById('note').value = transaction.note || '';
-            document.getElementById('transaction-id').value = transaction.id;
-
-            // Set type
+            // Set type first
             document.querySelectorAll('.type-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.type === transaction.type);
             });
 
-            this.updateCategoryOptions(transaction.type);
+            // Update category options based on type (MUST await this!)
+            await this.updateCategoryOptions(transaction.type);
+
+            // Populate form AFTER category options are updated
+            document.getElementById('amount').value = transaction.amount;
+            document.getElementById('category').value = transaction.category;
+            document.getElementById('payment-method').value = transaction.paymentMethod || 'cash';
+            document.getElementById('date').value = Utils.formatDate(transaction.date, 'input');
+            document.getElementById('note').value = transaction.note || '';
+            document.getElementById('transaction-id').value = transaction.id;
         } else {
             // Add mode
             this.editingId = null;
@@ -265,7 +279,7 @@ class TransactionsManager {
                 btn.classList.toggle('active', btn.dataset.type === 'expense');
             });
 
-            this.updateCategoryOptions('expense');
+            await this.updateCategoryOptions('expense');
         }
 
         modal.classList.add('active');
