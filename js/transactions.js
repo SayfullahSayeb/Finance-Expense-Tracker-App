@@ -211,11 +211,8 @@ class TransactionsManager {
                         <span class="category-icon">${emoji}</span>
                     </div>
                     <div class="transaction-details">
-                        <span class="category-name">${categoryName}</span>
-                        <span class="transaction-note" style="font-size: var(--font-size-sm); color: var(--text-tertiary); display: flex; align-items: center; gap: 4px;">
-                            <i class="fas ${paymentIcon}" style="font-size: 10px;"></i>
-                            ${paymentMethodName}${transaction.note ? ' • ' + transaction.note : ''}
-                        </span>
+                        <span class="category-name">${categoryName} <span style="font-size: 13px; font-weight: 400; color: var(--text-tertiary);"><i class="fas ${paymentIcon}" style="font-size: 10px;"></i> ${paymentMethodName}</span></span>
+                        ${transaction.note ? `<span class="transaction-note" style="font-size: var(--font-size-sm); color: var(--text-tertiary);">${transaction.note}</span>` : ''}
                     </div>
                 </div>
                 <div style="display: flex; align-items: center; gap: 12px;">

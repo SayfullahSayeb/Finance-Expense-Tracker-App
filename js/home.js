@@ -157,6 +157,12 @@ class HomeManager {
                 }
 
                 // Get payment method
+                const paymentIcons = {
+                    'cash': 'fa-money-bill-wave',
+                    'card': 'fa-credit-card',
+                    'mobile': 'fa-mobile-alt',
+                    'bank': 'fa-university'
+                };
                 const paymentIcon = paymentIcons[transaction.paymentMethod] || 'fa-wallet';
                 const paymentMethodName = lang.translate(transaction.paymentMethod || 'cash');
 
@@ -170,10 +176,9 @@ class HomeManager {
                                 <span class="category-icon">${emoji}</span>
                             </div>
                             <div class="transaction-details">
-                                <span class="category-name">${transaction.category || 'Unknown'}</span>
-                                <span class="transaction-note" style="font-size: var(--font-size-sm); color: var(--text-tertiary); display: flex; align-items: center; gap: 4px;">
-                                    <i class="fas ${paymentIcon}" style="font-size: 10px;"></i>
-                                    ${paymentMethodName} • ${dateStr}
+                                <span class="category-name">${transaction.category || 'Unknown'} <span style="font-size: 13px; font-weight: 400; color: var(--text-tertiary);"><i class="fas ${paymentIcon}" style="font-size: 10px;"></i> ${paymentMethodName}</span></span>
+                                <span class="transaction-note" style="font-size: var(--font-size-sm); color: var(--text-tertiary);">
+                                    ${dateStr}
                                 </span>
                             </div>
                         </div>
