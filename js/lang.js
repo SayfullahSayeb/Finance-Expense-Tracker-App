@@ -23,8 +23,8 @@ const translations = {
 
         // Home Page
         todayExpense: "Today's Expense",
-        monthlyExpense: 'This Month Expense',
-        monthlyIncome: 'This Month Income',
+        monthlyExpense: 'Monthly Expense',
+        monthlyIncome: 'Monthly Income',
         incomeVsExpense: 'Income vs Expense',
         income: 'Income',
         expense: 'Expense',
