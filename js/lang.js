@@ -28,7 +28,7 @@ const translations = {
         incomeVsExpense: 'Income vs Expense',
         income: 'Income',
         expense: 'Expense',
-        savings: 'Savings',
+        savings: 'Monthly Savings',
         monthlyBudget: 'Monthly Budget',
         setBudget: 'Set Budget',
         noBudgetSet: 'No budget set',
