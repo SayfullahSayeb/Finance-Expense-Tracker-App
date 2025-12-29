@@ -134,6 +134,22 @@
                     </div>
                 </div>
 
+                <!-- Analysis Card -->
+                <div class="card analysis-card clickable" id="analysis-card" style="cursor: pointer;">
+                    <div class="card-header">
+                        <h3>Financial Analysis</h3>
+                        <i class="fas fa-chart-line card-icon"></i>
+                    </div>
+                    <div class="card-body">
+                        <p style="color: var(--text-secondary); margin-bottom: 16px; font-size: 14px;">
+                            View detailed insights about your spending patterns, income trends, and financial health.
+                        </p>
+                        <button class="btn btn-primary" style="width: 100%;">
+                            <i class="fas fa-chart-pie"></i>
+                            <span>View Analysis</span>
+                        </button>
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -145,6 +161,18 @@
             </header>
 
             <div class="page-content">
+                <!-- Page Navigation Buttons -->
+                <div class="page-nav-buttons" style="display: flex; gap: 12px; margin-bottom: 20px;">
+                    <button class="btn btn-primary" style="flex: 1;" disabled>
+                        <i class="fas fa-wallet"></i>
+                        <span>Transactions</span>
+                    </button>
+                    <button class="btn btn-secondary" id="goto-analysis-btn" style="flex: 1;">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Analysis</span>
+                    </button>
+                </div>
+
                 <!-- Search and Filter -->
                 <div class="search-filter-container">
                     <div class="search-box">
@@ -183,6 +211,18 @@
             </header>
 
             <div class="page-content">
+                <!-- Page Navigation Buttons -->
+                <div class="page-nav-buttons" style="display: flex; gap: 12px; margin-bottom: 20px;">
+                    <button class="btn btn-secondary" id="goto-transactions-btn" style="flex: 1;">
+                        <i class="fas fa-wallet"></i>
+                        <span>Transactions</span>
+                    </button>
+                    <button class="btn btn-primary" style="flex: 1;" disabled>
+                        <i class="fas fa-chart-line"></i>
+                        <span>Analysis</span>
+                    </button>
+                </div>
+
                 <!-- Period Selector -->
                 <div class="period-selector">
                     <button class="btn-period" data-period="week" data-lang="weekly">Weekly</button>
@@ -227,6 +267,27 @@
                         <span class="stat-label" data-lang="remaining">Remaining</span>
                         <span class="stat-value" id="budget-remaining">-</span>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Goals Page -->
+        <div id="goals-page" class="page">
+            <header class="page-header">
+                <h1 class="page-title">Savings Goals</h1>
+            </header>
+
+            <div class="page-content">
+                <!-- Add Goal Button -->
+                <button class="btn btn-primary" id="add-goal-btn"
+                    style="width: 100%; margin-bottom: var(--spacing-md);">
+                    <i class="fas fa-plus"></i>
+                    <span>Add New Goal</span>
+                </button>
+
+                <!-- Goals List -->
+                <div id="goals-list" class="goals-list">
+                    <!-- Goals will be rendered here -->
                 </div>
             </div>
         </div>
@@ -384,7 +445,7 @@
                             style="text-decoration: none; color: inherit;" target="_blank" rel="noopener noreferrer">
                             <div class="setting-info">
                                 <i class="fas fa-users setting-icon"></i>
-                                <span class="setting-label">About Us</span>
+                                <span class="setting-label">About Project</span>
                             </div>
                             <i class="fas fa-chevron-right"></i>
                         </a>
@@ -421,9 +482,9 @@
                 <i class="fas fa-plus"></i>
             </button>
 
-            <button class="nav-item" data-page="analysis">
-                <i class="fas fa-chart-pie"></i>
-                <span data-lang="analysis">Analysis</span>
+            <button class="nav-item" data-page="goals">
+                <i class="fas fa-bullseye"></i>
+                <span>Goals</span>
             </button>
             <button class="nav-item" data-page="settings">
                 <i class="fas fa-cog"></i>
@@ -799,6 +860,124 @@
         </div>
     </div>
 
+    <!-- Goal Modal -->
+    <div id="goal-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="goal-modal-title">Create New Goal</h2>
+                <button class="btn-close" id="close-goal-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="goal-form" class="modal-body">
+                <div class="form-group">
+                    <label for="goal-name">Goal Name</label>
+                    <input type="text" id="goal-name" required maxlength="50" placeholder="e.g., MacBook Pro">
+                </div>
+
+                <div class="form-group">
+                    <label for="goal-target">Target Amount</label>
+                    <input type="number" id="goal-target" required min="1" step="0.01" placeholder="0.00">
+                </div>
+
+                <div class="form-group">
+                    <label for="goal-deadline">Deadline (Optional)</label>
+                    <input type="date" id="goal-deadline">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="delete-goal-btn"
+                        style="display: none; margin-right: auto;">
+                        <i class="fas fa-trash"></i>
+                        <span>Delete</span>
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="cancel-goal-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Money Modal -->
+    <div id="add-money-modal" class="modal">
+        <div class="modal-content" style="max-width: 400px;">
+            <div class="modal-header">
+                <h2>Add Money</h2>
+                <button class="btn-close" id="close-add-money-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="add-money-form" class="modal-body">
+                <p style="color: var(--text-secondary); margin-bottom: 20px;">
+                    Adding money to: <strong id="add-money-goal-name"></strong>
+                </p>
+
+                <div class="form-group">
+                    <label for="add-money-amount">Amount</label>
+                    <input type="number" id="add-money-amount" required min="0.01" step="0.01" placeholder="0.00">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancel-add-money-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Money</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Transaction History Modal -->
+    <div id="history-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Recent Additions</h2>
+                <button class="btn-close" id="close-history-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="history-transactions-list" class="history-transactions-list">
+                    <!-- Transactions will be rendered here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Transaction Modal -->
+    <div id="edit-transaction-modal" class="modal">
+        <div class="modal-content" style="max-width: 400px;">
+            <div class="modal-header">
+                <h2>Edit Transaction</h2>
+                <button class="btn-close" id="close-edit-transaction-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="edit-transaction-form">
+                <div class="modal-body">
+                    <p id="edit-transaction-date"
+                        style="color: var(--text-tertiary); margin-bottom: 16px; font-size: 14px;"></p>
+
+                    <div class="form-group">
+                        <label for="edit-transaction-amount">Amount</label>
+                        <input type="number" id="edit-transaction-amount" step="0.01" min="0.01" required>
+                    </div>
+                </div>
+                <div class="modal-footer" style="gap: var(--spacing-sm); padding: var(--spacing-lg);">
+                    <button type="button" class="btn btn-danger" id="delete-transaction-btn">
+                        <i class="fas fa-trash"></i>
+                        Delete
+                    </button>
+                    <div style="flex: 1;"></div>
+                    <button type="button" class="btn btn-secondary" id="cancel-edit-transaction-btn">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i>
+                        Save
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <!-- Confirmation Modal -->
     <div id="confirm-modal" class="modal">
@@ -890,6 +1069,7 @@
             'js/applock.js',
             'js/demomode.js',
             'js/profiles.js',
+            'js/goals.js',
             'js/app.js'
         ];
 

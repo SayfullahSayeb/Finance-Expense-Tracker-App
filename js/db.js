@@ -3,7 +3,7 @@
 // ===================================
 
 const DB_NAME = 'FinanceTrackerDB';
-const DB_VERSION = 3;
+const DB_VERSION = 4;
 
 class Database {
     constructor() {
@@ -32,6 +32,7 @@ class Database {
                 this.db = request.result;
                 resolve(this.db);
             };
+
 
             request.onupgradeneeded = (event) => {
                 const db = event.target.result;
@@ -62,6 +63,16 @@ class Database {
                 // Create settings store
                 if (!db.objectStoreNames.contains('settings')) {
                     db.createObjectStore('settings', { keyPath: 'key' });
+                }
+
+                // Create goals store
+                if (!db.objectStoreNames.contains('goals')) {
+                    const goalsStore = db.createObjectStore('goals', {
+                        keyPath: 'id',
+                        autoIncrement: true
+                    });
+                    goalsStore.createIndex('status', 'status', { unique: false });
+                    goalsStore.createIndex('createdAt', 'createdAt', { unique: false });
                 }
             };
         });

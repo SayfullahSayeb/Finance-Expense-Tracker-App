@@ -32,6 +32,7 @@ class App {
             await transactionsManager.init();
             await analysisManager.init();
             await budgetManager.init();
+            await goalsManager.init();
             await exportManager.init();
             await settingsManager.init();
 
@@ -43,7 +44,7 @@ class App {
 
             // Navigate to the page based on URL hash, or default to home
             const initialHash = window.location.hash.slice(1);
-            const initialPage = (initialHash && ['home', 'transactions', 'analysis', 'settings'].includes(initialHash))
+            const initialPage = (initialHash && ['home', 'transactions', 'analysis', 'goals', 'settings'].includes(initialHash))
                 ? initialHash
                 : 'home';
             this.navigateTo(initialPage, false);
@@ -82,9 +83,30 @@ class App {
 
             this.navigateTo(page, false); // Don't update hash again
         });
+
+        // Setup page navigation buttons (Transactions <-> Analysis)
+        const gotoAnalysisBtn = document.getElementById('goto-analysis-btn');
+        if (gotoAnalysisBtn) {
+            gotoAnalysisBtn.addEventListener('click', () => {
+                window.location.hash = 'analysis';
+            });
+        }
+
+        const gotoTransactionsBtn = document.getElementById('goto-transactions-btn');
+        if (gotoTransactionsBtn) {
+            gotoTransactionsBtn.addEventListener('click', () => {
+                window.location.hash = 'transactions';
+            });
+        }
     }
 
     async navigateTo(pageName, updateHash = true) {
+        // Scroll to top of the page
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+
         // Update URL hash if needed
         if (updateHash) {
             window.location.hash = pageName;
@@ -99,6 +121,8 @@ class App {
         const selectedPage = document.getElementById(`${pageName}-page`);
         if (selectedPage) {
             selectedPage.classList.add('active');
+            // Also scroll the page content to top
+            selectedPage.scrollTop = 0;
         }
 
         // Update navigation
@@ -121,6 +145,9 @@ class App {
                 break;
             case 'analysis':
                 await analysisManager.render();
+                break;
+            case 'goals':
+                await goalsManager.loadGoals();
                 break;
             case 'settings':
                 // Settings are already loaded

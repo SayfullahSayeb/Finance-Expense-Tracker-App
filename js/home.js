@@ -16,6 +16,15 @@ class HomeManager {
             this.currency = savedCurrency;
         }
 
+        // Add event listener for Analysis card
+        const analysisCard = document.getElementById('analysis-card');
+        if (analysisCard) {
+            analysisCard.addEventListener('click', () => {
+                // Navigate to analysis page using hash
+                window.location.hash = 'analysis';
+            });
+        }
+
         await this.render();
         // Set initial icon state based on saved preference
         this.updatePrivacyIcon();
