@@ -187,7 +187,7 @@
                             <button class="btn-filter" data-filter="expense" data-lang="expense">Expense</button>
                         </div>
                         <div class="sort-dropdown">
-                            <select id="sort-select" class="sort-select">
+                            <select id="sort-select" class="sort-select setting-select">
                                 <option value="newest" data-lang="newest">Newest</option>
                                 <option value="oldest" data-lang="oldest">Oldest</option>
                                 <option value="highest" data-lang="highest">Highest</option>
@@ -412,14 +412,14 @@
                 <div class="settings-section">
                     <h3 class="settings-section-title">Data Management</h3>
                     <div class="settings-group">
-                        <div class="setting-item clickable" id="export-json-btn">
+                        <div class="setting-item clickable" id="backup-btn">
                             <div class="setting-info">
                                 <i class="fas fa-download setting-icon"></i>
                                 <span class="setting-label">Backup</span>
                             </div>
                             <i class="fas fa-chevron-right"></i>
                         </div>
-                        <div class="setting-item clickable" id="import-btn">
+                        <div class="setting-item clickable" id="restore-btn">
                             <div class="setting-info">
                                 <i class="fas fa-upload setting-icon"></i>
                                 <span class="setting-label">Restore</span>
@@ -495,16 +495,17 @@
 
     <!-- Transaction Modal -->
     <div id="transaction-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="modal-title" data-lang="addTransaction">Add Transaction</h2>
-                <button class="btn-close" id="close-transaction-modal">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <form id="transaction-form" class="modal-body">
+        <div class="modal-content reset-modal-content" style="max-width: 600px;">
+            <button class="btn-close" id="close-transaction-modal" style="position: absolute; top: 16px; right: 16px;">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <h2 class="reset-modal-title" id="modal-title" data-lang="addTransaction">Add Transaction</h2>
+            <p class="reset-modal-text">Track your income and expenses to manage your finances better.</p>
+
+            <form id="transaction-form" style="width: 100%; margin-top: 20px;">
                 <div class="form-group">
-                    <label data-lang="type">Type</label>
+                    <label data-lang="type" style="text-align: left;">Type</label>
                     <div class="type-toggle">
                         <button type="button" class="type-btn active" data-type="expense">
                             <i class="fas fa-minus-circle"></i>
@@ -518,48 +519,53 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="amount" data-lang="amount">Amount</label>
+                    <label for="amount" data-lang="amount" style="text-align: left;">Amount</label>
                     <input type="number" id="amount" required min="0" step="0.01" placeholder="0.00">
                 </div>
 
-                <div class="form-group">
-                    <label for="category" data-lang="category">Category</label>
-                    <select id="category" required>
-                        <!-- Categories will be populated dynamically -->
-                    </select>
+                <!-- Category and Payment Method in same row -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <div class="form-group">
+                        <label for="category" data-lang="category" style="text-align: left;">Category</label>
+                        <select id="category" class="setting-select" required>
+                            <!-- Categories will be populated dynamically -->
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="payment-method" data-lang="paymentMethod" style="text-align: left;">Payment
+                            Method</label>
+                        <select id="payment-method" class="setting-select">
+                            <option value="cash" data-lang="cash">Cash</option>
+                            <option value="card" data-lang="card">Card</option>
+                            <option value="mobile" data-lang="mobileBanking">Mobile Banking</option>
+                            <option value="bank" data-lang="bank">Bank</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="payment-method" data-lang="paymentMethod">Payment Method</label>
-                    <select id="payment-method">
-                        <option value="cash" data-lang="cash">Cash</option>
-                        <option value="card" data-lang="card">Card</option>
-                        <option value="mobile" data-lang="mobileBanking">Mobile Banking</option>
-                        <option value="bank" data-lang="bank">Bank</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="date" data-lang="date">Date</label>
+                    <label for="date" data-lang="date" style="text-align: left;">Date</label>
                     <input type="date" id="date" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="note" data-lang="note">Note (Optional)</label>
+                    <label for="note" data-lang="note" style="text-align: left;">Note (Optional)</label>
                     <textarea id="note" rows="3" placeholder="Add a note..."></textarea>
                 </div>
 
                 <input type="hidden" id="transaction-id">
 
-                <div class="modal-footer">
+                <div class="reset-modal-buttons" style="margin-top: 24px;">
                     <button type="button" class="btn btn-danger" id="delete-transaction-btn"
-                        style="display: none; margin-right: auto;">
+                        style="display: none; position: absolute; left: 30px;">
                         <i class="fas fa-trash"></i>
                         <span>Delete</span>
                     </button>
-                    <button type="button" class="btn btn-secondary" id="cancel-transaction-btn"
+                    <button type="button" class="btn-reset-cancel" id="cancel-transaction-btn"
                         data-lang="cancel">Cancel</button>
-                    <button type="submit" class="btn btn-primary" data-lang="save">Save</button>
+                    <button type="submit" class="btn-reset-delete enabled" data-lang="save"
+                        style="background: linear-gradient(135deg, #438883 0%, #5ba89f 100%);">Save</button>
                 </div>
             </form>
         </div>
@@ -567,23 +573,25 @@
 
     <!-- Budget Modal -->
     <div id="budget-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 data-lang="setMonthlyBudget">Set Monthly Budget</h2>
-                <button class="btn-close" id="close-budget-modal">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <form id="budget-form" class="modal-body">
+        <div class="modal-content reset-modal-content">
+            <button class="btn-close" id="close-budget-modal" style="position: absolute; top: 16px; right: 16px;">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <h2 class="reset-modal-title" data-lang="setMonthlyBudget">Set Monthly Budget</h2>
+            <p class="reset-modal-text">Set your monthly spending limit to track your expenses effectively.</p>
+
+            <form id="budget-form" style="width: 100%; margin-top: 20px;">
                 <div class="form-group">
                     <label for="budget-amount" data-lang="budgetAmount">Budget Amount</label>
                     <input type="number" id="budget-amount" required min="0" step="0.01" placeholder="0.00">
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="cancel-budget-btn"
+                <div class="reset-modal-buttons" style="margin-top: 24px;">
+                    <button type="button" class="btn-reset-cancel" id="cancel-budget-btn"
                         data-lang="cancel">Cancel</button>
-                    <button type="submit" class="btn btn-primary" data-lang="save">Save</button>
+                    <button type="submit" class="btn-reset-delete enabled" data-lang="save"
+                        style="background: linear-gradient(135deg, #438883 0%, #5ba89f 100%);">Save</button>
                 </div>
             </form>
         </div>
@@ -614,16 +622,18 @@
 
     <!-- Add/Edit Category Modal -->
     <div id="category-form-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="category-form-title">Add Category</h2>
-                <button class="btn-close" id="close-category-form-modal">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <form id="category-form" class="modal-body">
+        <div class="modal-content reset-modal-content">
+            <button class="btn-close" id="close-category-form-modal"
+                style="position: absolute; top: 16px; right: 16px;">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <h2 class="reset-modal-title" id="category-form-title">Add Category</h2>
+            <p class="reset-modal-text">Create a custom category for your transactions.</p>
+
+            <form id="category-form" style="width: 100%; margin-top: 20px;">
                 <div class="form-group">
-                    <label for="category-emoji">Emoji</label>
+                    <label for="category-emoji" style="text-align: left;">Emoji</label>
                     <div class="emoji-picker-container">
                         <input type="text" id="category-emoji" required maxlength="2" placeholder="🏷️"
                             style="font-size: 32px; text-align: center; width: 80px;">
@@ -649,13 +659,13 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="category-name">Category Name</label>
+                    <label for="category-name" style="text-align: left;">Category Name</label>
                     <input type="text" id="category-name" required maxlength="30" placeholder="Enter category name">
                 </div>
 
                 <div class="form-group">
-                    <label for="category-type">Type</label>
-                    <select id="category-type" required>
+                    <label for="category-type" style="text-align: left;">Type</label>
+                    <select id="category-type" class="setting-select" required>
                         <option value="expense">Expense</option>
                         <option value="income">Income</option>
                         <option value="both">Both</option>
@@ -664,37 +674,43 @@
 
                 <input type="hidden" id="category-id">
 
-                <div class="modal-footer">
+                <div class="reset-modal-buttons" style="margin-top: 24px;">
                     <button type="button" class="btn btn-danger" id="delete-category-btn"
-                        style="display: none; margin-right: auto;">
+                        style="display: none; position: absolute; left: 30px;">
                         <i class="fas fa-trash"></i>
                         <span>Delete</span>
                     </button>
-                    <button type="button" class="btn btn-secondary" id="cancel-category-btn">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn-reset-cancel" id="cancel-category-btn">Cancel</button>
+                    <button type="submit" class="btn-reset-delete enabled"
+                        style="background: linear-gradient(135deg, #438883 0%, #5ba89f 100%);">Save</button>
                 </div>
             </form>
         </div>
     </div>
+    </form>
+    </div>
+    </div>
 
     <!-- Set Name Modal -->
     <div id="name-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Set Your Name</h2>
-                <button class="btn-close" id="close-name-modal">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <form id="name-form" class="modal-body">
+        <div class="modal-content reset-modal-content">
+            <button class="btn-close" id="close-name-modal" style="position: absolute; top: 16px; right: 16px;">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <h2 class="reset-modal-title">Set Your Name</h2>
+            <p class="reset-modal-text">Personalize your profile by setting your name.</p>
+
+            <form id="name-form" style="width: 100%; margin-top: 20px;">
                 <div class="form-group">
                     <label for="name-input">Your Name</label>
                     <input type="text" id="name-input" required maxlength="30" placeholder="Enter your name">
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="cancel-name-btn">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                <div class="reset-modal-buttons" style="margin-top: 24px;">
+                    <button type="button" class="btn-reset-cancel" id="cancel-name-btn">Cancel</button>
+                    <button type="submit" class="btn-reset-delete enabled"
+                        style="background: linear-gradient(135deg, #438883 0%, #5ba89f 100%);">Save</button>
                 </div>
             </form>
         </div>
@@ -779,23 +795,24 @@
 
     <!-- Secondary Profile Setup Modal -->
     <div id="secondary-profile-setup-modal" class="modal">
-        <div class="modal-content" style="max-width: 500px;">
-            <div class="modal-header">
-                <h2>Setup Secondary Profile</h2>
-                <button class="btn-close" id="close-secondary-setup">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-body">
+        <div class="modal-content reset-modal-content" style="max-width: 450px;">
+            <button class="btn-close" id="close-secondary-setup" style="position: absolute; top: 16px; right: 16px;">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <h2 class="reset-modal-title">Setup Secondary Profile</h2>
+            <p class="reset-modal-text">Create a separate profile for business or shared expenses.</p>
+
+            <div style="width: 100%; margin-top: 20px;">
                 <div class="form-group">
-                    <label for="secondary-profile-name">Profile Name</label>
+                    <label for="secondary-profile-name" style="text-align: left;">Profile Name</label>
                     <input type="text" id="secondary-profile-name" placeholder="Enter profile name" maxlength="30"
                         required>
                 </div>
 
                 <div class="form-group">
-                    <label for="secondary-currency-select">Currency</label>
-                    <select id="secondary-currency-select">
+                    <label for="secondary-currency-select" style="text-align: left;">Currency</label>
+                    <select id="secondary-currency-select" class="setting-select" style="width: 100%; max-width: 100%;">
                         <option value="BDT">৳ Bangladeshi Taka (BDT)</option>
                         <option value="USD">$ US Dollar (USD)</option>
                         <option value="EUR">€ Euro (EUR)</option>
@@ -804,14 +821,15 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="secondary-monthly-budget">Monthly Budget (Optional)</label>
+                    <label for="secondary-monthly-budget" style="text-align: left;">Monthly Budget (Optional)</label>
                     <input type="number" id="secondary-monthly-budget" placeholder="Enter amount" min="0">
                 </div>
-            </div>
-            <div class="modal-footer"
-                style="display: flex; gap: 12px; justify-content: flex-end; padding: var(--spacing-lg); border-top: 1px solid var(--border-color);">
-                <button type="button" class="btn btn-secondary" id="cancel-secondary-setup">Cancel</button>
-                <button type="button" class="btn btn-primary" id="save-secondary-setup">Create Profile</button>
+
+                <div class="reset-modal-buttons" style="margin-top: 24px;">
+                    <button type="button" class="btn-reset-cancel" id="cancel-secondary-setup">Cancel</button>
+                    <button type="button" class="btn-reset-delete enabled" id="save-secondary-setup"
+                        style="background: linear-gradient(135deg, #438883 0%, #5ba89f 100%);">Create Profile</button>
+                </div>
             </div>
         </div>
     </div>
@@ -862,37 +880,39 @@
 
     <!-- Goal Modal -->
     <div id="goal-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="goal-modal-title">Create New Goal</h2>
-                <button class="btn-close" id="close-goal-modal">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <form id="goal-form" class="modal-body">
+        <div class="modal-content reset-modal-content">
+            <button class="btn-close" id="close-goal-modal" style="position: absolute; top: 16px; right: 16px;">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <h2 class="reset-modal-title" id="goal-modal-title">Create New Goal</h2>
+            <p class="reset-modal-text">Set a savings goal and track your progress towards achieving it.</p>
+
+            <form id="goal-form" style="width: 100%; margin-top: 20px;">
                 <div class="form-group">
-                    <label for="goal-name">Goal Name</label>
+                    <label for="goal-name" style="text-align: left;">Goal Name</label>
                     <input type="text" id="goal-name" required maxlength="50" placeholder="e.g., MacBook Pro">
                 </div>
 
                 <div class="form-group">
-                    <label for="goal-target">Target Amount</label>
+                    <label for="goal-target" style="text-align: left;">Target Amount</label>
                     <input type="number" id="goal-target" required min="1" step="0.01" placeholder="0.00">
                 </div>
 
                 <div class="form-group">
-                    <label for="goal-deadline">Deadline (Optional)</label>
+                    <label for="goal-deadline" style="text-align: left;">Deadline (Optional)</label>
                     <input type="date" id="goal-deadline">
                 </div>
 
-                <div class="modal-footer">
+                <div class="reset-modal-buttons" style="margin-top: 24px;">
                     <button type="button" class="btn btn-danger" id="delete-goal-btn"
-                        style="display: none; margin-right: auto;">
+                        style="display: none; position: absolute; left: 30px;">
                         <i class="fas fa-trash"></i>
                         <span>Delete</span>
                     </button>
-                    <button type="button" class="btn btn-secondary" id="cancel-goal-btn">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn-reset-cancel" id="cancel-goal-btn">Cancel</button>
+                    <button type="submit" class="btn-reset-delete enabled"
+                        style="background: linear-gradient(135deg, #438883 0%, #5ba89f 100%);">Save</button>
                 </div>
             </form>
         </div>
@@ -900,26 +920,26 @@
 
     <!-- Add Money Modal -->
     <div id="add-money-modal" class="modal">
-        <div class="modal-content" style="max-width: 400px;">
-            <div class="modal-header">
-                <h2>Add Money</h2>
-                <button class="btn-close" id="close-add-money-modal">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <form id="add-money-form" class="modal-body">
-                <p style="color: var(--text-secondary); margin-bottom: 20px;">
-                    Adding money to: <strong id="add-money-goal-name"></strong>
-                </p>
+        <div class="modal-content reset-modal-content" style="max-width: 400px;">
+            <button class="btn-close" id="close-add-money-modal" style="position: absolute; top: 16px; right: 16px;">
+                <i class="fas fa-times"></i>
+            </button>
 
+            <h2 class="reset-modal-title">Add Money</h2>
+            <p class="reset-modal-text">
+                Adding money to: <strong id="add-money-goal-name"></strong>
+            </p>
+
+            <form id="add-money-form" style="width: 100%; margin-top: 20px;">
                 <div class="form-group">
-                    <label for="add-money-amount">Amount</label>
+                    <label for="add-money-amount" style="text-align: left;">Amount</label>
                     <input type="number" id="add-money-amount" required min="0.01" step="0.01" placeholder="0.00">
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="cancel-add-money-btn">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Add Money</button>
+                <div class="reset-modal-buttons" style="margin-top: 24px;">
+                    <button type="button" class="btn-reset-cancel" id="cancel-add-money-btn">Cancel</button>
+                    <button type="submit" class="btn-reset-delete enabled"
+                        style="background: linear-gradient(135deg, #438883 0%, #5ba89f 100%);">Add Money</button>
                 </div>
             </form>
         </div>
@@ -942,35 +962,33 @@
         </div>
     </div>
 
-    <!-- Edit Transaction Modal -->
-    <div id="edit-transaction-modal" class="modal">
-        <div class="modal-content" style="max-width: 400px;">
-            <div class="modal-header">
-                <h2>Edit Transaction</h2>
-                <button class="btn-close" id="close-edit-transaction-modal">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <form id="edit-transaction-form">
-                <div class="modal-body">
-                    <p id="edit-transaction-date"
-                        style="color: var(--text-tertiary); margin-bottom: 16px; font-size: 14px;"></p>
+    <!-- Edit Transaction Modal -->\n <div id="edit-transaction-modal" class="modal">
+        <div class="modal-content reset-modal-content" style="max-width: 400px;">
+            <button class="btn-close" id="close-edit-transaction-modal"
+                style="position: absolute; top: 16px; right: 16px;">
+                <i class="fas fa-times"></i>
+            </button>
 
-                    <div class="form-group">
-                        <label for="edit-transaction-amount">Amount</label>
-                        <input type="number" id="edit-transaction-amount" step="0.01" min="0.01" required>
-                    </div>
+            <h2 class="reset-modal-title">Edit Transaction</h2>
+            <p class="reset-modal-text" id="edit-transaction-date" style="margin-bottom: 0;"></p>
+
+            <form id="edit-transaction-form" style="width: 100%; margin-top: 20px;">
+                <div class="form-group">
+                    <label for="edit-transaction-amount" style="text-align: left;">Amount</label>
+                    <input type="number" id="edit-transaction-amount" step="0.01" min="0.01" required>
                 </div>
-                <div class="modal-footer" style="gap: var(--spacing-sm); padding: var(--spacing-lg);">
-                    <button type="button" class="btn btn-danger" id="delete-transaction-btn">
+
+                <div class="reset-modal-buttons" style="margin-top: 24px;">
+                    <button type="button" class="btn btn-danger" id="delete-transaction-btn"
+                        style="position: absolute; left: 30px;">
                         <i class="fas fa-trash"></i>
                         Delete
                     </button>
-                    <div style="flex: 1;"></div>
-                    <button type="button" class="btn btn-secondary" id="cancel-edit-transaction-btn">
+                    <button type="button" class="btn-reset-cancel" id="cancel-edit-transaction-btn">
                         Cancel
                     </button>
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn-reset-delete enabled"
+                        style="background: linear-gradient(135deg, #438883 0%, #5ba89f 100%);">
                         <i class="fas fa-save"></i>
                         Save
                     </button>
@@ -992,6 +1010,82 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" id="confirm-cancel">Cancel</button>
                 <button type="button" class="btn btn-danger" id="confirm-ok">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Backup Modal -->
+    <div id="backup-modal" class="modal">
+        <div class="modal-content reset-modal-content">
+            <button class="btn-close" id="close-backup-modal" style="position: absolute; top: 16px; right: 16px;">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div class="reset-modal-icon">
+                <div class="trash-icon-wrapper" style="background: linear-gradient(135deg, #438883 0%, #5ba89f 100%);">
+                    <i class="fas fa-download"></i>
+                </div>
+                <div class="sparkles">
+                    <div class="sparkle" style="top: 10%; left: 10%; background: #438883;"></div>
+                    <div class="sparkle" style="top: 20%; right: 15%; background: #438883;"></div>
+                    <div class="sparkle" style="bottom: 15%; left: 20%; background: #438883;"></div>
+                    <div class="sparkle" style="bottom: 10%; right: 10%; background: #438883;"></div>
+                </div>
+            </div>
+
+            <h2 class="reset-modal-title">Download Backup</h2>
+            <p class="reset-modal-text">
+                Export all your data including transactions, goals, categories, and settings as a JSON backup file.
+            </p>
+            <p class="reset-modal-text" style="font-size: 13px; color: var(--text-tertiary);">
+                <i class="fas fa-info-circle"></i> Keep this file safe to restore your data later
+            </p>
+
+            <div class="reset-modal-buttons">
+                <button class="btn-reset-cancel" id="cancel-backup-btn">Cancel</button>
+                <button class="btn-reset-delete enabled" id="confirm-backup-btn"
+                    style="background: linear-gradient(135deg, #438883 0%, #5ba89f 100%);">
+                    <i class="fas fa-download"></i>
+                    <span>Download</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Restore Modal -->
+    <div id="restore-modal" class="modal">
+        <div class="modal-content reset-modal-content">
+            <button class="btn-close" id="close-restore-modal" style="position: absolute; top: 16px; right: 16px;">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div class="reset-modal-icon">
+                <div class="trash-icon-wrapper" style="background: linear-gradient(135deg, #34c759 0%, #4cd964 100%);">
+                    <i class="fas fa-upload"></i>
+                </div>
+                <div class="sparkles">
+                    <div class="sparkle" style="top: 10%; left: 10%; background: #34c759;"></div>
+                    <div class="sparkle" style="top: 20%; right: 15%; background: #34c759;"></div>
+                    <div class="sparkle" style="bottom: 15%; left: 20%; background: #34c759;"></div>
+                    <div class="sparkle" style="bottom: 10%; right: 10%; background: #34c759;"></div>
+                </div>
+            </div>
+
+            <h2 class="reset-modal-title">Restore from Backup</h2>
+            <p class="reset-modal-text">
+                Upload a backup file to restore your data. This will replace all current data with the backup.
+            </p>
+            <p class="reset-modal-text" style="font-size: 13px; color: var(--danger-color);">
+                <i class="fas fa-exclamation-triangle"></i> Warning: This will overwrite your current data
+            </p>
+
+            <div class="reset-modal-buttons">
+                <button class="btn-reset-cancel" id="cancel-restore-btn">Cancel</button>
+                <button class="btn-reset-delete enabled" id="confirm-restore-btn"
+                    style="background: linear-gradient(135deg, #34c759 0%, #4cd964 100%);">
+                    <i class="fas fa-upload"></i>
+                    <span>Choose File</span>
+                </button>
             </div>
         </div>
     </div>

@@ -134,12 +134,28 @@ class CategoryFormHandler {
             // Refresh the categories list
             await categoriesManager.renderCategoriesList();
 
+            // Refresh transaction modal category dropdown if it's open
+            this.refreshTransactionCategoryDropdown();
+
             // Close modal
             this.closeModal();
 
         } catch (error) {
             console.error('Error saving category:', error);
             showToast('Error saving category');
+        }
+    }
+
+    refreshTransactionCategoryDropdown() {
+        // Check if transaction modal is open
+        const transactionModal = document.getElementById('transaction-modal');
+        if (transactionModal && transactionModal.classList.contains('active')) {
+            // Get current transaction type
+            const activeTypeBtn = document.querySelector('.type-btn.active');
+            if (activeTypeBtn && typeof transactionsManager !== 'undefined') {
+                const type = activeTypeBtn.dataset.type;
+                transactionsManager.updateCategoryOptions(type);
+            }
         }
     }
 }

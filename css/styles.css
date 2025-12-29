@@ -84,6 +84,7 @@ body {
     padding: 0;
     width: 100%;
     overflow-x: hidden;
+    background-color: var(--bg-primary);
 }
 
 * {
@@ -96,6 +97,7 @@ html {
     font-size: 16px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: auto;
 }
 
 body {
@@ -2690,7 +2692,7 @@ body {
     transition: all var(--transition-fast);
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     user-select: none;
 }
 
@@ -2708,13 +2710,15 @@ body {
 
 .custom-select-text {
     flex: 1;
+    text-align: left;
 }
 
 .custom-select-arrow {
     font-size: 10px;
     color: var(--text-tertiary);
     transition: transform var(--transition-fast);
-    margin-left: 8px;
+    margin-left: auto;
+    padding-left: 8px;
 }
 
 .custom-select-wrapper.open .custom-select-arrow {
@@ -2811,6 +2815,11 @@ body {
     max-width: 150px;
 }
 
+/* Full width for custom selects in modals */
+.modal .custom-select-wrapper {
+    max-width: 100%;
+}
+
 /* Better spacing for selected option with checkmark */
 .custom-select-option.selected {
     padding-right: 30px;
@@ -2830,7 +2839,7 @@ body {
 
 /* Modern Reset Modal */
 .reset-modal-content {
-    max-width: 400px !important;
+    max-width: 470px !important;
     text-align: center;
     padding: 40px 30px 30px !important;
     border-radius: 20px !important;
@@ -2964,12 +2973,13 @@ body {
 }
 
 .btn-reset-cancel {
-    background: var(--bg-tertiary);
+    background: var(--border-color);
     color: var(--text-primary);
 }
 
 .btn-reset-cancel:hover {
-    background: var(--border-color);
+    background: #d0d0d0;
+    transform: translateY(-1px);
 }
 
 .btn-reset-delete {

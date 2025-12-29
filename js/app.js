@@ -101,11 +101,8 @@ class App {
     }
 
     async navigateTo(pageName, updateHash = true) {
-        // Scroll to top of the page
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
+        // Instantly scroll to top BEFORE changing pages to prevent flash
+        window.scrollTo(0, 0);
 
         // Update URL hash if needed
         if (updateHash) {
@@ -120,9 +117,9 @@ class App {
         // Show selected page
         const selectedPage = document.getElementById(`${pageName}-page`);
         if (selectedPage) {
-            selectedPage.classList.add('active');
-            // Also scroll the page content to top
+            // Scroll the page content to top BEFORE making it active
             selectedPage.scrollTop = 0;
+            selectedPage.classList.add('active');
         }
 
         // Update navigation

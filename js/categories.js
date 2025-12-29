@@ -62,6 +62,11 @@ class CategoriesManager {
             option.textContent = `${category.emoji} ${lang.translate(category.name.toLowerCase())}`;
             selectElement.appendChild(option);
         });
+
+        // Initialize custom select if settingsManager is available
+        if (typeof settingsManager !== 'undefined' && settingsManager.createCustomSelect) {
+            settingsManager.createCustomSelect(selectElement);
+        }
     }
 
     async renderCategoriesList() {
@@ -226,6 +231,11 @@ class CategoriesManager {
 
                 // Refresh the categories list
                 await this.renderCategoriesList();
+
+                // Refresh transaction modal category dropdown if it's open
+                if (typeof categoryFormHandler !== 'undefined') {
+                    categoryFormHandler.refreshTransactionCategoryDropdown();
+                }
             } else {
                 showToast('Error deleting category');
             }

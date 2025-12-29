@@ -32,7 +32,13 @@ class GoalsManager {
         // Add goal button
         const addGoalBtn = document.getElementById('add-goal-btn');
         if (addGoalBtn) {
-            addGoalBtn.addEventListener('click', () => this.openGoalModal());
+            addGoalBtn.addEventListener('click', () => {
+                if (demoModeManager.isActive()) {
+                    demoModeManager.showDemoModeWarning();
+                    return;
+                }
+                this.openGoalModal();
+            });
         }
 
         // Goal form submit
@@ -145,6 +151,10 @@ class GoalsManager {
                 if (editBtn) {
                     editBtn.addEventListener('click', (e) => {
                         e.stopPropagation();
+                        if (demoModeManager.isActive()) {
+                            demoModeManager.showDemoModeWarning();
+                            return;
+                        }
                         this.openGoalModal(goal);
                     });
                 }
@@ -153,6 +163,10 @@ class GoalsManager {
                 if (addMoneyBtn) {
                     addMoneyBtn.addEventListener('click', (e) => {
                         e.stopPropagation();
+                        if (demoModeManager.isActive()) {
+                            demoModeManager.showDemoModeWarning();
+                            return;
+                        }
                         this.openAddMoneyModal(goal);
                     });
                 }
@@ -161,6 +175,7 @@ class GoalsManager {
                 if (viewHistoryBtn) {
                     viewHistoryBtn.addEventListener('click', (e) => {
                         e.stopPropagation();
+                        // Allow viewing history in demo mode, but prevent editing
                         this.openHistoryModal(goal);
                     });
                 }
@@ -196,11 +211,12 @@ class GoalsManager {
 
         return `
             <div class="goal-card ${isCompleted ? 'completed' : ''}" id="goal-${goal.id}">
-                ${isCompleted ? '<div class="goal-completed-badge"><i class="fas fa-check-circle"></i> Completed</div>' : ''}
-                
                 <div class="goal-header">
                     <div class="goal-info">
-                        <h3 class="goal-name">${this.escapeHtml(goal.name)}</h3>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                            <h3 class="goal-name" style="margin: 0;">${this.escapeHtml(goal.name)}</h3>
+                            ${isCompleted ? '<div class="goal-completed-badge" style="position: static;"><i class="fas fa-check-circle"></i> Completed</div>' : ''}
+                        </div>
                         ${deadlineHtml}
                     </div>
                     <button class="goal-edit-btn goal-action-btn" title="Edit Goal">
@@ -494,6 +510,10 @@ class GoalsManager {
             const editBtns = listEl.querySelectorAll('.edit-transaction-btn');
             editBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
+                    if (demoModeManager.isActive()) {
+                        demoModeManager.showDemoModeWarning();
+                        return;
+                    }
                     const index = parseInt(btn.dataset.index);
                     this.editTransaction(index);
                 });

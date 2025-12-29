@@ -19,6 +19,13 @@ class TransactionsManager {
         }
 
         this.setupEventListeners();
+
+        // Initialize custom select for sort dropdown
+        const sortSelect = document.getElementById('sort-select');
+        if (sortSelect && typeof settingsManager !== 'undefined' && settingsManager.createCustomSelect) {
+            settingsManager.createCustomSelect(sortSelect);
+        }
+
         await this.render();
     }
 
@@ -299,6 +306,17 @@ class TransactionsManager {
 
     async updateCategoryOptions(type) {
         const categorySelect = document.getElementById('category');
+
+        // Remove existing custom select wrapper if it exists
+        const existingWrapper = categorySelect.nextSibling;
+        if (existingWrapper && existingWrapper.classList && existingWrapper.classList.contains('custom-select-wrapper')) {
+            existingWrapper.remove();
+        }
+
+        // Show the original select temporarily
+        categorySelect.style.display = '';
+
+        // Populate with new categories
         await categoriesManager.populateCategorySelect(categorySelect, type);
     }
 

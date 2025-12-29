@@ -375,6 +375,11 @@ class SettingsManager {
     }
 
     createCustomSelect(selectElement) {
+        // Skip if select has no options or is already initialized
+        if (!selectElement || selectElement.options.length === 0 || selectElement.nextSibling?.classList?.contains('custom-select-wrapper')) {
+            return;
+        }
+
         const selectedValue = selectElement.value;
 
         // Create wrapper
@@ -387,7 +392,8 @@ class SettingsManager {
 
         const selectedText = document.createElement('span');
         selectedText.className = 'custom-select-text';
-        selectedText.textContent = selectElement.options[selectElement.selectedIndex].textContent;
+        const selectedOption = selectElement.options[selectElement.selectedIndex];
+        selectedText.textContent = selectedOption ? selectedOption.textContent : '';
 
         const arrow = document.createElement('i');
         arrow.className = 'fas fa-chevron-down custom-select-arrow';

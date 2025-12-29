@@ -8,19 +8,100 @@ class ExportManager {
     }
 
     setupEventListeners() {
-        // Export JSON (Backup)
-        document.getElementById('export-json-btn').addEventListener('click', () => {
-            this.exportJSON();
-        });
+        // Backup button - opens backup modal
+        const backupBtn = document.getElementById('backup-btn');
+        if (backupBtn) {
+            backupBtn.addEventListener('click', () => {
+                this.openBackupModal();
+            });
+        }
 
-        // Import (Restore)
-        document.getElementById('import-btn').addEventListener('click', () => {
-            document.getElementById('import-file').click();
-        });
+        // Restore button - opens restore modal
+        const restoreBtn = document.getElementById('restore-btn');
+        if (restoreBtn) {
+            restoreBtn.addEventListener('click', () => {
+                this.openRestoreModal();
+            });
+        }
 
+        // Backup modal controls
+        const closeBackupModal = document.getElementById('close-backup-modal');
+        if (closeBackupModal) {
+            closeBackupModal.addEventListener('click', () => {
+                this.closeBackupModal();
+            });
+        }
+
+        const cancelBackupBtn = document.getElementById('cancel-backup-btn');
+        if (cancelBackupBtn) {
+            cancelBackupBtn.addEventListener('click', () => {
+                this.closeBackupModal();
+            });
+        }
+
+        const confirmBackupBtn = document.getElementById('confirm-backup-btn');
+        if (confirmBackupBtn) {
+            confirmBackupBtn.addEventListener('click', () => {
+                this.closeBackupModal();
+                this.exportJSON();
+            });
+        }
+
+        // Restore modal controls
+        const closeRestoreModal = document.getElementById('close-restore-modal');
+        if (closeRestoreModal) {
+            closeRestoreModal.addEventListener('click', () => {
+                this.closeRestoreModal();
+            });
+        }
+
+        const cancelRestoreBtn = document.getElementById('cancel-restore-btn');
+        if (cancelRestoreBtn) {
+            cancelRestoreBtn.addEventListener('click', () => {
+                this.closeRestoreModal();
+            });
+        }
+
+        const confirmRestoreBtn = document.getElementById('confirm-restore-btn');
+        if (confirmRestoreBtn) {
+            confirmRestoreBtn.addEventListener('click', () => {
+                this.closeRestoreModal();
+                document.getElementById('import-file').click();
+            });
+        }
+
+        // Import file handler
         document.getElementById('import-file').addEventListener('change', (e) => {
             this.handleImport(e);
         });
+    }
+
+    openBackupModal() {
+        const modal = document.getElementById('backup-modal');
+        if (modal) {
+            modal.classList.add('active');
+        }
+    }
+
+    closeBackupModal() {
+        const modal = document.getElementById('backup-modal');
+        if (modal) {
+            modal.classList.remove('active');
+        }
+    }
+
+    openRestoreModal() {
+        const modal = document.getElementById('restore-modal');
+        if (modal) {
+            modal.classList.add('active');
+        }
+    }
+
+    closeRestoreModal() {
+        const modal = document.getElementById('restore-modal');
+        if (modal) {
+            modal.classList.remove('active');
+        }
     }
 
     async exportJSON() {

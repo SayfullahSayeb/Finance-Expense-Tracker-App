@@ -17,6 +17,102 @@ class DemoModeManager {
         }
     }
 
+    getDemoGoals() {
+        const today = new Date();
+        const oneMonthAgo = new Date(today);
+        oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+        const twoMonthsAgo = new Date(today);
+        twoMonthsAgo.setMonth(twoMonthsAgo.getMonth() - 2);
+        const threeMonthsAgo = new Date(today);
+        threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+        const twoMonthsFromNow = new Date(today);
+        twoMonthsFromNow.setMonth(twoMonthsFromNow.getMonth() + 2);
+        const fourMonthsFromNow = new Date(today);
+        fourMonthsFromNow.setMonth(fourMonthsFromNow.getMonth() + 4);
+
+        return [
+            // Active goal - New Laptop
+            {
+                id: 1,
+                name: 'New Laptop',
+                target: 80000,
+                saved: 35000,
+                deadline: fourMonthsFromNow.toISOString().split('T')[0],
+                status: 'active',
+                currency: 'BDT',
+                transactions: [
+                    {
+                        amount: 10000,
+                        date: threeMonthsAgo.toISOString()
+                    },
+                    {
+                        amount: 8000,
+                        date: twoMonthsAgo.toISOString()
+                    },
+                    {
+                        amount: 12000,
+                        date: oneMonthAgo.toISOString()
+                    },
+                    {
+                        amount: 5000,
+                        date: new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString()
+                    }
+                ],
+                createdAt: threeMonthsAgo.toISOString()
+            },
+            // Nearly completed goal - Vacation Fund
+            {
+                id: 2,
+                name: 'Summer Vacation',
+                target: 50000,
+                saved: 45000,
+                deadline: twoMonthsFromNow.toISOString().split('T')[0],
+                status: 'active',
+                currency: 'BDT',
+                transactions: [
+                    {
+                        amount: 15000,
+                        date: twoMonthsAgo.toISOString()
+                    },
+                    {
+                        amount: 20000,
+                        date: oneMonthAgo.toISOString()
+                    },
+                    {
+                        amount: 10000,
+                        date: new Date(today.getTime() - 10 * 24 * 60 * 60 * 1000).toISOString()
+                    }
+                ],
+                createdAt: twoMonthsAgo.toISOString()
+            },
+            // Completed goal - Emergency Fund
+            {
+                id: 3,
+                name: 'Emergency Fund',
+                target: 30000,
+                saved: 30000,
+                deadline: null,
+                status: 'completed',
+                currency: 'BDT',
+                transactions: [
+                    {
+                        amount: 10000,
+                        date: threeMonthsAgo.toISOString()
+                    },
+                    {
+                        amount: 10000,
+                        date: twoMonthsAgo.toISOString()
+                    },
+                    {
+                        amount: 10000,
+                        date: oneMonthAgo.toISOString()
+                    }
+                ],
+                createdAt: threeMonthsAgo.toISOString()
+            }
+        ];
+    }
+
     getDemoTransactions() {
         const today = new Date();
         const yesterday = new Date(today);
@@ -177,6 +273,7 @@ class DemoModeManager {
             // Save current data before loading demo
             this.originalData = {
                 transactions: await db.getAll('transactions'),
+                goals: await db.getAll('goals'),
                 settings: {
                     monthlyBudget: await db.getSetting('monthlyBudget'),
                     userName: await db.getSetting('userName')
@@ -186,13 +283,20 @@ class DemoModeManager {
             // Store original data in localStorage
             localStorage.setItem('originalData', JSON.stringify(this.originalData));
 
-            // Clear current transactions
+            // Clear current transactions and goals
             await db.clearStore('transactions');
+            await db.clearStore('goals');
 
             // Load demo transactions
             const demoTransactions = this.getDemoTransactions();
             for (const transaction of demoTransactions) {
                 await db.add('transactions', transaction);
+            }
+
+            // Load demo goals
+            const demoGoals = this.getDemoGoals();
+            for (const goal of demoGoals) {
+                await db.add('goals', goal);
             }
 
             // Set demo budget and name
@@ -216,8 +320,9 @@ class DemoModeManager {
 
     async disableDemoMode() {
         try {
-            // Clear demo transactions
+            // Clear demo transactions and goals
             await db.clearStore('transactions');
+            await db.clearStore('goals');
 
             // Restore original data
             const originalDataStr = localStorage.getItem('originalData');
@@ -228,6 +333,13 @@ class DemoModeManager {
                 if (this.originalData.transactions && this.originalData.transactions.length > 0) {
                     for (const transaction of this.originalData.transactions) {
                         await db.add('transactions', transaction);
+                    }
+                }
+
+                // Restore goals
+                if (this.originalData.goals && this.originalData.goals.length > 0) {
+                    for (const goal of this.originalData.goals) {
+                        await db.add('goals', goal);
                     }
                 }
 
@@ -289,6 +401,11 @@ class DemoModeManager {
         // Refresh analysis page
         if (typeof analysisManager !== 'undefined') {
             await analysisManager.render();
+        }
+
+        // Refresh goals page
+        if (typeof goalsManager !== 'undefined') {
+            await goalsManager.loadGoals();
         }
 
         // Refresh settings
