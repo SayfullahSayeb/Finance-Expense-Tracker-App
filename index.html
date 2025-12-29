@@ -134,22 +134,6 @@
                     </div>
                 </div>
 
-                <!-- Analysis Card -->
-                <div class="card analysis-card clickable" id="analysis-card" style="cursor: pointer;">
-                    <div class="card-header">
-                        <h3>Financial Analysis</h3>
-                        <i class="fas fa-chart-line card-icon"></i>
-                    </div>
-                    <div class="card-body">
-                        <p style="color: var(--text-secondary); margin-bottom: 16px; font-size: 14px;">
-                            View detailed insights about your spending patterns, income trends, and financial health.
-                        </p>
-                        <button class="btn btn-primary" style="width: 100%;">
-                            <i class="fas fa-chart-pie"></i>
-                            <span>View Analysis</span>
-                        </button>
-                    </div>
-                </div>
 
             </div>
         </div>
@@ -230,44 +214,36 @@
                     <button class="btn-period" data-period="year" data-lang="yearly">Yearly</button>
                 </div>
 
-                <!-- Charts -->
-                <div class="card chart-card">
-                    <h3 class="card-title" data-lang="expenseTrend">Expense Trend</h3>
-                    <canvas id="expense-chart"></canvas>
-                </div>
-
-                <div class="card chart-card">
-                    <h3 class="card-title" data-lang="categoryBreakdown">Category Breakdown</h3>
-                    <canvas id="category-chart"></canvas>
-                </div>
-
-                <!-- Insights -->
-                <div class="card insights-card">
-                    <h3 class="card-title" data-lang="insights">Insights</h3>
-                    <div id="insights-list" class="insights-list">
-                        <!-- Insights will be rendered here -->
-                    </div>
-                </div>
+                <!-- Financial Health Card (Simpler Summary) -->
+                <div id="analysis-health-card" style="margin-bottom: 20px;"></div>
 
                 <!-- Statistics -->
                 <div class="stats-grid">
                     <div class="stat-item">
-                        <span class="stat-label" data-lang="avgDaily">Daily Average</span>
+                        <span class="stat-label">Avg Daily Spend</span>
                         <span class="stat-value" id="avg-daily">৳0</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-label" data-lang="highestCategory">Top Category</span>
-                        <span class="stat-value" id="highest-category">-</span>
+                        <span class="stat-label">Suggested Daily</span>
+                        <span class="stat-value" id="suggested-daily">-</span>
                     </div>
                     <div class="stat-item">
                         <span class="stat-label" data-lang="monthlyBudget">Monthly Budget</span>
-                        <span class="stat-value" id="analysis-budget">-</span>
+                        <span class="stat-value" id="analysis-budget">৳0</span>
                     </div>
                     <div class="stat-item">
                         <span class="stat-label" data-lang="remaining">Remaining</span>
-                        <span class="stat-value" id="budget-remaining">-</span>
+                        <span class="stat-value" id="budget-remaining">৳0</span>
                     </div>
                 </div>
+
+                <!-- Charts -->
+                <div class="card chart-card">
+                    <h3 class="card-title" data-lang="moneyDistribution">Where Your Money Went</h3>
+                    <canvas id="category-chart"></canvas>
+                </div>
+
+
             </div>
         </div>
 
@@ -557,15 +533,14 @@
                 <input type="hidden" id="transaction-id">
 
                 <div class="reset-modal-buttons" style="margin-top: 24px;">
-                    <button type="button" class="btn btn-danger" id="delete-transaction-btn"
-                        style="display: none; position: absolute; left: 30px;">
-                        <i class="fas fa-trash"></i>
-                        <span>Delete</span>
-                    </button>
                     <button type="button" class="btn-reset-cancel" id="cancel-transaction-btn"
                         data-lang="cancel">Cancel</button>
                     <button type="submit" class="btn-reset-delete enabled" data-lang="save"
                         style="background: linear-gradient(135deg, #438883 0%, #5ba89f 100%);">Save</button>
+                    <button type="button" class="btn btn-danger" id="delete-transaction-btn" style="display: none;">
+                        <i class="fas fa-trash"></i>
+                        <span>Delete</span>
+                    </button>
                 </div>
             </form>
         </div>
@@ -675,14 +650,13 @@
                 <input type="hidden" id="category-id">
 
                 <div class="reset-modal-buttons" style="margin-top: 24px;">
-                    <button type="button" class="btn btn-danger" id="delete-category-btn"
-                        style="display: none; position: absolute; left: 30px;">
-                        <i class="fas fa-trash"></i>
-                        <span>Delete</span>
-                    </button>
                     <button type="button" class="btn-reset-cancel" id="cancel-category-btn">Cancel</button>
                     <button type="submit" class="btn-reset-delete enabled"
                         style="background: linear-gradient(135deg, #438883 0%, #5ba89f 100%);">Save</button>
+                    <button type="button" class="btn btn-danger" id="delete-category-btn" style="display: none;">
+                        <i class="fas fa-trash"></i>
+                        <span>Delete</span>
+                    </button>
                 </div>
             </form>
         </div>
@@ -908,16 +882,15 @@
                 </div>
 
                 <div class="reset-modal-buttons" style="margin-top: 24px;">
-                    <button type="button" class="btn btn-danger" id="delete-goal-btn"
-                        style="display: none; position: absolute; left: 30px;">
-                        <i class="fas fa-trash"></i>
-                        <span data-lang="delete">Delete</span>
-                    </button>
                     <button type="button" class="btn-reset-cancel" id="cancel-goal-btn"
                         data-lang="cancel">Cancel</button>
                     <button type="submit" class="btn-reset-delete enabled"
                         style="background: linear-gradient(135deg, #438883 0%, #5ba89f 100%);"
                         data-lang="save">Save</button>
+                    <button type="button" class="btn btn-danger" id="delete-goal-btn" style="display: none;">
+                        <i class="fas fa-trash"></i>
+                        <span data-lang="delete">Delete</span>
+                    </button>
                 </div>
             </form>
         </div>
@@ -986,11 +959,6 @@
                 </div>
 
                 <div class="reset-modal-buttons" style="margin-top: 24px;">
-                    <button type="button" class="btn btn-danger" id="delete-transaction-btn"
-                        style="position: absolute; left: 30px;">
-                        <i class="fas fa-trash"></i>
-                        Delete
-                    </button>
                     <button type="button" class="btn-reset-cancel" id="cancel-edit-transaction-btn" data-lang="cancel">
                         Cancel
                     </button>
@@ -998,6 +966,10 @@
                         style="background: linear-gradient(135deg, #438883 0%, #5ba89f 100%);">
                         <i class="fas fa-save"></i>
                         <span data-lang="save">Save</span>
+                    </button>
+                    <button type="button" class="btn btn-danger" id="delete-transaction-btn">
+                        <i class="fas fa-trash"></i>
+                        Delete
                     </button>
                 </div>
             </form>

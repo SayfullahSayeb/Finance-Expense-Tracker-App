@@ -117,7 +117,7 @@ class ExportManager {
             const filename = `finance-tracker-${profileName.toLowerCase()}-backup-${new Date().toISOString().split('T')[0]}.json`;
 
             Utils.downloadFile(jsonString, filename, 'application/json');
-            Utils.showToast(`${profileName} profile data exported successfully!`);
+            Utils.showToast(`${profileName} profile data exported successfully. (Does not include other profiles)`);
         } catch (error) {
             console.error('Export error:', error);
             Utils.showToast('Error exporting data');
@@ -153,8 +153,22 @@ class ExportManager {
                     return;
                 }
 
+                // Check for profile mismatch
+                const currentProfile = profileManager.getActiveProfile();
+                const currentProfileName = profileManager.getActiveProfileName();
+                const backupProfile = data.profileName || 'Unknown';
+                const backupProfileKey = data.profileKey; // May be undefined for old backups
+
+                let confirmMessage = lang.translate('dataResetConfirm');
+                let confirmTitle = 'Restore Data';
+
+                if (backupProfileKey && backupProfileKey !== currentProfile) {
+                    confirmMessage = `⚠️ WARNING: You are attempting to restore '${backupProfile}' data into your '${currentProfileName}' profile.\n\nThis will completely overwrite your current '${currentProfileName}' data with data from a different profile.\n\nAre you sure you want to proceed?`;
+                    confirmTitle = 'Profile Mismatch Warning';
+                }
+
                 // Confirm import
-                const confirmed = await Utils.confirm(lang.translate('dataResetConfirm'), 'Restore Data', 'Restore');
+                const confirmed = await Utils.confirm(confirmMessage, confirmTitle, 'Restore');
                 if (!confirmed) {
                     return;
                 }

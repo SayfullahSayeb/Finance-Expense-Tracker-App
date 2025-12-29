@@ -285,8 +285,12 @@ class TransactionsManager {
             form.reset();
 
             // Set today's date
+            // Set today's date
             const today = new Date();
-            const dateStr = today.toISOString().split('T')[0];
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const day = String(today.getDate()).padStart(2, '0');
+            const dateStr = `${year}-${month}-${day}`;
             document.getElementById('date').value = dateStr;
             document.querySelectorAll('.type-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.type === 'expense');

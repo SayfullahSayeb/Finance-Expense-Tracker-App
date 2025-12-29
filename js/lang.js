@@ -204,6 +204,19 @@ const translations = {
         goalDescription: 'Set a savings goal and track your progress towards achieving it.',
         goalNamePlaceholder: 'e.g., MacBook Pro',
         addingMoneyTo: 'Adding money to:',
+
+        // Friendly Analysis
+        spendingHistory: 'Spending History',
+        moneyDistribution: 'Where Your Money Went',
+        financialHealth: 'Financial Health',
+        statusGreat: 'You are doing great! 🎉',
+        statusGood: 'On track nicely 👍',
+        statusWarning: 'Spending is high ⚠️',
+        statusDanger: 'Budget exceeded 🚨',
+        totalSpent: 'Total Spent',
+        budgetLeft: 'Budget Left',
+        safeDaily: 'Safe Daily Limit',
+        perDay: '/day',
     },
 
     bn: {
@@ -407,6 +420,19 @@ const translations = {
         goalDescription: 'একটি সঞ্চয়ের লক্ষ্য সেট করুন এবং আপনার অগ্রগতি ট্র্যাক করুন।',
         goalNamePlaceholder: 'যেমন, ম্যাকবুক প্রো',
         addingMoneyTo: 'টাকা যোগ করা হচ্ছে:',
+
+        // Friendly Analysis
+        spendingHistory: 'খরচের ইতিহাস',
+        moneyDistribution: 'টাকা কোথায় খরচ হয়েছে',
+        financialHealth: 'আর্থিক অবস্থা',
+        statusGreat: 'চমৎকার চলছে! 🎉',
+        statusGood: 'সঠিক পথে আছেন 👍',
+        statusWarning: 'খরচ বেশি হচ্ছে ⚠️',
+        statusDanger: 'বাজেট পার হয়েছে 🚨',
+        totalSpent: 'মোট খরচ',
+        budgetLeft: 'বাজেট বাকি',
+        safeDaily: 'নিরাপদ দৈনিক সীমা',
+        perDay: '/দিন',
     }
 };
 

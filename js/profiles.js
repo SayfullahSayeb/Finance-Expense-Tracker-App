@@ -324,6 +324,9 @@ class ProfileManager {
         const demoModeSection = document.querySelector('.setting-item:has(#demo-mode-toggle)');
         const appLockSection = document.querySelector('.setting-item:has(#app-lock-toggle)');
 
+        // Hide Data Management section on secondary profile
+        const dataManagementSection = document.querySelector('.settings-section:has(#reset-data-btn)');
+
         if (this.activeProfile === 'secondary') {
             // Hide secondary profile toggle when on secondary profile
             if (secondaryProfileSection) {
@@ -336,6 +339,10 @@ class ProfileManager {
             // Hide App Lock on secondary profile
             if (appLockSection) {
                 appLockSection.style.display = 'none';
+            }
+            // Hide Data Management on secondary profile
+            if (dataManagementSection) {
+                dataManagementSection.style.display = 'none';
             }
             // Keep switch button visible
             if (switchBtn && this.isSecondaryProfileEnabled()) {
@@ -351,6 +358,9 @@ class ProfileManager {
             }
             if (appLockSection) {
                 appLockSection.style.display = 'flex';
+            }
+            if (dataManagementSection) {
+                dataManagementSection.style.display = 'block';
             }
 
             const toggle = document.getElementById('secondary-profile-toggle');

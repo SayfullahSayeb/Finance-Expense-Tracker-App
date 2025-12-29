@@ -4,7 +4,7 @@
 
 class AnalysisManager {
     constructor() {
-        this.currentPeriod = 'month';
+        this.currentPeriod = 'month'; // week, month, year
         this.expenseChart = null;
         this.categoryChart = null;
         this.currency = 'BDT';
@@ -22,6 +22,7 @@ class AnalysisManager {
     }
 
     setupEventListeners() {
+        // Period selectors
         document.querySelectorAll('.btn-period').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 document.querySelectorAll('.btn-period').forEach(b => b.classList.remove('active'));
@@ -33,55 +34,247 @@ class AnalysisManager {
     }
 
     async render() {
-        await this.renderExpenseChart();
+        await this.renderHealthCard();
         await this.renderCategoryChart();
-        await this.renderInsights();
         await this.renderStats();
     }
 
-    async renderExpenseChart() {
-        const canvas = document.getElementById('expense-chart');
-        const ctx = canvas.getContext('2d');
+    async renderHealthCard() {
+        const container = document.getElementById('analysis-health-card');
+        if (!container) return;
 
-        // Destroy existing chart
-        if (this.expenseChart) {
-            this.expenseChart.destroy();
+        // Calculate data
+        const range = this.currentPeriod === 'month' ? Utils.getMonthRange() :
+            (this.currentPeriod === 'week' ? Utils.getWeekRange() : Utils.getYearRange());
+
+        const transactions = await db.getTransactionsByDateRange(range.start, range.end);
+        const expenses = transactions.filter(t => t.type === 'expense');
+        const totalExpense = Utils.calculateTotal(expenses);
+
+        // Get budget
+        let budget = 0;
+        let budgetPeriod = 'Monthly';
+
+        if (this.currentPeriod === 'month') {
+            budget = await db.getSetting('monthlyBudget') || 0;
+            budgetPeriod = lang.translate('monthly');
+        } else if (this.currentPeriod === 'week') {
+            const monthlyBudget = await db.getSetting('monthlyBudget') || 0;
+            budget = monthlyBudget / 4; // Approx weekly budget
+            budgetPeriod = lang.translate('weekly');
+        } else {
+            const monthlyBudget = await db.getSetting('monthlyBudget') || 0;
+            budget = monthlyBudget * 12;
+            budgetPeriod = lang.translate('yearly');
         }
 
-        const { labels, data } = await this.getExpenseData();
+        let statusText = '';
+        let statusColor = '';
+        let progressPercent = 0;
+        let adviceText = '';
 
-        this.expenseChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: lang.translate('expense'),
-                    data: data,
-                    backgroundColor: 'rgba(255, 59, 48, 0.6)',
-                    borderColor: 'rgba(255, 59, 48, 1)',
-                    borderWidth: 2,
-                    borderRadius: 8
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            callback: (value) => Utils.formatCurrency(value, this.currency)
-                        }
-                    }
-                }
+        let safeDailySpend = 0;
+        let showSafeDaily = false;
+
+        if (budget > 0) {
+            progressPercent = (totalExpense / budget) * 100;
+            const remaining = Math.max(0, budget - totalExpense);
+
+            // Calculate safe daily spend if monthly view
+            if (this.currentPeriod === 'month') {
+                const today = new Date();
+                const daysInMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+                const daysLeft = Math.max(1, daysInMonth - today.getDate());
+                safeDailySpend = remaining / daysLeft;
+                showSafeDaily = true;
             }
-        });
+
+            if (progressPercent > 100) {
+                statusText = lang.translate('statusDanger');
+                statusColor = 'var(--danger-color)';
+                adviceText = lang.translate('adviceBudget');
+            } else if (progressPercent > 90) {
+                statusText = lang.translate('statusWarning');
+                statusColor = '#ff9800'; // Orange
+                adviceText = lang.translate('adviceSave');
+            } else if (progressPercent > 70) {
+                statusText = lang.translate('statusGood');
+                statusColor = 'var(--primary-color)';
+                adviceText = lang.translate('adviceGreat');
+            } else {
+                statusText = lang.translate('statusGreat');
+                statusColor = 'var(--success-color)';
+                adviceText = lang.translate('adviceGreat');
+            }
+        } else {
+            statusText = lang.translate('financialHealth');
+            statusColor = 'var(--primary-color)';
+            progressPercent = 0;
+            adviceText = lang.translate('setMonthlyBudget');
+        }
+
+        container.innerHTML = `
+            <div class="card health-card">
+                <div class="card-header">
+                    <h3 style="color: ${statusColor}">${statusText}</h3>
+                    <i class="fas fa-heartbeat card-icon" style="color: ${statusColor}"></i>
+                </div>
+                
+                <div class="card-body">
+                    <p style="margin: 0 0 15px 0; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.4;">${adviceText}</p>
+                    
+                    <div class="budget-overview">
+                        <div class="budget-stat-row">
+                            <div class="budget-stat">
+                                <span class="stat-label">${lang.translate('totalSpent')}</span>
+                                <span class="stat-value" style="color: var(--text-primary);">${Utils.formatCurrency(totalExpense, this.currency)}</span>
+                            </div>
+                            <div class="budget-stat align-right">
+                                <span class="stat-label">${budgetPeriod} Budget</span>
+                                <span class="stat-value">${Utils.formatCurrency(budget, this.currency)}</span>
+                            </div>
+                        </div>
+
+                        ${budget > 0 ? `
+                            <div class="budget-progress-container">
+                                <div class="progress-bar-modern">
+                                    <div class="progress-fill-modern" style="width: ${Math.min(progressPercent, 100)}%; background: ${statusColor}"></div>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                    <span class="progress-text" style="color: var(--text-secondary);">${Math.round(progressPercent)}% used</span>
+                                    <span class="progress-text" style="color: ${statusColor};">${Utils.formatCurrency(Math.max(0, budget - totalExpense), this.currency)} left</span>
+                                </div>
+                            </div>
+                            
+                            ${showSafeDaily && safeDailySpend > 0 ? `
+                                <div style="background: rgba(var(--primary-rgb, 67, 136, 131), 0.08); padding: 12px; border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center; margin-top: 16px;">
+                                    <div>
+                                        <span style="display: block; font-size: 0.75rem; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">${lang.translate('safeDaily')}</span>
+                                        <span style="font-size: 1.1rem; font-weight: bold; color: var(--primary-color);">${Utils.formatCurrency(safeDailySpend, this.currency)}<span style="font-size: 0.8rem; font-weight: normal; color: var(--text-tertiary); margin-left: 4px;">/${lang.translate('day')}</span></span>
+                                    </div>
+                                    <i class="fas fa-shield-halved" style="color: var(--primary-color); opacity: 0.5; font-size: 1.4rem;"></i>
+                                </div>
+                            ` : ''}
+                        ` : ''}
+                    </div>
+                </div>
+            </div>
+        `;
     }
+
+    async renderStats() {
+        let range;
+
+        if (this.currentPeriod === 'week') {
+            range = Utils.getWeekRange();
+        } else if (this.currentPeriod === 'month') {
+            range = Utils.getMonthRange();
+        } else {
+            range = Utils.getYearRange();
+        }
+
+        const transactions = await db.getTransactionsByDateRange(range.start, range.end);
+        const expenses = transactions.filter(t => t.type === 'expense');
+
+        // =========================
+        // Time References
+        // =========================
+        const today = new Date();
+        const dayMs = 1000 * 60 * 60 * 24;
+
+        let effectiveToday = today;
+        if (today < range.start) effectiveToday = range.start;
+        if (today > range.end)   effectiveToday = range.end;
+
+        let daysPassed = Math.floor((effectiveToday - range.start) / dayMs) + 1;
+        if (daysPassed < 1) daysPassed = 1;
+
+        let daysRemaining = Math.ceil((range.end - effectiveToday) / dayMs) + 1;
+        if (daysRemaining < 1) daysRemaining = 1;
+
+        const totalExpense = Utils.calculateTotal(expenses);
+
+        // =========================
+        // Avg Daily Spend
+        // =========================
+        const avgDaily = totalExpense > 0 ? (totalExpense / daysPassed) : 0;
+        document.getElementById('avg-daily').textContent = 
+            Utils.formatCurrency(avgDaily, this.currency);
+
+        // =========================
+        // Budget
+        // =========================
+        const monthlyBudget = await db.getSetting('monthlyBudget');
+        const budgetLabel = document.querySelector('.stat-item .stat-label[data-lang="monthlyBudget"]');
+        const budgetElement = document.getElementById('analysis-budget');
+        const remainingElement = document.getElementById('budget-remaining');
+        const suggestedElement = document.getElementById('suggested-daily');
+
+        if (!monthlyBudget) {
+            if (budgetLabel) budgetLabel.textContent = lang.translate('monthly') + ' Budget';
+            budgetElement.textContent = '-';
+            remainingElement.textContent = '-';
+            remainingElement.style.color = 'var(--primary-color)';
+            if (suggestedElement) suggestedElement.textContent = '-';
+            return;
+        }
+
+        const daysInCurrentMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+        const dailyBudget = monthlyBudget / daysInCurrentMonth;
+
+        let calculatedBudget = 0;
+
+        if (this.currentPeriod === 'week') {
+            calculatedBudget = dailyBudget * 7;
+            if (budgetLabel) budgetLabel.textContent = lang.translate('weekly') + ' Budget';
+        } 
+        else if (this.currentPeriod === 'year') {
+            calculatedBudget = monthlyBudget * 12;
+            if (budgetLabel) budgetLabel.textContent = lang.translate('yearly') + ' Budget';
+        } 
+        else {
+            calculatedBudget = monthlyBudget;
+            if (budgetLabel) budgetLabel.textContent = lang.translate('monthly') + ' Budget';
+        }
+
+        // Show budget
+        budgetElement.textContent = Utils.formatCurrency(calculatedBudget, this.currency);
+
+        // Remaining
+        const remaining = calculatedBudget - totalExpense;
+
+        if (remaining < 0) {
+            remainingElement.style.color = 'var(--danger-color)';
+            remainingElement.textContent = '-' + Utils.formatCurrency(Math.abs(remaining), this.currency);
+        } else {
+            remainingElement.style.color = 'var(--success-color)';
+            remainingElement.textContent = Utils.formatCurrency(remaining, this.currency);
+        }
+
+        // =========================
+        // Suggested Daily
+        // =========================
+        let suggestedDaily = 0;
+
+        if (this.currentPeriod === 'month') {
+            suggestedDaily = monthlyBudget / daysInCurrentMonth;
+        }
+        else if (this.currentPeriod === 'week') {
+            suggestedDaily = calculatedBudget / 7;
+        }
+        else {
+            const daysInYear =
+                (new Date(today.getFullYear(), 11, 31) -
+                new Date(today.getFullYear(), 0, 1)) / dayMs + 1;
+
+            suggestedDaily = calculatedBudget / daysInYear;
+        }
+
+    if (suggestedElement)
+    suggestedElement.textContent = Utils.formatCurrency(suggestedDaily, this.currency);
+
+    }
+
 
     async renderCategoryChart() {
         const canvas = document.getElementById('category-chart');
@@ -116,50 +309,6 @@ class AnalysisManager {
         });
     }
 
-    async getExpenseData() {
-        let range;
-        let labels = [];
-
-        if (this.currentPeriod === 'week') {
-            range = Utils.getWeekRange();
-            // Generate labels for each day of the week
-            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-            labels = days;
-        } else if (this.currentPeriod === 'month') {
-            range = Utils.getMonthRange();
-            // Generate labels for weeks of the month
-            labels = ['Week 1', 'Week 2', 'Week 3', 'Week 4'];
-        } else {
-            range = Utils.getYearRange();
-            // Generate labels for each month
-            labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        }
-
-        const transactions = await db.getTransactionsByDateRange(range.start, range.end);
-        const expenses = transactions.filter(t => t.type === 'expense');
-
-        const data = new Array(labels.length).fill(0);
-
-        expenses.forEach(expense => {
-            const date = new Date(expense.date);
-            let index;
-
-            if (this.currentPeriod === 'week') {
-                index = date.getDay();
-            } else if (this.currentPeriod === 'month') {
-                index = Math.floor((date.getDate() - 1) / 7);
-            } else {
-                index = date.getMonth();
-            }
-
-            if (index >= 0 && index < data.length) {
-                data[index] += parseFloat(expense.amount);
-            }
-        });
-
-        return { labels, data };
-    }
-
     async getCategoryData() {
         let range;
 
@@ -186,93 +335,6 @@ class AnalysisManager {
         }
 
         return { labels, data, colors };
-    }
-
-    async renderInsights() {
-        const container = document.getElementById('insights-list');
-
-        const currentMonth = Utils.getMonthRange();
-        const lastMonth = Utils.getMonthRange(-1);
-
-        const currentTransactions = await db.getTransactionsByDateRange(currentMonth.start, currentMonth.end);
-        const lastTransactions = await db.getTransactionsByDateRange(lastMonth.start, lastMonth.end);
-
-        const insights = Utils.generateInsights(currentTransactions, lastTransactions);
-
-        if (insights.length === 0) {
-            container.innerHTML = '<p class="text-center" style="color: var(--text-tertiary);">Not enough data for insights</p>';
-            return;
-        }
-
-        container.innerHTML = insights.map(insight => `
-            <div class="insight-item ${insight.type}">
-                <p class="insight-text">${insight.text}</p>
-            </div>
-        `).join('');
-    }
-
-    async renderStats() {
-        let range;
-
-        if (this.currentPeriod === 'week') {
-            range = Utils.getWeekRange();
-        } else if (this.currentPeriod === 'month') {
-            range = Utils.getMonthRange();
-        } else {
-            range = Utils.getYearRange();
-        }
-
-        const transactions = await db.getTransactionsByDateRange(range.start, range.end);
-        const expenses = transactions.filter(t => t.type === 'expense');
-
-        // Calculate daily average
-        const totalExpense = Utils.calculateTotal(expenses);
-        const days = Math.ceil((range.end - range.start) / (1000 * 60 * 60 * 24));
-        const avgDaily = totalExpense / days;
-
-        document.getElementById('avg-daily').textContent =
-            Utils.formatCurrency(avgDaily, this.currency);
-
-        // Find highest spending category
-        const grouped = Utils.groupByCategory(expenses);
-        let highestCategory = '-';
-        let highestAmount = 0;
-
-        for (const category in grouped) {
-            if (grouped[category].total > highestAmount) {
-                highestAmount = grouped[category].total;
-                highestCategory = lang.translate(category.toLowerCase());
-            }
-        }
-
-        document.getElementById('highest-category').textContent = highestCategory;
-
-        // Display budget information (monthly only)
-        const budget = await db.getSetting('monthlyBudget');
-        const budgetElement = document.getElementById('analysis-budget');
-        const remainingElement = document.getElementById('budget-remaining');
-
-        if (budget && this.currentPeriod === 'month') {
-            budgetElement.textContent = Utils.formatCurrency(budget, this.currency);
-
-            const monthExpense = Utils.calculateTotal(expenses);
-            const remaining = budget - monthExpense;
-
-            remainingElement.textContent = Utils.formatCurrency(Math.abs(remaining), this.currency);
-
-            // Color code the remaining amount
-            if (remaining < 0) {
-                remainingElement.style.color = 'var(--danger-color)';
-                remainingElement.textContent = '-' + Utils.formatCurrency(Math.abs(remaining), this.currency);
-            } else {
-                remainingElement.style.color = 'var(--success-color)';
-                remainingElement.textContent = Utils.formatCurrency(remaining, this.currency);
-            }
-        } else {
-            budgetElement.textContent = '-';
-            remainingElement.textContent = '-';
-            remainingElement.style.color = 'var(--primary-color)';
-        }
     }
 }
 

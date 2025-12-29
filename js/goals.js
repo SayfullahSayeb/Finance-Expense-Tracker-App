@@ -288,6 +288,12 @@ class GoalsManager {
             modalTitle.textContent = lang.translate('createNewGoal');
             deleteBtn.style.display = 'none';
             form.reset();
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const day = String(today.getDate()).padStart(2, '0');
+            const dateStr = `${year}-${month}-${day}`;
+            document.getElementById('goal-deadline').value = dateStr;
         }
 
         modal.classList.add('active');
