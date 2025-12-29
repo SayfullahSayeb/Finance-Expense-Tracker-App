@@ -60,18 +60,21 @@
     --z-nav: 100;
 }
 
-/* Dark Theme */
+/* Dark Theme - Professional & Eye-Friendly */
 [data-theme="dark"] {
-    --bg-primary: #000000;
-    --bg-secondary: #1C1C1E;
-    --bg-tertiary: #2C2C2E;
+    /* Softer dark backgrounds - inspired by GitHub Dark & Discord */
+    --bg-primary: #0D1117;        /* Soft dark gray instead of pure black */
+    --bg-secondary: #161B22;      /* Elevated surface color */
+    --bg-tertiary: #21262D;       /* Tertiary surface for cards/modals */
 
-    --text-primary: #FFFFFF;
-    --text-secondary: #EBEBF5;
-    --text-tertiary: #8E8E93;
+    /* Optimized text colors for better readability */
+    --text-primary: #E6EDF3;      /* Soft white for primary text */
+    --text-secondary: #C9D1D9;    /* Muted white for secondary text */
+    --text-tertiary: #8B949E;     /* Gray for tertiary text */
 
-    --border-color: #38383A;
-    --shadow-color: rgba(0, 0, 0, 0.3);
+    /* Refined borders and shadows */
+    --border-color: #30363D;      /* Subtle border that's visible but not harsh */
+    --shadow-color: rgba(0, 0, 0, 0.5);  /* Deeper shadows for better depth */
 }
 
 /* ===================================
@@ -311,13 +314,13 @@ input {
     align-items: center;
     gap: 12px;
     padding: var(--spacing-sm);
-    background: white;
+    background: var(--bg-secondary);
     border-radius: 12px;
     transition: background var(--transition-fast);
 }
 
 .transaction-item-home:hover {
-    background: #f8f8f8;
+    background: var(--bg-tertiary);
 }
 
 .transaction-icon-home {
@@ -1067,7 +1070,6 @@ input {
     display: block;
     font-size: var(--font-size-sm);
     color: var(--text-tertiary);
-    margin-bottom: var(--spacing-xs);
 }
 
 .stat-value {
