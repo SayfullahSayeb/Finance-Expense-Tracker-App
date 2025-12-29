@@ -358,7 +358,7 @@ class SettingsManager {
 
                 // Redirect to onboarding
                 setTimeout(() => {
-                    window.location.href = 'onboarding.html';
+                    window.location.href = 'pages/onboarding.html';
                 }, 500);
             } catch (error) {
                 console.error('Reset error:', error);

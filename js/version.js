@@ -1,4 +1,4 @@
 // ===================================
 // App Version Configuration
 // ===================================
-const APP_VERSION = "1.0.10";
+const APP_VERSION = "2.0.0";

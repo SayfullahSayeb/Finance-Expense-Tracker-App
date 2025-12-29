@@ -7,10 +7,10 @@
     <title>Welcome - Amar Taka</title>
 
     <!-- Version Configuration (Load First) -->
-    <script src="js/version.js"></script>
+    <script src="../js/version.js"></script>
 
     <!-- Styles with Cache Busting -->
-    <script>document.write('<link rel="stylesheet" href="css/onboarding.css?v=' + APP_VERSION + '">');</script>
+    <script>document.write('<link rel="stylesheet" href="../css/onboarding.css?v=' + APP_VERSION + '">');</script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
@@ -218,7 +218,7 @@
 
     <!-- Scripts with Cache Busting -->
     <script>
-        const scripts = ['js/db.js', 'js/onboarding.js'];
+        const scripts = ['../js/db.js', '../js/onboarding.js'];
         scripts.forEach(src => {
             document.write('<script src="' + src + '?v=' + APP_VERSION + '"><\/script>');
         });

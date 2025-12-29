@@ -28,7 +28,7 @@ class OnboardingManager {
         const localStorageCheck = localStorage.getItem('onboardingCompleted');
         if (localStorageCheck === 'true') {
             // Already completed, redirect to main app
-            window.location.href = 'index.html';
+            window.location.href = '../index.html';
             return;
         }
 
@@ -39,7 +39,7 @@ class OnboardingManager {
                 // Also set in localStorage for faster future checks
                 localStorage.setItem('onboardingCompleted', 'true');
                 // Redirect to main app
-                window.location.href = 'index.html';
+                window.location.href = '../index.html';
             }
         } catch (error) {
             // If error checking database, assume onboarding not completed
@@ -291,7 +291,7 @@ class OnboardingManager {
             await new Promise(resolve => setTimeout(resolve, 500));
 
             // Redirect to main app
-            window.location.href = 'index.html';
+            window.location.href = '../index.html';
 
         } catch (error) {
             console.error('Error saving onboarding data:', error);
