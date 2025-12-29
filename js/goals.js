@@ -239,22 +239,24 @@ class GoalsManager {
                     </div>
                 </div>
 
-                <div class="goal-progress-section">
-                    <div class="goal-progress-header">
-                        <span class="goal-progress-label">Progress</span>
-                        <span class="goal-progress-percentage">${Math.min(progress, 100).toFixed(1)}%</span>
+                ${!isCompleted ? `
+                    <div class="goal-progress-section">
+                        <div class="goal-progress-header">
+                            <span class="goal-progress-label">Progress</span>
+                            <span class="goal-progress-percentage">${Math.min(progress, 100).toFixed(1)}%</span>
+                        </div>
+                        <div class="goal-progress-bar">
+                            <div class="goal-progress-fill" style="width: ${Math.min(progress, 100)}%"></div>
+                        </div>
                     </div>
-                    <div class="goal-progress-bar">
-                        <div class="goal-progress-fill ${isCompleted ? 'completed' : ''}" style="width: ${Math.min(progress, 100)}%"></div>
-                    </div>
-                </div>
+                ` : ''}
 
                 ${!isCompleted ? `
                     <div class="goal-actions-row">
                         ${goal.transactions && goal.transactions.length > 0 ? `
                             <button class="btn btn-secondary view-history-btn goal-action-btn">
                                 <i class="fas fa-history"></i>
-                                Recent Additions (${goal.transactions.length})
+                                Recent Additions
                             </button>
                         ` : ''}
                         <button class="btn btn-primary add-money-btn goal-action-btn">
