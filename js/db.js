@@ -237,11 +237,13 @@ class Database {
         const transactions = await this.getAll('transactions');
         const categories = await this.getAll('categories');
         const settings = await this.getAll('settings');
+        const goals = await this.getAll('goals');
 
         return {
             transactions,
             categories,
             settings,
+            goals,
             exportDate: new Date().toISOString(),
             version: DB_VERSION
         };
@@ -254,6 +256,7 @@ class Database {
             await this.clearStore('transactions');
             await this.clearStore('categories');
             await this.clearStore('settings');
+            await this.clearStore('goals');
 
             // Import transactions
             if (data.transactions) {
@@ -275,6 +278,14 @@ class Database {
             if (data.settings) {
                 for (const setting of data.settings) {
                     await this.update('settings', setting);
+                }
+            }
+
+            // Import goals
+            if (data.goals) {
+                for (const goal of data.goals) {
+                    const { id, ...goalData } = goal;
+                    await this.add('goals', goalData);
                 }
             }
 

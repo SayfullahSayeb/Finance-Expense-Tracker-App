@@ -127,8 +127,8 @@ class GoalsManager {
             goalsContainer.innerHTML = `
                 <div class="empty-state">
                     <i class="fas fa-bullseye"></i>
-                    <p>No savings goals yet</p>
-                    <p class="empty-state-subtitle">Create your first goal to start saving!</p>
+                    <p>${lang.translate('noGoalsYet')}</p>
+                    <p class="empty-state-subtitle">${lang.translate('createFirstGoal')}</p>
                 </div>
             `;
             return;
@@ -277,7 +277,7 @@ class GoalsManager {
         const form = document.getElementById('goal-form');
 
         if (goal) {
-            modalTitle.textContent = 'Edit Goal';
+            modalTitle.textContent = lang.translate('editGoal');
             deleteBtn.style.display = 'block';
 
             document.getElementById('goal-name').value = goal.name;
@@ -285,7 +285,7 @@ class GoalsManager {
             document.getElementById('goal-deadline').value = goal.deadline || '';
 
         } else {
-            modalTitle.textContent = 'Create New Goal';
+            modalTitle.textContent = lang.translate('createNewGoal');
             deleteBtn.style.display = 'none';
             form.reset();
         }

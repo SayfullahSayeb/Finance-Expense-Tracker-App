@@ -165,11 +165,11 @@
                 <div class="page-nav-buttons" style="display: flex; gap: 12px; margin-bottom: 20px;">
                     <button class="btn btn-primary" style="flex: 1;" disabled>
                         <i class="fas fa-wallet"></i>
-                        <span>Transactions</span>
+                        <span data-lang="transactions">Transactions</span>
                     </button>
                     <button class="btn btn-secondary" id="goto-analysis-btn" style="flex: 1;">
                         <i class="fas fa-chart-line"></i>
-                        <span>Analysis</span>
+                        <span data-lang="analysis">Analysis</span>
                     </button>
                 </div>
 
@@ -215,11 +215,11 @@
                 <div class="page-nav-buttons" style="display: flex; gap: 12px; margin-bottom: 20px;">
                     <button class="btn btn-secondary" id="goto-transactions-btn" style="flex: 1;">
                         <i class="fas fa-wallet"></i>
-                        <span>Transactions</span>
+                        <span data-lang="transactions">Transactions</span>
                     </button>
                     <button class="btn btn-primary" style="flex: 1;" disabled>
                         <i class="fas fa-chart-line"></i>
-                        <span>Analysis</span>
+                        <span data-lang="analysis">Analysis</span>
                     </button>
                 </div>
 
@@ -274,7 +274,7 @@
         <!-- Goals Page -->
         <div id="goals-page" class="page">
             <header class="page-header">
-                <h1 class="page-title">Savings Goals</h1>
+                <h1 class="page-title" data-lang="savingsGoals">Savings Goals</h1>
             </header>
 
             <div class="page-content">
@@ -282,7 +282,7 @@
                 <button class="btn btn-primary" id="add-goal-btn"
                     style="width: 100%; margin-bottom: var(--spacing-md);">
                     <i class="fas fa-plus"></i>
-                    <span>Add New Goal</span>
+                    <span data-lang="addNewGoal">Add New Goal</span>
                 </button>
 
                 <!-- Goals List -->
@@ -484,7 +484,7 @@
 
             <button class="nav-item" data-page="goals">
                 <i class="fas fa-bullseye"></i>
-                <span>Goals</span>
+                <span data-lang="savingsGoals">Goals</span>
             </button>
             <button class="nav-item" data-page="settings">
                 <i class="fas fa-cog"></i>
@@ -885,22 +885,25 @@
                 <i class="fas fa-times"></i>
             </button>
 
-            <h2 class="reset-modal-title" id="goal-modal-title">Create New Goal</h2>
-            <p class="reset-modal-text">Set a savings goal and track your progress towards achieving it.</p>
+            <h2 class="reset-modal-title" id="goal-modal-title" data-lang="createNewGoal">Create New Goal</h2>
+            <p class="reset-modal-text" data-lang="goalDescription">Set a savings goal and track your progress towards
+                achieving it.</p>
 
             <form id="goal-form" style="width: 100%; margin-top: 20px;">
                 <div class="form-group">
-                    <label for="goal-name" style="text-align: left;">Goal Name</label>
-                    <input type="text" id="goal-name" required maxlength="50" placeholder="e.g., MacBook Pro">
+                    <label for="goal-name" style="text-align: left;" data-lang="goalName">Goal Name</label>
+                    <input type="text" id="goal-name" required maxlength="50"
+                        data-lang-placeholder="goalNamePlaceholder" placeholder="e.g., MacBook Pro">
                 </div>
 
                 <div class="form-group">
-                    <label for="goal-target" style="text-align: left;">Target Amount</label>
+                    <label for="goal-target" style="text-align: left;" data-lang="targetAmount">Target Amount</label>
                     <input type="number" id="goal-target" required min="1" step="0.01" placeholder="0.00">
                 </div>
 
                 <div class="form-group">
-                    <label for="goal-deadline" style="text-align: left;">Deadline (Optional)</label>
+                    <label for="goal-deadline" style="text-align: left;" data-lang="deadline">Deadline
+                        (Optional)</label>
                     <input type="date" id="goal-deadline">
                 </div>
 
@@ -908,11 +911,13 @@
                     <button type="button" class="btn btn-danger" id="delete-goal-btn"
                         style="display: none; position: absolute; left: 30px;">
                         <i class="fas fa-trash"></i>
-                        <span>Delete</span>
+                        <span data-lang="delete">Delete</span>
                     </button>
-                    <button type="button" class="btn-reset-cancel" id="cancel-goal-btn">Cancel</button>
+                    <button type="button" class="btn-reset-cancel" id="cancel-goal-btn"
+                        data-lang="cancel">Cancel</button>
                     <button type="submit" class="btn-reset-delete enabled"
-                        style="background: linear-gradient(135deg, #438883 0%, #5ba89f 100%);">Save</button>
+                        style="background: linear-gradient(135deg, #438883 0%, #5ba89f 100%);"
+                        data-lang="save">Save</button>
                 </div>
             </form>
         </div>
@@ -925,21 +930,23 @@
                 <i class="fas fa-times"></i>
             </button>
 
-            <h2 class="reset-modal-title">Add Money</h2>
+            <h2 class="reset-modal-title" data-lang="addMoney">Add Money</h2>
             <p class="reset-modal-text">
-                Adding money to: <strong id="add-money-goal-name"></strong>
+                <span data-lang="addingMoneyTo">Adding money to:</span> <strong id="add-money-goal-name"></strong>
             </p>
 
             <form id="add-money-form" style="width: 100%; margin-top: 20px;">
                 <div class="form-group">
-                    <label for="add-money-amount" style="text-align: left;">Amount</label>
+                    <label for="add-money-amount" style="text-align: left;" data-lang="amount">Amount</label>
                     <input type="number" id="add-money-amount" required min="0.01" step="0.01" placeholder="0.00">
                 </div>
 
                 <div class="reset-modal-buttons" style="margin-top: 24px;">
-                    <button type="button" class="btn-reset-cancel" id="cancel-add-money-btn">Cancel</button>
+                    <button type="button" class="btn-reset-cancel" id="cancel-add-money-btn"
+                        data-lang="cancel">Cancel</button>
                     <button type="submit" class="btn-reset-delete enabled"
-                        style="background: linear-gradient(135deg, #438883 0%, #5ba89f 100%);">Add Money</button>
+                        style="background: linear-gradient(135deg, #438883 0%, #5ba89f 100%);" data-lang="addMoney">Add
+                        Money</button>
                 </div>
             </form>
         </div>
@@ -949,7 +956,7 @@
     <div id="history-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Recent Additions</h2>
+                <h2 data-lang="recentAdditions">Recent Additions</h2>
                 <button class="btn-close" id="close-history-modal">
                     <i class="fas fa-times"></i>
                 </button>
@@ -969,12 +976,12 @@
                 <i class="fas fa-times"></i>
             </button>
 
-            <h2 class="reset-modal-title">Edit Transaction</h2>
+            <h2 class="reset-modal-title" data-lang="editTransaction">Edit Transaction</h2>
             <p class="reset-modal-text" id="edit-transaction-date" style="margin-bottom: 0;"></p>
 
             <form id="edit-transaction-form" style="width: 100%; margin-top: 20px;">
                 <div class="form-group">
-                    <label for="edit-transaction-amount" style="text-align: left;">Amount</label>
+                    <label for="edit-transaction-amount" style="text-align: left;" data-lang="amount">Amount</label>
                     <input type="number" id="edit-transaction-amount" step="0.01" min="0.01" required>
                 </div>
 
@@ -984,13 +991,13 @@
                         <i class="fas fa-trash"></i>
                         Delete
                     </button>
-                    <button type="button" class="btn-reset-cancel" id="cancel-edit-transaction-btn">
+                    <button type="button" class="btn-reset-cancel" id="cancel-edit-transaction-btn" data-lang="cancel">
                         Cancel
                     </button>
                     <button type="submit" class="btn-reset-delete enabled"
                         style="background: linear-gradient(135deg, #438883 0%, #5ba89f 100%);">
                         <i class="fas fa-save"></i>
-                        Save
+                        <span data-lang="save">Save</span>
                     </button>
                 </div>
             </form>
@@ -1174,3 +1181,50 @@
 </body>
 
 </html>
+<!-- Modal Scroll Lock -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const modals = document.querySelectorAll('.modal');
+
+        function lockBodyScroll() {
+            document.body.classList.add('modal-open');
+        }
+
+        function unlockBodyScroll() {
+            const hasActiveModal = document.querySelector('.modal.active');
+            if (!hasActiveModal) {
+                document.body.classList.remove('modal-open');
+            }
+        }
+
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                    const target = mutation.target;
+                    if (target.classList.contains('modal')) {
+                        if (target.classList.contains('active')) {
+                            lockBodyScroll();
+                        } else {
+                            unlockBodyScroll();
+                        }
+                    }
+                }
+            });
+        });
+
+        modals.forEach(modal => {
+            observer.observe(modal, {
+                attributes: true,
+                attributeFilter: ['class']
+            });
+
+            // Click outside to close
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                    unlockBodyScroll();
+                }
+            });
+        });
+    });
+</script>

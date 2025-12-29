@@ -81,15 +81,6 @@
    Base Styles
    =================================== */
 
-html,
-body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    overflow-x: hidden;
-    background-color: var(--bg-primary);
-}
-
 * {
     margin: 0;
     padding: 0;
@@ -103,12 +94,69 @@ html {
     scroll-behavior: auto;
 }
 
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+}
+
 body {
     font-family: var(--font-family);
     background-color: var(--bg-primary);
     color: var(--text-primary);
     line-height: 1.5;
-    overflow-x: hidden;
+}
+
+/* ===================================
+   Custom Scrollbar - Themed
+   =================================== */
+
+/* Webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 10px;
+    border: 2px solid var(--bg-primary);
+    transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-dark);
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: var(--primary-light);
+}
+
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-color) var(--bg-primary);
+}
+
+/* Dark mode scrollbar adjustments */
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: var(--primary-light);
+    border: 2px solid var(--bg-primary);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:active {
+    background: #3d9188;
 }
 
 input {
@@ -963,18 +1011,26 @@ input {
 /* Empty State */
 .empty-state {
     text-align: center;
-    padding: var(--spacing-xl);
+    padding: 60px 20px;
     color: var(--text-tertiary);
 }
 
 .empty-state i {
     font-size: 64px;
-    margin-bottom: var(--spacing-md);
+    color: var(--text-tertiary);
+    margin-bottom: 20px;
     opacity: 0.5;
 }
 
 .empty-state p {
-    font-size: var(--font-size-md);
+    font-size: 16px;
+    margin: 8px 0;
+}
+
+.empty-state-subtitle {
+    font-size: 14px;
+    color: var(--text-tertiary);
+    opacity: 0.7;
 }
 
 /* ===================================
@@ -1635,15 +1691,24 @@ input {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     z-index: var(--z-modal);
     align-items: center;
     justify-content: center;
     animation: fadeIn var(--transition-fast);
+    overflow-y: auto;
 }
 
 .modal.active {
     display: flex;
+}
+
+/* Prevent body scroll when modal is open */
+body.modal-open {
+    overflow: hidden;
+    height: 100vh;
 }
 
 .modal-content {
@@ -1655,6 +1720,7 @@ input {
     overflow-y: auto;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
     animation: slideUp var(--transition-normal);
+    position: relative;
 }
 
 @keyframes slideUp {
@@ -1695,11 +1761,17 @@ input {
     align-items: center;
     justify-content: center;
     transition: all var(--transition-fast);
+    z-index: 10;
 }
 
 .btn-close:hover {
     background-color: var(--bg-tertiary);
     color: var(--text-primary);
+    transform: scale(1.1);
+}
+
+.btn-close:active {
+    transform: scale(0.95);
 }
 
 .modal-body {
@@ -1868,12 +1940,16 @@ input {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-sm);
+    width: 100%;
+    max-width: 100%;
 }
 
 .emoji-suggestions {
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    gap: var(--spacing-xs);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+    max-width: 100%;
 }
 
 .emoji-btn {
@@ -1892,6 +1968,7 @@ input {
 
 .emoji-btn:hover {
     background-color: var(--bg-tertiary);
+    border-color: var(--primary-color);
     transform: scale(1.1);
 }
 
@@ -2147,37 +2224,7 @@ input {
     max-width: 100%;
 }
 
-.emoji-picker-container {
-    width: 100%;
-    max-width: 100%;
-}
 
-.emoji-suggestions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 12px;
-    max-width: 100%;
-}
-
-.emoji-btn {
-    width: 40px;
-    height: 40px;
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
-    background: var(--bg-secondary);
-    cursor: pointer;
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all var(--transition-fast);
-}
-
-.emoji-btn:hover {
-    background: var(--bg-tertiary);
-    border-color: var(--primary-color);
-}
 
 /* Redesigned Budget Card */
 .budget-overview {
@@ -3016,7 +3063,7 @@ input {
 }
 
 .btn-reset-cancel:hover {
-    background: #d0d0d0;
+    background: var(--bg-tertiary);
     transform: translateY(-1px);
 }
 
@@ -3540,30 +3587,7 @@ input {
     transform: translateY(0);
 }
 
-/* Empty State */
-.empty-state {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--text-tertiary);
-}
 
-.empty-state i {
-    font-size: 64px;
-    color: var(--text-tertiary);
-    margin-bottom: 20px;
-    opacity: 0.5;
-}
-
-.empty-state p {
-    font-size: 16px;
-    margin: 8px 0;
-}
-
-.empty-state-subtitle {
-    font-size: 14px;
-    color: var(--text-tertiary);
-    opacity: 0.7;
-}
 
 /* Responsive Design */
 @media (max-width: 480px) {
