@@ -216,7 +216,6 @@ class NotificationsManager {
                         <span class="notification-date">${this.formatDate(notif.date)}</span>
                     </div>
                     <p class="notification-message">${notif.message}</p>
-                    ${!notif.read ? '<span class="notification-unread-dot"></span>' : ''}
                 </div>
             </div>
         `).join('');
