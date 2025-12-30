@@ -3,7 +3,7 @@ class NotificationsManager {
         this.notifications = [];
         this.unreadCount = 0;
         // ADD YOUR GOOGLE SHEETS JSON URL HERE:
-        this.sheetsUrl = 'https://docs.google.com/spreadsheets/d/1Vovs-AYYwwyAq-5wjwJG_h5MFxl-nBja2ZtLUu-mukY/gviz/tq?tqx=out:json';
+        this.sheetsUrl = 'https://docs.google.com/spreadsheets/d/1HVA23xlT1WIhz4aO6NIz5Ek2LoVlWVo2cnACNLbXtts/gviz/tq?tqx=out:json';
     }
 
     async init() {

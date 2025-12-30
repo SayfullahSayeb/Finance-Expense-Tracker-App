@@ -430,6 +430,13 @@
                             </div>
                             <i class="fas fa-chevron-right"></i>
                         </a>
+                        <div class="setting-item clickable" id="feedback-btn">
+                            <div class="setting-info">
+                                <i class="fas fa-comment-dots setting-icon"></i>
+                                <span class="setting-label">Submit Feedback</span>
+                            </div>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
                         <div class="setting-item">
                             <div class="setting-info">
                                 <i class="fas fa-info-circle setting-icon"></i>
@@ -1096,6 +1103,107 @@
                 </div>
                 <div id="notifications-list">
                     <!-- Notifications will be rendered here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feedback Modal -->
+    <div id="feedback-modal" class="modal">
+        <div class="modal-content feedback-modal-content">
+            <div class="feedback-modal-header">
+                <button class="feedback-back-btn" id="feedback-back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2 class="feedback-header-title">Feedback</h2>
+                <button class="feedback-close-btn" id="close-feedback-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="feedback-modal-body">
+                <div id="feedback-form-container">
+                    <h3 class="feedback-title">Share your feedback</h3>
+
+                    <div class="feedback-section">
+                        <label class="feedback-label">Rate your experience <span
+                                style="color: var(--text-tertiary); font-size: 0.875em;">(Optional)</span></label>
+                        <div class="emoji-rating-container">
+                            <div class="emoji-rating-wrapper">
+                                <button class="emoji-rating" data-rating="1" data-label="Terrible">😡</button>
+                            </div>
+                            <div class="emoji-rating-wrapper">
+                                <button class="emoji-rating" data-rating="2" data-label="Bad">😞</button>
+                            </div>
+                            <div class="emoji-rating-wrapper">
+                                <button class="emoji-rating" data-rating="3" data-label="Okay">😐</button>
+                            </div>
+                            <div class="emoji-rating-wrapper">
+                                <button class="emoji-rating" data-rating="4" data-label="Good">😊</button>
+                            </div>
+                            <div class="emoji-rating-wrapper">
+                                <button class="emoji-rating" data-rating="5" data-label="Awesome!">😍</button>
+                            </div>
+                        </div>
+                        <input type="hidden" id="feedback-rating">
+                        <div class="emoji-rating-label" id="emoji-rating-label"></div>
+                    </div>
+
+                    <div class="feedback-section">
+                        <label class="feedback-label">Which areas of the app do you find most useful or
+                            important? <span
+                                style="color: var(--text-tertiary); font-size: 0.875em;">(Optional)</span></label>
+                        <div class="feedback-options-list">
+                            <label class="feedback-option-item">
+                                <span class="feedback-option-text">Budget management</span>
+                                <input type="radio" name="feedback-useful-area" value="Budget management"
+                                    class="feedback-radio feedback-circle-check">
+                            </label>
+                            <label class="feedback-option-item">
+                                <span class="feedback-option-text">Monthly/weekly analysis</span>
+                                <input type="radio" name="feedback-useful-area" value="Monthly/weekly analysis"
+                                    class="feedback-radio feedback-circle-check">
+                            </label>
+                            <label class="feedback-option-item">
+                                <span class="feedback-option-text">Savings / Goal feature</span>
+                                <input type="radio" name="feedback-useful-area" value="Savings / Goal feature"
+                                    class="feedback-radio feedback-circle-check">
+                            </label>
+                            <label class="feedback-option-item">
+                                <span class="feedback-option-text">Reports & insights</span>
+                                <input type="radio" name="feedback-useful-area" value="Reports & insights"
+                                    class="feedback-radio feedback-circle-check">
+                            </label>
+                            <label class="feedback-option-item">
+                                <span class="feedback-option-text">Other</span>
+                                <input type="radio" name="feedback-useful-area" value="__other_option__"
+                                    id="feedback-other-radio" class="feedback-radio feedback-circle-check">
+                            </label>
+                        </div>
+                        <div id="feedback-other-input-container" class="feedback-other-input-container">
+                            <input type="text" id="feedback-other-input" class="feedback-other-input"
+                                placeholder="Please specify...">
+                        </div>
+                    </div>
+
+                    <div class="feedback-section">
+                        <label class="feedback-label">Tell us one thing you love and one thing we should
+                            improve. <span
+                                style="color: var(--text-tertiary); font-size: 0.875em;">(Optional)</span></label>
+                        <textarea id="feedback-message" rows="3" placeholder="Describe your experience here"
+                            class="feedback-textarea"></textarea>
+                    </div>
+
+                    <button id="submit-feedback-btn" class="feedback-submit-btn">
+                        Submit Feedback
+                    </button>
+                </div>
+
+                <div id="feedback-success" class="feedback-message feedback-success-message">
+                    <i class="fas fa-check-circle"></i> Thank you! Feedback submitted.
+                </div>
+
+                <div id="feedback-error" class="feedback-message feedback-error-message">
+                    <i class="fas fa-exclamation-circle"></i> Failed to submit feedback. Please try again.
                 </div>
             </div>
         </div>

@@ -166,6 +166,23 @@ class SettingsManager {
             this.resetData();
         });
 
+        // Feedback button
+        document.getElementById('feedback-btn').addEventListener('click', () => {
+            this.openFeedbackModal();
+        });
+
+        document.getElementById('close-feedback-modal').addEventListener('click', () => {
+            this.closeFeedbackModal();
+        });
+
+        document.getElementById('feedback-back-btn').addEventListener('click', () => {
+            this.closeFeedbackModal();
+        });
+
+        document.getElementById('submit-feedback-btn').addEventListener('click', () => {
+            this.submitFeedback();
+        });
+
         // Demo Mode toggle
         document.getElementById('demo-mode-toggle').addEventListener('change', async (e) => {
             if (e.target.checked) {
@@ -485,6 +502,165 @@ class SettingsManager {
         document.addEventListener('click', () => {
             wrapper.classList.remove('open');
         });
+    }
+
+    openFeedbackModal() {
+        const modal = document.getElementById('feedback-modal');
+        if (modal) {
+            // Reset form
+            document.getElementById('feedback-rating').value = '';
+            document.getElementById('feedback-message').value = '';
+            document.querySelectorAll('.feedback-radio').forEach(radio => radio.checked = false);
+            document.getElementById('feedback-success').style.display = 'none';
+            document.getElementById('feedback-error').style.display = 'none';
+
+            // Show form container, hide messages
+            const formContainer = document.getElementById('feedback-form-container');
+            if (formContainer) {
+                formContainer.style.display = 'block';
+            }
+
+            // Remove selected class from emojis and hide label
+            document.querySelectorAll('.emoji-rating').forEach(btn => btn.classList.remove('selected'));
+            const emojiLabel = document.getElementById('emoji-rating-label');
+            if (emojiLabel) {
+                emojiLabel.textContent = '';
+                emojiLabel.classList.remove('show');
+            }
+
+            // Hide "Other" input field
+            const otherInputContainer = document.getElementById('feedback-other-input-container');
+            const otherInput = document.getElementById('feedback-other-input');
+            if (otherInputContainer) {
+                otherInputContainer.classList.remove('show');
+                if (otherInput) {
+                    otherInput.value = '';
+                }
+            }
+
+            // Add emoji click handlers
+            document.querySelectorAll('.emoji-rating').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.emoji-rating').forEach(b => b.classList.remove('selected'));
+                    e.currentTarget.classList.add('selected');
+                    document.getElementById('feedback-rating').value = e.currentTarget.dataset.rating;
+
+                    // Show emoji label
+                    const label = e.currentTarget.dataset.label;
+                    if (emojiLabel && label) {
+                        emojiLabel.textContent = label;
+                        emojiLabel.classList.add('show');
+                    }
+                });
+            });
+
+            // Handle "Other" radio button
+            const otherRadio = document.getElementById('feedback-other-radio');
+            const allRadios = document.querySelectorAll('input[name="feedback-useful-area"]');
+
+            allRadios.forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    if (e.target.id === 'feedback-other-radio' && e.target.checked) {
+                        otherInputContainer.classList.add('show');
+                        if (otherInput) {
+                            setTimeout(() => otherInput.focus(), 300);
+                        }
+                    } else {
+                        otherInputContainer.classList.remove('show');
+                        if (otherInput) {
+                            otherInput.value = '';
+                        }
+                    }
+                });
+            });
+
+            modal.classList.add('active');
+            document.body.classList.add('modal-open');
+        }
+    }
+
+    closeFeedbackModal() {
+        const modal = document.getElementById('feedback-modal');
+        if (modal) {
+            modal.classList.remove('active');
+            document.body.classList.remove('modal-open');
+        }
+    }
+
+    async submitFeedback() {
+        const rating = document.getElementById('feedback-rating').value;
+        const message = document.getElementById('feedback-message').value.trim();
+
+        // Get selected radio button
+        const selectedRadio = document.querySelector('input[name="feedback-useful-area"]:checked');
+        let usefulArea = '';
+        let otherText = '';
+
+        if (selectedRadio) {
+            if (selectedRadio.id === 'feedback-other-radio') {
+                // For "Other" option, Google Forms expects __other_option__ as the value
+                // and the actual text in a separate field
+                usefulArea = '__other_option__';
+                const otherInput = document.getElementById('feedback-other-input');
+                otherText = otherInput && otherInput.value.trim() ? otherInput.value.trim() : '';
+            } else {
+                usefulArea = selectedRadio.value;
+            }
+        }
+
+        // All fields are optional - check if at least something is provided
+        if (!rating && !usefulArea && !message) {
+            Utils.showToast('Please provide at least some feedback');
+            return;
+        }
+
+        // Google Form URL and field IDs from your form
+        const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfFec8aLUW1CyD5r-w35e-kZdI1Jc5AVvhim8tLHqJK7qSF_g/formResponse';
+
+        const formData = new FormData();
+
+        // Only append fields that have values
+        if (rating) {
+            formData.append('entry.1012814942', rating); // Rating field
+        }
+
+        if (usefulArea) {
+            formData.append('entry.1613346850', usefulArea); // Useful area field (checkbox value)
+
+            // If "Other" is selected, also send the custom text
+            if (usefulArea === '__other_option__' && otherText) {
+                formData.append('entry.1613346850.other_option_response', otherText);
+            }
+        }
+
+        if (message) {
+            formData.append('entry.654395150', message); // Message field
+        }
+
+        try {
+            await fetch(FORM_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: formData
+            });
+
+            // Hide form container and show success message
+            const formContainer = document.getElementById('feedback-form-container');
+            if (formContainer) {
+                formContainer.style.display = 'none';
+            }
+            document.getElementById('feedback-success').style.display = 'block';
+            document.getElementById('feedback-error').style.display = 'none';
+
+        } catch (error) {
+            // Hide form container and show error message
+            const formContainer = document.getElementById('feedback-form-container');
+            if (formContainer) {
+                formContainer.style.display = 'none';
+            }
+            document.getElementById('feedback-error').style.display = 'block';
+            document.getElementById('feedback-success').style.display = 'none';
+        }
     }
 }
 
