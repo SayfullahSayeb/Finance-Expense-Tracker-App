@@ -1,6 +1,3 @@
-// Modal Scroll Lock Manager - Inline Version
-// Add this script at the end of index.html before </body>
-
 document.addEventListener('DOMContentLoaded', function () {
     const modals = document.querySelectorAll('.modal');
 
