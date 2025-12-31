@@ -1271,7 +1271,6 @@
 
     <!-- Scripts with Cache Busting -->
     <script>
-        // Dynamically load all JS files with version parameter
         const scripts = [
             'js/db.js',
             'js/lang.js',
@@ -1290,7 +1289,8 @@
             'js/goals.js',
             'js/notifications.js',
             'js/navigation.js',
-            'js/app.js'
+            'js/app.js',
+            'js/auto-update.js'
         ];
 
         scripts.forEach(src => {
@@ -1316,7 +1316,6 @@
                         });
                     })
                     .catch((error) => {
-                        // Service Worker registration failed (expected when running from file://)
                     });
             });
         }
