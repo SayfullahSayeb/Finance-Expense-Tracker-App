@@ -1,2 +1,2 @@
-const APP_VERSION = "2.0.25";
-const BUILD_TIMESTAMP = "2025-12-31T19:22:48+06:00"; // Last build time
+const APP_VERSION = "2.1.0";
+const BUILD_TIMESTAMP = "2025-12-31T19:29:34+06:00";
