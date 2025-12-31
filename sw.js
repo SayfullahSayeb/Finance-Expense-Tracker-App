@@ -153,10 +153,16 @@ self.addEventListener('fetch', (event) => {
                     // If network fails, serve from cache
                     return caches.match(request).then(cached => {
                         if (cached) return cached;
-                        // Fallback to index.html for navigation requests
-                        if (request.destination === 'document') {
-                            return caches.match('./index.html');
-                        }
+
+                        // Fallback: Try to match without query parameters (fix for version.js?v=timestamp)
+                        return caches.match(request, { ignoreSearch: true }).then(cachedLoose => {
+                            if (cachedLoose) return cachedLoose;
+
+                            // Fallback to index.html for navigation requests
+                            if (request.destination === 'document') {
+                                return caches.match('./index.html');
+                            }
+                        });
                     });
                 })
         );
