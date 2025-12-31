@@ -10,6 +10,12 @@ class AutoUpdateManager {
         this.isOnline = navigator.onLine;
         this.lastCheckTime = Date.now();
         this.updateCheckTimer = null;
+
+        // Store the running version in localStorage to prevent reload loops
+        const storedVersion = localStorage.getItem('app_running_version');
+        if (!storedVersion || storedVersion !== APP_VERSION) {
+            localStorage.setItem('app_running_version', APP_VERSION);
+        }
     }
 
     init() {
@@ -26,13 +32,19 @@ class AutoUpdateManager {
         // Check for updates on visibility change (when user returns to tab)
         document.addEventListener('visibilitychange', () => {
             if (!document.hidden) {
-                this.checkForUpdates();
+                // Small delay to avoid checking too frequently
+                setTimeout(() => {
+                    this.checkForUpdates();
+                }, 2000);
             }
         });
 
-        // Check for updates on page focus
+        // Check for updates on page focus (when user switches back to window)
         window.addEventListener('focus', () => {
-            this.checkForUpdates();
+            // Small delay to avoid checking too frequently
+            setTimeout(() => {
+                this.checkForUpdates();
+            }, 2000);
         });
     }
 
@@ -105,10 +117,14 @@ class AutoUpdateManager {
 
                 if (versionMatch && versionMatch[1]) {
                     const latestVersion = versionMatch[1];
+                    const runningVersion = localStorage.getItem('app_running_version') || this.currentVersion;
 
-                    // Compare versions
-                    if (latestVersion !== this.currentVersion) {
-                        console.log(`New version detected: ${latestVersion} (current: ${this.currentVersion})`);
+                    // Only reload if the latest version is different from what's currently running
+                    if (latestVersion !== runningVersion) {
+                        console.log(`New version detected: ${latestVersion} (running: ${runningVersion})`);
+
+                        // Update the stored version before reloading
+                        localStorage.setItem('app_running_version', latestVersion);
 
                         // Trigger service worker update
                         if ('serviceWorker' in navigator) {
@@ -121,8 +137,10 @@ class AutoUpdateManager {
                             }
                         }
 
-                        // Auto-reload immediately when version changes
+                        // Auto-reload to apply the new version
                         this.autoReload();
+                    } else {
+                        console.log(`Already running latest version: ${latestVersion}`);
                     }
                 }
             }
