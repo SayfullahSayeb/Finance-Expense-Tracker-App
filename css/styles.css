@@ -4193,7 +4193,7 @@ body.modal-open {
 
 [data-theme="dark"] .feedback-option-item:has(.feedback-radio:checked) {
     background: rgba(66, 133, 244, 0.2);
-    border-color: #4285F4;
+    border-color: #3d9188;
 }
 
 .feedback-option-text {
