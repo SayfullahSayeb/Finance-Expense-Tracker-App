@@ -56,6 +56,9 @@ class AutoUpdateManager {
                 this.checkForUpdates();
             }, 2000);
         });
+
+        // Check immediately on load
+        this.checkForUpdates(true);
     }
 
     handleOnline() {

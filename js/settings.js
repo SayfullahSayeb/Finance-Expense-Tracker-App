@@ -46,48 +46,7 @@ class SettingsManager {
             appVersionElement.textContent = APP_VERSION;
         }
 
-        // Update last update timestamp display
-        const updateTimestampElement = document.getElementById('update-timestamp');
-        if (updateTimestampElement && typeof BUILD_TIMESTAMP !== 'undefined') {
-            try {
-                const buildDate = new Date(BUILD_TIMESTAMP);
-                const now = new Date();
 
-                // Format the date in a user-friendly way
-                const options = {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                };
-
-                const formattedDate = buildDate.toLocaleString('en-US', options);
-
-                // Calculate time difference
-                const diffMs = now - buildDate;
-                const diffMins = Math.floor(diffMs / 60000);
-                const diffHours = Math.floor(diffMs / 3600000);
-                const diffDays = Math.floor(diffMs / 86400000);
-
-                let timeAgo = '';
-                if (diffMins < 1) {
-                    timeAgo = 'just now';
-                } else if (diffMins < 60) {
-                    timeAgo = `${diffMins} minute${diffMins !== 1 ? 's' : ''} ago`;
-                } else if (diffHours < 24) {
-                    timeAgo = `${diffHours} hour${diffHours !== 1 ? 's' : ''} ago`;
-                } else if (diffDays < 7) {
-                    timeAgo = `${diffDays} day${diffDays !== 1 ? 's' : ''} ago`;
-                } else {
-                    timeAgo = formattedDate;
-                }
-
-                updateTimestampElement.textContent = `${formattedDate} (${timeAgo})`;
-            } catch (error) {
-                updateTimestampElement.textContent = BUILD_TIMESTAMP;
-            }
-        }
 
         // Update profile manager UI (secondary profile toggle and switch button)
         if (typeof profileManager !== 'undefined') {
