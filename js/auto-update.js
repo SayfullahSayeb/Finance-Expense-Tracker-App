@@ -128,46 +128,27 @@ class AutoUpdateManager {
         }
     }
 
-    showLoadingMessage() {
-        // Create a simple loading overlay
-        const overlay = document.createElement('div');
-        overlay.id = 'update-loading';
-        overlay.innerHTML = `
-            <div class="update-loading-content">
-                <div class="update-spinner"></div>
-                <p>Updating to latest version...</p>
-            </div>
-        `;
-        document.body.appendChild(overlay);
-    }
-
     autoReload() {
-        // Show brief loading message
-        this.showLoadingMessage();
-
-        // Wait a moment for the message to display
-        setTimeout(() => {
-            // Clear all caches
-            if ('caches' in window) {
-                caches.keys().then(cacheNames => {
-                    cacheNames.forEach(cacheName => {
-                        caches.delete(cacheName);
-                    });
+        // Clear all caches
+        if ('caches' in window) {
+            caches.keys().then(cacheNames => {
+                cacheNames.forEach(cacheName => {
+                    caches.delete(cacheName);
                 });
-            }
+            });
+        }
 
-            // Unregister service worker
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.getRegistrations().then(registrations => {
-                    registrations.forEach(registration => {
-                        registration.unregister();
-                    });
+        // Unregister service worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(registrations => {
+                registrations.forEach(registration => {
+                    registration.unregister();
                 });
-            }
+            });
+        }
 
-            // Force reload with cache bust
-            window.location.href = window.location.href.split('?')[0] + '?v=' + Date.now();
-        }, 500);
+        // Force reload with cache bust
+        window.location.href = window.location.href.split('?')[0] + '?v=' + Date.now();
     }
 
     // Public method to manually check for updates
