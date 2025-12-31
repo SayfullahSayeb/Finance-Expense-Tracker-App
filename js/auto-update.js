@@ -87,12 +87,13 @@ class AutoUpdateManager {
         this.lastCheckTime = Date.now();
 
         try {
-            // Fetch version.js with cache busting
+            // Fetch version.js with aggressive cache busting
             const response = await fetch(`js/version.js?t=${Date.now()}`, {
-                cache: 'no-cache',
+                cache: 'no-store', // Changed from 'no-cache' to 'no-store' for more aggressive cache bypass
                 headers: {
-                    'Cache-Control': 'no-cache',
-                    'Pragma': 'no-cache'
+                    'Cache-Control': 'no-cache, no-store, must-revalidate',
+                    'Pragma': 'no-cache',
+                    'Expires': '0'
                 }
             });
 
@@ -107,23 +108,27 @@ class AutoUpdateManager {
 
                     // Compare versions
                     if (latestVersion !== this.currentVersion) {
+                        console.log(`New version detected: ${latestVersion} (current: ${this.currentVersion})`);
+
                         // Trigger service worker update
                         if ('serviceWorker' in navigator) {
                             const registration = await navigator.serviceWorker.getRegistration();
                             if (registration) {
                                 await registration.update();
+
+                                // Wait a bit for the new service worker to install
+                                await new Promise(resolve => setTimeout(resolve, 1000));
                             }
                         }
 
-                        // Auto-reload if forced
-                        if (forceReload) {
-                            this.autoReload();
-                        }
+                        // Auto-reload immediately when version changes
+                        this.autoReload();
                     }
                 }
             }
         } catch (error) {
             // Silently fail - might be offline or network issue
+            console.error('Update check failed:', error);
         }
     }
 

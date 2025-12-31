@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="Professional Finance Expense Tracker - Track your income and expenses offline">
     <meta name="theme-color" content="#29756F">
+    
+    <!-- Prevent browser caching to ensure updates are detected -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
     <link rel="icon" type="image/png" href="image/favicon.png">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="image/icon.png">
@@ -1312,10 +1318,15 @@
             });
 
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
+                // Add cache-busting parameter to force browser to check for new service worker
+                const swUrl = './sw.js?v=' + Date.now();
+                
+                navigator.serviceWorker.register(swUrl, { updateViaCache: 'none' })
                     .then((registration) => {
-                        // Check for updates immediately on load
-                        registration.update();
+                        // Force immediate update check on every page load
+                        registration.update().then(() => {
+                            console.log('Service worker update check completed');
+                        });
 
                         // Check for updates periodically (every 30 seconds)
                         setInterval(() => {
@@ -1336,6 +1347,9 @@
                                         if (window.showToast) {
                                             showToast('New version available! Updating...', 'info');
                                         }
+                                    } else {
+                                        // First time installation
+                                        console.log('Service worker installed for the first time');
                                     }
                                 }
                             });
@@ -1343,6 +1357,7 @@
                     })
                     .catch((error) => {
                         // Service Worker registration failed
+                        console.error('Service Worker registration failed:', error);
                     });
 
                 // Listen for messages from service worker
