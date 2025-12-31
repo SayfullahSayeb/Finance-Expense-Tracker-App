@@ -3844,7 +3844,8 @@ body.modal-open {
 }
 
 .notification-card.read {
-    opacity: 0.7;
+    background: rgba(0, 0, 0, 0.03);
+    opacity: 0.85;
 }
 
 .notification-icon {
@@ -3965,6 +3966,11 @@ body.modal-open {
 
 [data-theme="dark"] .notification-card.unread {
     background-color: rgba(var(--primary-rgb, 67, 136, 131), 0.15);
+}
+
+[data-theme="dark"] .notification-card.read {
+    background: rgba(255, 255, 255, 0.05);
+    opacity: 0.85;
 }
 
 /* Notifications List Container */
