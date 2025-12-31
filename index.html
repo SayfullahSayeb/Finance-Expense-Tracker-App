@@ -1286,7 +1286,6 @@
             'js/goals.js',
             'js/notifications.js',
             'js/navigation.js',
-            'js/auto-update.js',
             'js/app.js'
         ];
 
@@ -1300,72 +1299,21 @@
     <script>
         // Register Service Worker for PWA functionality
         if ('serviceWorker' in navigator) {
-            let refreshing = false;
-
-            // Detect controller change and reload page
-            navigator.serviceWorker.addEventListener('controllerchange', () => {
-                if (!refreshing) {
-                    refreshing = true;
-                    // Force a hard reload to get the new version
-                    window.location.reload(true);
-                }
-            });
-
             window.addEventListener('load', () => {
-                // Add cache-busting parameter to force browser to check for new service worker
-                const swUrl = './sw.js?v=' + Date.now();
-                
-                navigator.serviceWorker.register(swUrl, { updateViaCache: 'none' })
+                navigator.serviceWorker.register('./sw.js')
                     .then((registration) => {
-                        // Force immediate update check on every page load
-                        registration.update().then(() => {
-                            console.log('Service worker update check completed');
-                        });
-
-                        // Check for updates periodically (every 30 seconds)
-                        setInterval(() => {
-                            registration.update();
-                        }, 30000);
-
-                        // Handle service worker updates
-                        registration.addEventListener('updatefound', () => {
-                            const newWorker = registration.installing;
-
-                            newWorker.addEventListener('statechange', () => {
-                                if (newWorker.state === 'installed') {
-                                    if (navigator.serviceWorker.controller) {
-                                        // New service worker is ready, tell it to take over immediately
-                                        newWorker.postMessage({ type: 'SKIP_WAITING' });
-                                        
-                                        // Show a toast notification to the user
-                                        if (window.showToast) {
-                                            showToast('New version available! Updating...', 'info');
-                                        }
-                                    } else {
-                                        // First time installation
-                                        console.log('Service worker installed for the first time');
-                                    }
-                                }
-                            });
+                        console.log('Service Worker registered successfully');
+                        
+                        // Check for updates when user returns to the app
+                        document.addEventListener('visibilitychange', () => {
+                            if (!document.hidden && registration) {
+                                registration.update();
+                            }
                         });
                     })
                     .catch((error) => {
-                        // Service Worker registration failed
-                        console.error('Service Worker registration failed:', error);
+                        // Service Worker registration failed (expected when running from file://)
                     });
-
-                // Listen for messages from service worker
-                navigator.serviceWorker.addEventListener('message', (event) => {
-                    if (event.data && event.data.type === 'NEW_VERSION_ACTIVATED') {
-                        // The controllerchange event will trigger the reload
-                    }
-                    
-                    if (event.data && event.data.type === 'CACHE_CLEARED') {
-                        if (window.showToast) {
-                            showToast('Cache cleared successfully', 'success');
-                        }
-                    }
-                });
             });
         }
     </script>
