@@ -22,7 +22,7 @@ Amar Taka is built with privacy as the foundation:
 
 ## Features & How They Benefit You
 
-### 💰 Transaction Management
+### Transaction Management
 **Track every penny with ease**
 - Add income and expenses in seconds with quick entry
 - Categorize with custom emoji icons for visual clarity
