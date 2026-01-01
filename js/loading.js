@@ -1,11 +1,7 @@
-// ===================================
-// Loading Screen Controller
-// ===================================
-
 class LoadingScreen {
     constructor() {
         this.loadingScreen = document.getElementById('loading-screen');
-        this.minDisplayTime = 1000; // Minimum time to show loading screen (1 second)
+        this.minDisplayTime = 1000; 
         this.startTime = Date.now();
     }
 
@@ -26,14 +22,11 @@ class LoadingScreen {
                     if (this.loadingScreen && this.loadingScreen.parentNode) {
                         this.loadingScreen.remove();
                     }
-                }, 500); // Match the CSS transition duration
+                }, 500); 
             }
         }, remainingTime);
     }
 
-    /**
-     * Show the loading screen (useful for future use)
-     */
     show() {
         if (this.loadingScreen) {
             this.loadingScreen.classList.remove('fade-out');

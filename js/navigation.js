@@ -1,7 +1,3 @@
-// ===================================
-// Navigation Manager - Isolated & Robust
-// ===================================
-
 class NavigationManager {
     constructor() {
         this.currentPage = 'home';

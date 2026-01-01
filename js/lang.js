@@ -1,7 +1,3 @@
-// ===================================
-// Bilingual Language Support System
-// ===================================
-
 const translations = {
     en: {
         // Navigation

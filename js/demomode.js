@@ -1,7 +1,3 @@
-// ===================================
-// Demo Mode Manager
-// ===================================
-
 class DemoModeManager {
     constructor() {
         this.isDemoMode = false;

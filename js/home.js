@@ -1,7 +1,3 @@
-// ===================================
-// Home Page Manager
-// ===================================
-
 class HomeManager {
     constructor() {
         this.currency = 'BDT';

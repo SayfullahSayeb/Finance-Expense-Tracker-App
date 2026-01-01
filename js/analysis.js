@@ -1,7 +1,3 @@
-// ===================================
-// Analysis Manager
-// ===================================
-
 class AnalysisManager {
     constructor() {
         this.currentPeriod = 'month'; // week, month, year

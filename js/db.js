@@ -1,7 +1,3 @@
-// ===================================
-// IndexedDB Database Manager
-// ===================================
-
 const DB_NAME = 'FinanceTrackerDB';
 const DB_VERSION = 4;
 

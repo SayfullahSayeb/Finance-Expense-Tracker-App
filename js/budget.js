@@ -1,7 +1,3 @@
-// ===================================
-// Budget Manager
-// ===================================
-
 class BudgetManager {
     constructor() {
         this.currency = 'BDT';

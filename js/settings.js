@@ -1,13 +1,9 @@
-// ===================================
-// Settings Manager
-// ===================================
-
 class SettingsManager {
     async init() {
         await this.loadSettings();
         this.setupEventListeners();
         this.initCustomSelects();
-        this.setupOnlineListener(); // Setup online/offline listener for feedback queue
+        this.setupOnlineListener(); 
     }
 
     async loadSettings() {

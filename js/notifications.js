@@ -6,27 +6,21 @@ class NotificationsManager {
     }
 
     async init() {
-        // First, try to fetch fresh notifications from Google Sheets
         const sheetsFetched = await this.fetchFromSheets();
 
         if (sheetsFetched) {
-            // If sheets were fetched, merge with stored read status
             await this.loadAndMergeStoredNotifications();
-            // Save merged notifications to database
             await this.saveNotifications();
         } else {
-            // If sheets fetch failed or not configured, load from database
             await this.loadFromDatabase();
         }
 
-        // Expire old notifications after loading
         await this.expireOldNotifications();
         this.setupEventListeners();
         this.updateBadge();
     }
 
     setupEventListeners() {
-        // Bell icon click
         const bellIcon = document.getElementById('notification-bell');
         if (bellIcon) {
             bellIcon.addEventListener('click', (e) => {

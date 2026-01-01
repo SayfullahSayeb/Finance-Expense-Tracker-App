@@ -1,7 +1,3 @@
-// ===================================
-// Profile Management System (Enhanced)
-// ===================================
-
 class ProfileManager {
     constructor() {
         this.profiles = {

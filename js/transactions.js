@@ -1,7 +1,3 @@
-// ===================================
-// Transactions Manager
-// ===================================
-
 class TransactionsManager {
     constructor() {
         this.currentFilter = 'all';

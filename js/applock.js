@@ -1,7 +1,3 @@
-// ===================================
-// App Lock Module
-// ===================================
-
 const AppLock = {
     pin: null,
     tempPin: null,

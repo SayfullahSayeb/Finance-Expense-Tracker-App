@@ -1,7 +1,3 @@
-// ===================================
-// Main Application Controller
-// ===================================
-
 class App {
     constructor() {
         // Navigation is now handled by navigationManager

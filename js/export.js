@@ -1,7 +1,3 @@
-// ===================================
-// Export/Import Manager
-// ===================================
-
 class ExportManager {
     async init() {
         this.setupEventListeners();

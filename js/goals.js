@@ -1,7 +1,3 @@
-// ===================================
-// Savings Goals Manager
-// ===================================
-
 class GoalsManager {
     constructor() {
         this.goals = [];

@@ -1,11 +1,7 @@
-// ===================================
-// Onboarding Manager
-// ===================================
-
 class OnboardingManager {
     constructor() {
         this.currentScreen = 1;
-        this.totalScreens = 5; // Changed from 6 to 5
+        this.totalScreens = 5; 
         this.data = {
             userName: '',
             monthlyBudget: null,
@@ -18,8 +14,6 @@ class OnboardingManager {
     init() {
         this.setupPINInputs();
         this.loadSavedData();
-
-        // Check if onboarding is already completed
         this.checkOnboardingStatus();
     }
 
