@@ -1,151 +1,147 @@
-# Amar Taka - Finance Expense Tracker
+# Amar Taka - Personal Finance Tracker
 
-A professional, offline-first finance tracking application. Built for students, professionals, and small business users who want complete control over their financial data.
-
-## Features
-
-### Dashboard & Overview
-- Real-time current balance tracking
-- Monthly income and expense summary
-- Recent transactions history
-- Monthly budget tracking with visual progress
-- Budget warnings and alerts
-- Clean, card-based interface
-
-### Transaction Management
-- Add income and expense transactions
-- Edit and delete existing transactions
-- Multiple payment methods (Cash, Card, Mobile Banking, Bank Transfer)
-- Category-based organization with emoji icons
-- Transaction notes and custom dates
-- Search and filter functionality
-- Sort by date, amount, or category
-- Payment method icons for quick identification
-
-### Analysis & Insights
-- Interactive charts (Bar & Doughnut)
-- Weekly, Monthly, and Yearly views
-- Category-wise spending breakdown
-- Income vs Expense comparison
-- Daily average calculations
-- Top spending category identification
-- Visual spending patterns
-
-### Category Management
-- 10 default categories
-- Custom category creation
-- Separate income and expense categories
-- Easy category editing and deletion
-
-### Budget Features
-- Set monthly budget limits
-- Visual progress tracking
-- Real-time budget vs actual comparison
-- Overspending warnings
-- Budget recommendations
-
-### Data Management
-- Export data as JSON (complete backup)
-- Export transactions as CSV
-- Import from previous backups
-- Data validation on import
-- Reset all data option
-- Clear cache and update feature
-
-### Demo Mode
-- Try the app with sample data
-- Realistic demo transactions
-- Safe exploration without affecting real data
-- Easy toggle on/off
-- Automatic cleanup on disable
-
-### Settings & Customization
-- Bilingual support (English/বাংলা)
-- Theme switcher (Light/Dark/System)
-- Currency selector (BDT/USD/EUR/INR)
-- Personalized user name
-- Category management
-- App lock (PIN protection)
-
-
-## Design Philosophy
-
-The app follows modern web design principles:
-- Clean and minimal interface
-- Smooth animations and transitions
-- Card-based layout for organization
-- Consistent typography
-- Professional color palette
-- Fully responsive design
-- Mobile-first approach
-- No zoom on mobile for app-like experience
-
-## Progressive Web App (PWA)
-
-The app is a fully functional Progressive Web App with offline support:
-
-### PWA Features
-- **Offline Access** - Works completely offline after first load
-- **Install to Home Screen** - Add to your device like a native app
-- **Fast Loading** - Cached assets for instant loading
-- **Auto Updates** - Automatic background updates when online
-- **App-like Experience** - Full-screen, no browser UI
-
-### Service Worker
-The service worker (`sw.js`) provides:
-- **Cache-First Strategy** for static assets (HTML, CSS, JS, images)
-- **Network-First Strategy** for dynamic data
-- **Offline Fallback** - Graceful handling when offline
-- **Background Sync** - Ready for future sync features
-- **Push Notifications** - Infrastructure for future notifications
-
-### Installation
-1. **Desktop (Chrome/Edge)**:
-   - Click the install icon in the address bar
-   - Or go to Settings → Install Amar Taka
-
-2. **Mobile (Android)**:
-   - Tap the menu (⋮) → "Add to Home screen"
-   - Or tap the install banner when it appears
-
-3. **Mobile (iOS)**:
-   - Tap the Share button
-   - Select "Add to Home Screen"
-
-### Cache Management
-The app automatically caches all necessary files for offline use. To clear cache:
-- The service worker automatically updates when a new version is available
-- Manual cache clearing can be triggered via browser DevTools
-
-
-## Data Privacy
-
-- 100% Local - All data stays on your device
-- No Tracking - No analytics or third-party scripts
-- No Account Required - Use immediately, no sign-up
-- No Cloud Sync - Your data never leaves your device
-- Your Data, Your Control - Export and backup anytime
-- Complete Privacy - No data collection whatsoever
-
-## Key Highlights
-
-- Completely offline and private
-- Bilingual support (English/Bangla)
-- Demo Mode for safe exploration
-- Professional design and UX
-- Comprehensive transaction tracking
-- Visual analytics and insights
-- Easy data export and backup
-- No installation required
-- Works on all devices
-
-
-## Links
-
-- GitHub Repository: https://github.com/SayfullahSayeb/Amar-Taka
-- Report Issues: https://github.com/SayfullahSayeb/Amar-Taka/issues
+A **100% private, offline-first** finance tracking application that keeps your financial data completely on your device.
 
 ---
 
-**Version:** 1.0.0  
-**Last Updated:** December 2025
+## Privacy First - Your Data, Your Control
+
+**We believe your financial data is yours alone.**
+
+Amar Taka is built with privacy as the foundation:
+
+- **100% Local Storage** - All your financial data stays on your device, never sent to any server
+- **Zero Tracking** - No analytics, no third-party scripts, no data collection whatsoever
+- **No Account Required** - Start tracking immediately without signing up or sharing personal information
+- **Works Completely Offline** - No internet connection needed, no cloud dependency
+- **You're in Control** - Export your data anytime in JSON or CSV format
+
+**We don't collect, store, or have access to any of your financial information. Period.**
+
+---
+
+## Features & How They Benefit You
+
+### 💰 Transaction Management
+**Track every penny with ease**
+- Add income and expenses in seconds with quick entry
+- Categorize with custom emoji icons for visual clarity
+- Choose from multiple payment methods (Cash, Card, Mobile Banking, Bank)
+- Add notes and set custom dates for complete records
+- Search and filter to find any transaction instantly
+
+**Benefit**: Stay organized and never lose track of where your money goes.
+
+### Financial Analysis
+**Understand your spending patterns**
+- Visual charts show your financial health at a glance
+- Weekly, monthly, and yearly breakdowns
+- Category-wise spending reveals your habits
+- Income vs expense comparison keeps you informed
+- Real-time budget tracking with progress indicators
+
+**Benefit**: Make informed decisions based on your actual spending patterns, not guesses.
+
+### Smart Budgeting
+**Stay on track with your financial goals**
+- Set monthly budget limits for better control
+- Visual progress bars show where you stand
+- Suggested daily spending based on remaining budget
+- Instant alerts when approaching or exceeding limits
+- Track savings automatically
+
+**Benefit**: Prevent overspending and build healthy financial habits effortlessly.
+
+### Full Customization
+**Make it work your way**
+- **Bilingual Support** - Switch between English and বাংলা (Bangla)
+- **Themes** - Light mode, Dark mode, or Auto (follows system)
+- **Currency Options** - BDT, USD, EUR, INR
+- **Custom Categories** - Create categories that match your lifestyle
+- **PIN Protection** - Secure access to your sensitive financial data
+- **Secondary Profile** - Separate personal and business finances
+
+**Benefit**: A personalized experience that fits your unique needs and preferences.
+
+### Complete Data Control
+**Your data, your way**
+- **Export to JSON** - Complete backup with all your data
+- **Export to CSV** - Open in Excel or Google Sheets for analysis
+- **Import Backup** - Restore your data on any device instantly
+- **Demo Mode** - Try the app safely with sample data
+- **Notifications** - Get smart reminders and insights
+
+**Benefit**: Never lose your financial history, easily migrate devices, or analyze data in your preferred tools.
+
+---
+
+## How It Works
+
+### Technology Behind Privacy
+Amar Taka uses browser-based **IndexedDB** to store all your data locally on your device. When you add a transaction, it's saved directly to your browser's local storage - not sent to any server. Even if you're offline, everything works perfectly because there's no server dependency.
+
+### Getting Started
+1. **Open the app** in any modern browser - that's it, you're ready
+2. **Add your first transaction** by tapping the + button
+3. **Set a budget** (optional) in Settings to enable budget tracking
+4. **Start tracking** - the app auto-saves everything locally
+
+### Daily Usage
+- **Quick Entry**: Tap the + button to log income or expenses in seconds
+- **Home Dashboard**: View your current balance, recent transactions, and spending overview
+- **Analysis Page**: Check detailed charts and patterns to understand your finances
+- **Budget Monitor**: Track your spending against your budget in real-time
+
+### Data Safety
+Your data is **automatically saved** to your device with every action. For additional safety:
+- **Regular Backups**: Go to Settings → Backup & Restore → Export Data
+- **Easy Restore**: Import your backup file anytime to restore all data
+- **No Account Login**: Your data can't be hacked because it never leaves your device
+
+### Install as an App (PWA)
+For the best experience, install Amar Taka:
+- **Desktop**: Click the install icon in your browser's address bar
+- **Android**: Menu → "Add to Home screen"
+- **iOS**: Share → "Add to Home Screen"
+
+**Benefits of Installing**:
+- Launches like a native app
+- Works offline without any browser UI
+- Automatically updates when connected to internet
+- Takes minimal storage space
+
+---
+
+## Perfect For
+
+- **Privacy-Conscious Users** - Keep financial data 100% private
+- **Students** - Track allowances and manage expenses
+- **Professionals** - Monitor personal finances effectively
+- **Freelancers** - Separate personal and business expenses
+- **Small Businesses** - Track business transactions without costly software
+- **Anyone** - Who wants simple, effective expense tracking without privacy concerns
+
+---
+
+## Compatibility
+
+Works seamlessly on:
+- ✅ All modern browsers (Chrome, Edge, Firefox, Safari)
+- ✅ All platforms (Windows, macOS, Linux, Android, iOS)
+- ✅ All devices (Phones, Tablets, Desktop)
+
+---
+
+## 🔗 Links
+
+- **GitHub**: [github.com/SayfullahSayeb/Amar-Taka](https://github.com/SayfullahSayeb/Amar-Taka)
+- **Report Issues**: [github.com/SayfullahSayeb/Amar-Taka/issues](https://github.com/SayfullahSayeb/Amar-Taka/issues)
+- **Submit Feedback**: Available in app Settings
+
+---
+
+**Free & Open Source** • No Subscription • No Premium Features
+
+**Developed with ♡ by Sayeb**
+
+*Your privacy is our priority. Your data stays with you, always.*
