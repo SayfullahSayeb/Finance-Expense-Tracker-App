@@ -67,13 +67,16 @@ class TransactionsManager {
 
 
         // Modal controls - only nav button now
-        document.getElementById('nav-add-transaction-btn').addEventListener('click', () => {
-            if (demoModeManager.isActive()) {
-                demoModeManager.showDemoModeWarning();
-                return;
-            }
-            this.openModal();
-        });
+        const navAddBtn = document.getElementById('nav-add-transaction-btn');
+        if (navAddBtn) {
+            navAddBtn.addEventListener('click', () => {
+                if (demoModeManager.isActive()) {
+                    demoModeManager.showDemoModeWarning();
+                    return;
+                }
+                this.openModal();
+            });
+        }
 
         document.getElementById('close-transaction-modal').addEventListener('click', () => {
             this.closeModal();
