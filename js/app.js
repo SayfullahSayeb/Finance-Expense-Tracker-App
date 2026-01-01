@@ -46,8 +46,17 @@ class App {
             // Initialize navigation manager (must be after all other managers)
             navigationManager.init();
 
+            // Hide loading screen after everything is initialized
+            if (typeof loadingScreen !== 'undefined') {
+                loadingScreen.hide();
+            }
+
         } catch (error) {
             console.error('Initialization error:', error);
+            // Hide loading screen even on error
+            if (typeof loadingScreen !== 'undefined') {
+                loadingScreen.hide();
+            }
             alert('Failed to initialize the app. Please refresh the page.');
         }
     }

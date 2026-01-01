@@ -7,6 +7,7 @@ class SettingsManager {
         await this.loadSettings();
         this.setupEventListeners();
         this.initCustomSelects();
+        this.setupOnlineListener(); // Setup online/offline listener for feedback queue
     }
 
     async loadSettings() {
@@ -632,27 +633,55 @@ class SettingsManager {
             return;
         }
 
+        // Create feedback object
+        const feedbackData = {
+            rating,
+            usefulArea,
+            otherText,
+            message,
+            timestamp: Date.now()
+        };
+
+        // Check if online
+        if (navigator.onLine) {
+            // Try to send immediately
+            const success = await this.sendFeedbackToServer(feedbackData);
+            if (success) {
+                this.showFeedbackSuccess();
+            } else {
+                // If failed, save to queue
+                await this.saveFeedbackToQueue(feedbackData);
+                this.showFeedbackQueued();
+            }
+        } else {
+            // Save to queue for later
+            await this.saveFeedbackToQueue(feedbackData);
+            this.showFeedbackQueued();
+        }
+    }
+
+    async sendFeedbackToServer(feedbackData) {
         // Google Form URL and field IDs from your form
         const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfFec8aLUW1CyD5r-w35e-kZdI1Jc5AVvhim8tLHqJK7qSF_g/formResponse';
 
         const formData = new FormData();
 
         // Only append fields that have values
-        if (rating) {
-            formData.append('entry.1012814942', rating); // Rating field
+        if (feedbackData.rating) {
+            formData.append('entry.1012814942', feedbackData.rating); // Rating field
         }
 
-        if (usefulArea) {
-            formData.append('entry.1613346850', usefulArea); // Useful area field (checkbox value)
+        if (feedbackData.usefulArea) {
+            formData.append('entry.1613346850', feedbackData.usefulArea); // Useful area field (checkbox value)
 
             // If "Other" is selected, also send the custom text
-            if (usefulArea === '__other_option__' && otherText) {
-                formData.append('entry.1613346850.other_option_response', otherText);
+            if (feedbackData.usefulArea === '__other_option__' && feedbackData.otherText) {
+                formData.append('entry.1613346850.other_option_response', feedbackData.otherText);
             }
         }
 
-        if (message) {
-            formData.append('entry.654395150', message); // Message field
+        if (feedbackData.message) {
+            formData.append('entry.654395150', feedbackData.message); // Message field
         }
 
         try {
@@ -661,26 +690,118 @@ class SettingsManager {
                 mode: 'no-cors',
                 body: formData
             });
+            return true;
+        } catch (error) {
+            console.error('Failed to send feedback:', error);
+            return false;
+        }
+    }
 
-            // Hide form container and show success message
-            const formContainer = document.getElementById('feedback-form-container');
-            if (formContainer) {
-                formContainer.style.display = 'none';
+    async saveFeedbackToQueue(feedbackData) {
+        try {
+            // Get existing queue
+            let queue = await db.getSetting('feedbackQueue') || [];
+
+            // Add new feedback
+            queue.push(feedbackData);
+
+            // Save back to database
+            await db.setSetting('feedbackQueue', queue);
+
+            console.log('Feedback saved to queue:', feedbackData);
+        } catch (error) {
+            console.error('Error saving feedback to queue:', error);
+        }
+    }
+
+    async processFeedbackQueue() {
+        try {
+            // Get queue
+            let queue = await db.getSetting('feedbackQueue') || [];
+
+            if (queue.length === 0) {
+                return;
             }
-            document.getElementById('feedback-success').style.display = 'block';
-            document.getElementById('feedback-error').style.display = 'none';
+
+            console.log(`Processing ${queue.length} queued feedback(s)...`);
+
+            // Try to send each feedback
+            const remainingQueue = [];
+            let sentCount = 0;
+
+            for (const feedback of queue) {
+                const success = await this.sendFeedbackToServer(feedback);
+                if (success) {
+                    sentCount++;
+                } else {
+                    // Keep in queue if failed
+                    remainingQueue.push(feedback);
+                }
+            }
+
+            // Update queue with remaining items
+            await db.setSetting('feedbackQueue', remainingQueue);
+
+            if (sentCount > 0) {
+                Utils.showToast(`${sentCount} feedback(s) sent successfully!`);
+            }
 
         } catch (error) {
-            // Hide form container and show error message
-            const formContainer = document.getElementById('feedback-form-container');
-            if (formContainer) {
-                formContainer.style.display = 'none';
-            }
-            document.getElementById('feedback-error').style.display = 'block';
-            document.getElementById('feedback-success').style.display = 'none';
+            console.error('Error processing feedback queue:', error);
+        }
+    }
+
+    showFeedbackSuccess() {
+        // Hide form container and show success message
+        const formContainer = document.getElementById('feedback-form-container');
+        if (formContainer) {
+            formContainer.style.display = 'none';
+        }
+        document.getElementById('feedback-success').style.display = 'block';
+        document.getElementById('feedback-error').style.display = 'none';
+    }
+
+    showFeedbackQueued() {
+        // Hide form container and show queued message
+        const formContainer = document.getElementById('feedback-form-container');
+        if (formContainer) {
+            formContainer.style.display = 'none';
+        }
+
+        // Update success message to show it's queued
+        const successDiv = document.getElementById('feedback-success');
+        if (successDiv) {
+            const originalHTML = successDiv.innerHTML;
+            successDiv.innerHTML = `
+                <i class="fas fa-clock" style="font-size: 48px; color: var(--warning-color); margin-bottom: 16px;"></i>
+                <h3 style="color: var(--text-primary); margin-bottom: 8px;">Feedback Saved!</h3>
+                <p style="color: var(--text-secondary);">You're currently offline. Your feedback will be sent automatically when you're back online.</p>
+            `;
+            successDiv.style.display = 'block';
+
+            // Restore original HTML after modal closes
+            setTimeout(() => {
+                successDiv.innerHTML = originalHTML;
+            }, 5000);
+        }
+
+        document.getElementById('feedback-error').style.display = 'none';
+    }
+
+    setupOnlineListener() {
+        // Listen for online event
+        window.addEventListener('online', async () => {
+            console.log('App is back online - processing feedback queue...');
+            await this.processFeedbackQueue();
+        });
+
+        // Also check queue when app loads if online
+        if (navigator.onLine) {
+            this.processFeedbackQueue();
         }
     }
 }
 
 // Create global settings manager instance
 const settingsManager = new SettingsManager();
+

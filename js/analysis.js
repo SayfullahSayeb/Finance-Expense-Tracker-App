@@ -71,34 +71,25 @@ class AnalysisManager {
         let statusText = '';
         let statusColor = '';
         let progressPercent = 0;
-        let adviceText = '';
 
         if (budget > 0) {
             progressPercent = (totalExpense / budget) * 100;
             const remaining = Math.max(0, budget - totalExpense);
 
-            if (progressPercent > 100) {
-                statusText = lang.translate('statusDanger');
-                statusColor = 'var(--danger-color)';
-                adviceText = lang.translate('adviceBudget');
-            } else if (progressPercent > 90) {
+            if (progressPercent > 90) {
                 statusText = lang.translate('statusWarning');
                 statusColor = '#ff9800'; // Orange
-                adviceText = lang.translate('adviceSave');
             } else if (progressPercent > 70) {
                 statusText = lang.translate('statusGood');
                 statusColor = 'var(--primary-color)';
-                adviceText = lang.translate('adviceGreat');
             } else {
                 statusText = lang.translate('statusGreat');
                 statusColor = 'var(--success-color)';
-                adviceText = lang.translate('adviceGreat');
             }
         } else {
             statusText = lang.translate('financialHealth');
             statusColor = 'var(--primary-color)';
             progressPercent = 0;
-            adviceText = lang.translate('setMonthlyBudget');
         }
 
         container.innerHTML = `
@@ -109,7 +100,6 @@ class AnalysisManager {
                 </div>
                 
                 <div class="card-body">
-                    <p style="margin: 0 0 15px 0; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.4;">${adviceText}</p>
                     
                     <div class="budget-overview">
                         <div class="budget-stat-row">

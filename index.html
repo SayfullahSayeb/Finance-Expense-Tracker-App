@@ -10,22 +10,21 @@
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="image/icon.png">
     <title>Amar Taka</title>
-
-    <!-- Version Configuration (Load First) -->
-    <!-- Version Configuration (Load First) -->
     <script src="js/version.js"></script>
-
-    <!-- Styles with Cache Busting -->
     <script>document.write('<link rel="stylesheet" href="css/styles.css?v=' + APP_VERSION + '">');</script>
-
-    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 
 <body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <img src="image/logo.png" alt="Amar Taka Logo" class="loading-logo">
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+
     <!-- Main App Container -->
     <div id="app" class="app-container">
 
@@ -1270,6 +1269,7 @@
     <!-- Scripts with Cache Busting -->
     <script>
         const scripts = [
+            'js/loading.js',
             'js/db.js',
             'js/lang.js',
             'js/utils.js',
