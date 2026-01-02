@@ -213,6 +213,15 @@ class SettingsManager {
             }
         });
 
+        // About button
+        document.getElementById('about-btn').addEventListener('click', () => {
+            this.openAboutModal();
+        });
+
+        document.getElementById('close-about-modal').addEventListener('click', () => {
+            this.closeAboutModal();
+        });
+
         // Demo Mode toggle
         document.getElementById('demo-mode-toggle').addEventListener('change', async (e) => {
             if (e.target.checked) {
@@ -613,6 +622,22 @@ class SettingsManager {
 
     closeFeedbackModal() {
         const modal = document.getElementById('feedback-modal');
+        if (modal) {
+            modal.classList.remove('active');
+            document.body.classList.remove('modal-open');
+        }
+    }
+
+    openAboutModal() {
+        const modal = document.getElementById('about-modal');
+        if (modal) {
+            modal.classList.add('active');
+            document.body.classList.add('modal-open');
+        }
+    }
+
+    closeAboutModal() {
+        const modal = document.getElementById('about-modal');
         if (modal) {
             modal.classList.remove('active');
             document.body.classList.remove('modal-open');

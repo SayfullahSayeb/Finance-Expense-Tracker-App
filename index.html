@@ -423,14 +423,13 @@
                 <div class="settings-section">
                     <h3 class="settings-section-title">About</h3>
                     <div class="settings-group">
-                        <a href="https://github.com/SayfullahSayeb/Amar-Taka" class="setting-item clickable"
-                            style="text-decoration: none; color: inherit;" target="_blank" rel="noopener noreferrer">
+                        <div class="setting-item clickable" id="about-btn">
                             <div class="setting-info">
-                                <i class="fas fa-users setting-icon"></i>
+                                <i class="fas fa-info-circle setting-icon"></i>
                                 <span class="setting-label">About Project</span>
                             </div>
                             <i class="fas fa-chevron-right"></i>
-                        </a>
+                        </div>
                         <div class="setting-item clickable" id="feedback-btn">
                             <div class="setting-info">
                                 <i class="fas fa-comment-dots setting-icon"></i>
@@ -1217,6 +1216,61 @@
         </div>
     </div>
 
+    <!-- About Modal -->
+    <div id="about-modal" class="modal">
+        <div class="modal-content reset-modal-content" style="max-width: 500px;">
+            <button class="btn-close" id="close-about-modal" style="position: absolute; top: 16px; right: 16px;">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <h2 class="reset-modal-title" style="margin-top: 0;">About Amar Taka</h2>
+
+            <div style="text-align: left; margin: 20px 0;">
+                <p class="reset-modal-text" style="margin-bottom: 16px;">
+                    A simple, privacy-focused finance tracker that works completely offline on your device.
+                </p>
+
+                <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 8px; color: var(--text-primary);">
+                    <i class="fas fa-star" style="color: #438883; margin-right: 6px;"></i>Key Features
+                </h3>
+                <ul
+                    style="margin: 0 0 16px 0; padding-left: 20px; color: var(--text-secondary); font-size: 14px; line-height: 1.8;">
+                    <li>Track income & expenses with custom categories</li>
+                    <li>Set budgets and monitor spending</li>
+                    <li>View detailed charts and analysis</li>
+                    <li>Create savings goals</li>
+                    <li>Multiple currencies & bilingual support</li>
+                    <li>PIN protection & secondary profile</li>
+                    <li>Backup & restore your data</li>
+                </ul>
+
+                <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 8px; color: var(--text-primary);">
+                    <i class="fas fa-shield-alt" style="color: #438883; margin-right: 6px;"></i>Privacy First
+                </h3>
+                <p class="reset-modal-text" style="margin-bottom: 16px; font-size: 14px;">
+                    100% offline. All data stored locally on your device. No tracking, no cloud sync, no data
+                    collection.
+                </p>
+
+                <div
+                    style="padding: 12px; background: var(--card-bg); border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 16px;">
+                    <p style="margin: 0; font-size: 13px; color: var(--text-secondary);">
+                        <i class="fab fa-github" style="margin-right: 6px;"></i>
+                        <strong>GitHub:</strong>
+                        <a href="https://github.com/SayfullahSayeb/Amar-Taka" target="_blank" rel="noopener noreferrer"
+                            style="color: var(--primary-color); text-decoration: none;">
+                            github.com/SayfullahSayeb/Amar-Taka
+                        </a>
+                    </p>
+                </div>
+
+                <p style="text-align: center; color: var(--text-tertiary); font-size: 13px; margin: 0;">
+                    Free and open source. No subscription, no premium features.
+                </p>
+            </div>
+        </div>
+    </div>
+
     <!-- Toast Notification -->
     <div id="toast" class="toast"></div>
 
@@ -1309,7 +1363,7 @@
                 navigator.serviceWorker.register('./sw.js')
                     .then((registration) => {
                         console.log('Service Worker registered successfully');
-                        
+
                         // Check for updates when user returns to the app
                         document.addEventListener('visibilitychange', () => {
                             if (!document.hidden && registration) {
