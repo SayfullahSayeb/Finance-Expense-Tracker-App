@@ -196,6 +196,26 @@ class SettingsManager {
             this.submitFeedback();
         });
 
+        // Share button
+        document.getElementById('shareApp').addEventListener('click', async () => {
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: "Amar Taka",
+                        text: "Track your finance offline with Amar Taka",
+                        url: window.location.origin
+                    });
+                } catch (error) {
+                    // User cancelled the share or an error occurred
+                    if (error.name !== 'AbortError') {
+                        console.error('Share error:', error);
+                    }
+                }
+            } else {
+                alert("Sharing not supported on this browser");
+            }
+        });
+
         // Demo Mode toggle
         document.getElementById('demo-mode-toggle').addEventListener('change', async (e) => {
             if (e.target.checked) {
