@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Install Amar Taka - Your offline-first finance tracking companion">
+    <title>Install Amar Taka - Finance Tracker PWA</title>
+    <link rel="icon" type="image/png" href="../image/favicon.png">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="install.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="background-animation">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header Section -->
+        <header class="header">
+            <div class="logo-container">
+                <img src="../image/icon.png" alt="Amar Taka Logo" class="app-logo">
+            </div>
+            <h1 class="app-title">Amar Taka</h1>
+            <p class="app-tagline">Your Personal Finance Companion</p>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h2 class="hero-title">Install for the Best Experience</h2>
+                <p class="hero-description">
+                    Get instant access to your finances with our Progressive Web App. 
+                    Works offline, syncs seamlessly, and keeps your data private.
+                </p>
+                
+                <!-- Install Button -->
+                <button id="installButton" class="install-btn">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    <span id="installButtonText">Install App</span>
+                </button>
+
+                <p class="install-note" id="installNote">
+                    Click the button above to install Amar Taka on your device
+                </p>
+            </div>
+
+            <!-- App Preview -->
+            <div class="app-preview">
+                <div class="phone-mockup">
+                    <div class="phone-screen">
+                        <img src="../image/screenshot-1.jpg" alt="App Screenshot" class="screenshot active" id="screenshot1">
+                        <img src="../image/screenshot-2.jpg" alt="App Screenshot" class="screenshot" id="screenshot2">
+                        <img src="../image/screenshot-3.jpg" alt="App Screenshot" class="screenshot" id="screenshot3">
+                    </div>
+                    <div class="phone-notch"></div>
+                </div>
+                <div class="screenshot-dots">
+                    <span class="dot active" data-screenshot="1"></span>
+                    <span class="dot" data-screenshot="2"></span>
+                    <span class="dot" data-screenshot="3"></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <h2 class="section-title">Why Install Amar Taka?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Instant Access</h3>
+                    <p class="feature-description">Launch directly from your home screen like a native app</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+                            <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+                            <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                            <line x1="6" y1="18" x2="6.01" y2="18"></line>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Works Offline</h3>
+                    <p class="feature-description">Track your finances anytime, anywhere - no internet required</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">100% Private</h3>
+                    <p class="feature-description">Your data stays on your device - complete privacy guaranteed</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Lightning Fast</h3>
+                    <p class="feature-description">Optimized performance for smooth, responsive experience</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Auto Updates</h3>
+                    <p class="feature-description">Always get the latest features automatically</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                            <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">No Ads Ever</h3>
+                    <p class="feature-description">Clean, distraction-free interface focused on your finances</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Installation Instructions -->
+        <section class="instructions">
+            <h2 class="section-title">How to Install</h2>
+            <div class="platform-tabs">
+                <button class="tab-btn active" data-platform="android">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.6,9.48l1.84-3.18c0.16-0.31,0.04-0.69-0.26-0.85c-0.29-0.15-0.65-0.06-0.83,0.22l-1.88,3.24 c-2.86-1.21-6.08-1.21-8.94,0L5.65,5.67c-0.19-0.29-0.58-0.38-0.87-0.2C4.5,5.65,4.41,6.01,4.56,6.3L6.4,9.48 C3.3,11.25,1.28,14.44,1,18h22C22.72,14.44,20.7,11.25,17.6,9.48z M7,15.25c-0.69,0-1.25-0.56-1.25-1.25 c0-0.69,0.56-1.25,1.25-1.25S8.25,13.31,8.25,14C8.25,14.69,7.69,15.25,7,15.25z M17,15.25c-0.69,0-1.25-0.56-1.25-1.25 c0-0.69,0.56-1.25,1.25-1.25s1.25,0.56,1.25,1.25C18.25,14.69,17.69,15.25,17,15.25z"/>
+                    </svg>
+                    Android
+                </button>
+                <button class="tab-btn" data-platform="ios">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
+                    </svg>
+                    iOS
+                </button>
+                <button class="tab-btn" data-platform="desktop">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                    </svg>
+                    Desktop
+                </button>
+            </div>
+
+            <div class="platform-content">
+                <!-- Android Instructions -->
+                <div class="platform-panel active" data-platform="android">
+                    <div class="instruction-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Open in Chrome</h4>
+                                <p>Visit this page using Google Chrome browser on your Android device</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Tap the Install Button</h4>
+                                <p>Click the "Install App" button above or look for the install prompt at the bottom of your screen</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Add to Home Screen</h4>
+                                <p>Tap "Install" or "Add to Home Screen" when prompted</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h4>Launch & Enjoy</h4>
+                                <p>Find the Amar Taka icon on your home screen and start tracking your finances!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- iOS Instructions -->
+                <div class="platform-panel" data-platform="ios">
+                    <div class="instruction-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Open in Safari</h4>
+                                <p>Visit this page using Safari browser on your iPhone or iPad</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Tap the Share Button</h4>
+                                <p>Tap the share icon (square with arrow) at the bottom of Safari</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Add to Home Screen</h4>
+                                <p>Scroll down and tap "Add to Home Screen" option</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h4>Confirm & Launch</h4>
+                                <p>Tap "Add" in the top right, then open Amar Taka from your home screen</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Instructions -->
+                <div class="platform-panel" data-platform="desktop">
+                    <div class="instruction-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Open in Chrome or Edge</h4>
+                                <p>Visit this page using Google Chrome or Microsoft Edge browser</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Look for Install Icon</h4>
+                                <p>Click the install icon in the address bar (looks like a computer with a down arrow)</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Click Install</h4>
+                                <p>Click "Install" in the popup dialog that appears</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h4>Access from Desktop</h4>
+                                <p>Find Amar Taka in your applications menu or desktop shortcut</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta">
+            <div class="cta-content">
+                <h2 class="cta-title">Ready to Take Control of Your Finances?</h2>
+                <p class="cta-description">Install Amar Taka now and start your journey to financial clarity</p>
+                <div class="cta-buttons">
+                    <button id="installButtonBottom" class="install-btn">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        <span id="installButtonBottomText">Install Now</span>
+                    </button>
+                    <a href="../index.html" class="secondary-btn">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                        Continue in Browser
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2026 Amar Taka. Your data, your privacy, your control.</p>
+        </footer>
+    </div>
+
+    <script src="install.js"></script>
+</body>
+</html>
