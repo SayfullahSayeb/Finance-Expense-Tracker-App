@@ -14,9 +14,10 @@ function checkInstallStatus() {
     // Check if running in standalone mode (installed)
     if (window.matchMedia('(display-mode: standalone)').matches ||
         window.navigator.standalone === true) {
-        isInstalled = true;
-        updateInstallButtons('Already Installed', true);
-        updateInstallNote('App is already installed on your device!');
+        // If running as installed PWA, redirect to home page
+        // This prevents the PWA from opening to the install page
+        window.location.replace('../../index.html');
+        return;
     }
 }
 
