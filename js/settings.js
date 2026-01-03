@@ -202,8 +202,8 @@ class SettingsManager {
                 try {
                     await navigator.share({
                         title: "Amar Taka",
-                        text: "Track your finance offline with Amar Taka",
-                        url: window.location.origin
+                        text: "Amar Taka helps you track your income and expenses without compromising your privacy. All your financial data stays on your device and never gets sent to any server. No account signup required, no tracking, no ads. Install now!",
+                        url: "https://sayfullahsayeb.github.io/Amar-Taka/"
                     });
                 } catch (err) {
                     console.log("Share cancelled");
