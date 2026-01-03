@@ -360,6 +360,27 @@ body {
     cursor: default;
 }
 
+.install-btn.open-app {
+    background: linear-gradient(135deg, var(--info) 0%, #339af0 100%);
+    cursor: pointer;
+}
+
+.install-btn.open-app:hover {
+    background: linear-gradient(135deg, #339af0 0%, #228be6 100%);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.navbar-btn.open-app {
+    background: linear-gradient(135deg, var(--info) 0%, #339af0 100%);
+    cursor: pointer;
+}
+
+.navbar-btn.open-app:hover {
+    background: linear-gradient(135deg, #339af0 0%, #228be6 100%);
+}
+
+
 .btn-icon {
     width: 24px;
     height: 24px;

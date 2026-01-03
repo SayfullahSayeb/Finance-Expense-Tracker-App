@@ -10,40 +10,28 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 // Check if running as installed PWA
-async function checkInstallStatus() {
-    let installed = false;
-
-    // Method 1: Check if running in standalone mode (currently running as PWA)
+function checkInstallStatus() {
+    // Check if running in standalone mode (installed)
     if (window.matchMedia('(display-mode: standalone)').matches ||
         window.navigator.standalone === true) {
-        installed = true;
-    }
-
-    // Method 2: Check getInstalledRelatedApps API (Chrome/Edge)
-    if (!installed && 'getInstalledRelatedApps' in navigator) {
-        try {
-            const relatedApps = await navigator.getInstalledRelatedApps();
-            if (relatedApps.length > 0) {
-                installed = true;
-            }
-        } catch (error) {
-            // API not supported or failed
-        }
-    }
-
-    // Method 3: Check localStorage flag (set when app is installed)
-    if (!installed && localStorage.getItem('pwa_installed') === 'true') {
-        installed = true;
-    }
-
-    if (installed) {
         isInstalled = true;
-        // Change all install buttons to "Open App" buttons
         updateInstallButtons('Open App', false);
-        updateInstallNote('App is already installed! Click to open.');
+        updateInstallNote('App is already installed! Click the button to open it.');
+        return;
+    }
 
-        // Make buttons redirect to main app instead of installing
-        makeButtonsOpenApp();
+    // Additional check: Try to detect if app was previously installed
+    // by checking if we're in a browser context but the app might be installed
+    if ('getInstalledRelatedApps' in navigator) {
+        navigator.getInstalledRelatedApps().then((relatedApps) => {
+            if (relatedApps.length > 0) {
+                isInstalled = true;
+                updateInstallButtons('Open App', false);
+                updateInstallNote('App is already installed! Click the button to open it.');
+            }
+        }).catch(err => {
+            console.log('Could not check for installed apps:', err);
+        });
     }
 }
 
@@ -78,7 +66,9 @@ function setupInstallButtons() {
 
 // Handle install button click
 async function handleInstallClick() {
+    // If already installed, open the app
     if (isInstalled) {
+        window.location.href = '../../index.html';
         return;
     }
 
@@ -121,12 +111,56 @@ function updateInstallButtons(text, disabled = false) {
         }
 
         if (btnElement) {
+            // Remove existing state classes
+            btnElement.classList.remove('installed', 'open-app');
+
+            // Update icon based on state
+            const iconElement = btnElement.querySelector('.btn-icon');
+            if (iconElement && text === 'Open App') {
+                // Change to "external link" icon for Open App
+                iconElement.innerHTML = `
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 0 0 1-2-2V8a2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                `;
+            } else if (iconElement && text !== 'Open App') {
+                // Reset to download icon
+                iconElement.innerHTML = `
+                    <path d="M21 15v4a2 0 0 1-2 2H5a2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                `;
+            }
+
             if (disabled) {
                 btnElement.classList.add('installed');
                 btnElement.style.cursor = 'default';
+            } else if (text === 'Open App') {
+                // Add special styling for "Open App" button
+                btnElement.classList.add('open-app');
+                btnElement.style.cursor = 'pointer';
+            } else {
+                btnElement.style.cursor = 'pointer';
             }
         }
     });
+
+    // Also update the navbar button
+    const navInstallButton = document.getElementById('navInstallButton');
+    if (navInstallButton) {
+        navInstallButton.textContent = text;
+        navInstallButton.classList.remove('installed', 'open-app');
+
+        if (disabled) {
+            navInstallButton.classList.add('installed');
+            navInstallButton.style.cursor = 'default';
+        } else if (text === 'Open App') {
+            navInstallButton.classList.add('open-app');
+            navInstallButton.style.cursor = 'pointer';
+        } else {
+            navInstallButton.style.cursor = 'pointer';
+        }
+    }
 }
 
 // Update install note
@@ -150,46 +184,12 @@ function detectPlatform() {
     }
 }
 
-// Make buttons open the app instead of installing
-function makeButtonsOpenApp() {
-    const buttons = [
-        document.getElementById('installButton'),
-        document.getElementById('installButtonBottom'),
-        document.getElementById('navInstallButton')
-    ];
-
-    buttons.forEach(btn => {
-        if (btn) {
-            // Remove existing click handlers by cloning the button
-            const newBtn = btn.cloneNode(true);
-            btn.parentNode.replaceChild(newBtn, btn);
-
-            // Add new click handler to open the app
-            newBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                window.location.href = '../../index.html';
-            });
-
-            // Update styling to show it's clickable
-            newBtn.style.cursor = 'pointer';
-            newBtn.classList.remove('installed');
-        }
-    });
-}
-
 // Listen for app installed event
 window.addEventListener('appinstalled', () => {
     console.log('PWA was installed');
     isInstalled = true;
-
-    // Set localStorage flag for future detection
-    localStorage.setItem('pwa_installed', 'true');
-
-    updateInstallButtons('Open App', false);
-    updateInstallNote('App installed successfully! Click to open.');
-
-    // Make buttons open the app
-    makeButtonsOpenApp();
+    updateInstallButtons('Installed Successfully!', true);
+    updateInstallNote('App installed successfully! You can now launch it from your home screen.');
 
     // Show success message
     setTimeout(() => {
