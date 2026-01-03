@@ -49,7 +49,6 @@
                     <span class="dot"></span>
                     <span class="dot"></span>
                     <span class="dot"></span>
-                    <span class="dot"></span>
                 </div>
                 <button class="btn-primary" onclick="onboarding.nextScreen()">Get Started</button>
             </div>
@@ -85,7 +84,6 @@
                     <span class="dot active"></span>
                     <span class="dot"></span>
                     <span class="dot"></span>
-                    <span class="dot"></span>
                 </div>
                 <button class="btn-primary" onclick="onboarding.nextScreen()">Continue</button>
             </div>
@@ -116,7 +114,6 @@
                     <span class="dot"></span>
                     <span class="dot"></span>
                     <span class="dot active"></span>
-                    <span class="dot"></span>
                     <span class="dot"></span>
                 </div>
                 <button class="btn-primary" onclick="onboarding.nextScreen()">Continue</button>
@@ -159,45 +156,8 @@
                     <span class="dot"></span>
                     <span class="dot"></span>
                     <span class="dot active"></span>
-                    <span class="dot"></span>
                 </div>
-                <button class="btn-primary" onclick="onboarding.nextScreen()">Continue</button>
-            </div>
-        </div>
-
-        <!-- Screen 5: Set PIN -->
-        <div class="onboarding-screen" id="screen-5">
-            <div class="onboarding-content">
-                <div class="onboarding-illustration small">
-                    <div class="illustration-bg">
-                        <i class="fas fa-lock illustration-icon"></i>
-                        <div class="floating-circle circle-1"></div>
-                    </div>
-                </div>
-                <h1 class="onboarding-title">Secure Your App</h1>
-                <p class="onboarding-description">
-                    Set a 4-digit PIN to protect your financial data (Optional)
-                </p>
-                <div class="form-container">
-                    <div class="pin-input-container">
-                        <input type="password" class="pin-digit" maxlength="1" pattern="[0-9]" inputmode="numeric">
-                        <input type="password" class="pin-digit" maxlength="1" pattern="[0-9]" inputmode="numeric">
-                        <input type="password" class="pin-digit" maxlength="1" pattern="[0-9]" inputmode="numeric">
-                        <input type="password" class="pin-digit" maxlength="1" pattern="[0-9]" inputmode="numeric">
-                    </div>
-                    <small>You can enable/disable PIN anytime in settings</small>
-                </div>
-            </div>
-            <div class="onboarding-footer">
-                <div class="dots">
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="dot active"></span>
-                </div>
-                <button class="btn-primary" onclick="onboarding.finish()">Set PIN & Continue</button>
-                <button class="btn-skip" onclick="onboarding.finish(true)">Skip PIN</button>
+                <button class="btn-primary" onclick="onboarding.finish()">Finish</button>
             </div>
         </div>
     </div>

@@ -1,18 +1,16 @@
 class OnboardingManager {
     constructor() {
         this.currentScreen = 1;
-        this.totalScreens = 5;
+        this.totalScreens = 4; // Reduced from 5 (removed PIN screen)
         this.data = {
             userName: '',
             monthlyBudget: null,
             currency: 'BDT',
-            theme: 'light',
-            pin: ''
+            theme: 'light'
         };
     }
 
     init() {
-        this.setupPINInputs();
         this.loadSavedData();
         this.checkOnboardingStatus();
     }
@@ -38,50 +36,6 @@ class OnboardingManager {
         } catch (error) {
             // If error checking database, assume onboarding not completed
         }
-    }
-
-    setupPINInputs() {
-        const pinInputs = document.querySelectorAll('.pin-digit');
-        pinInputs.forEach((input, index) => {
-            input.addEventListener('input', (e) => {
-                const value = e.target.value;
-
-                // Only allow numbers
-                if (!/^\d*$/.test(value)) {
-                    e.target.value = '';
-                    return;
-                }
-
-                // Move to next input
-                if (value && index < pinInputs.length - 1) {
-                    pinInputs[index + 1].focus();
-                }
-            });
-
-            input.addEventListener('keydown', (e) => {
-                // Move to previous input on backspace
-                if (e.key === 'Backspace' && !e.target.value && index > 0) {
-                    pinInputs[index - 1].focus();
-                }
-            });
-
-            input.addEventListener('paste', (e) => {
-                e.preventDefault();
-                const pastedData = e.clipboardData.getData('text');
-                const digits = pastedData.replace(/\D/g, '').split('').slice(0, 4);
-
-                digits.forEach((digit, i) => {
-                    if (pinInputs[i]) {
-                        pinInputs[i].value = digit;
-                    }
-                });
-
-                if (digits.length > 0) {
-                    const lastIndex = Math.min(digits.length - 1, 3);
-                    pinInputs[lastIndex].focus();
-                }
-            });
-        });
     }
 
     loadSavedData() {
@@ -129,14 +83,6 @@ class OnboardingManager {
                 const currencySelect = document.getElementById('currency-select');
                 if (currencySelect) {
                     this.data.currency = currencySelect.value;
-                }
-                break;
-
-            case 5: // PIN screen
-                const pinInputs = document.querySelectorAll('.pin-digit');
-                const pin = Array.from(pinInputs).map(input => input.value).join('');
-                if (pin.length === 4) {
-                    this.data.pin = pin;
                 }
                 break;
         }
@@ -210,27 +156,9 @@ class OnboardingManager {
         }
     }
 
-    async finish(skipPIN = false) {
-        // If not skipping PIN, validate that PIN is entered
-        if (!skipPIN) {
-            const pinInputs = document.querySelectorAll('.pin-digit');
-            const pin = Array.from(pinInputs).map(input => input.value).join('');
-
-            // Check if PIN is complete (4 digits)
-            if (pin.length !== 4) {
-                // Show error message
-                this.showError('Incomplete PIN', 'Please enter a complete 4-digit PIN or click "Skip PIN" to continue without PIN protection.');
-                return; // Don't proceed
-            }
-
-            // Save the PIN
-            this.data.pin = pin;
-        }
-
-        // Save current screen data if not skipping
-        if (!skipPIN) {
-            this.saveCurrentScreenData();
-        }
+    async finish() {
+        // Save current screen data
+        this.saveCurrentScreenData();
 
         try {
             // CRITICAL FIX: Initialize database with profile-specific name
@@ -252,15 +180,6 @@ class OnboardingManager {
 
             await db.setSetting('currency', this.data.currency);
             await db.setSetting('theme', this.data.theme);
-
-            // Save PIN if provided and not skipping
-            if (!skipPIN && this.data.pin && this.data.pin.length === 4) {
-                await db.setSetting('appLockEnabled', true);
-                await db.setSetting('appLockPIN', this.data.pin);
-            } else {
-                // Ensure PIN is disabled if skipped
-                await db.setSetting('appLockEnabled', false);
-            }
 
             // Mark onboarding as completed - THIS IS CRITICAL
             await db.setSetting('onboardingCompleted', true);
