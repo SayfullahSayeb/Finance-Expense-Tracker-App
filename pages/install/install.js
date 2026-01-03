@@ -128,14 +128,7 @@ window.addEventListener('appinstalled', () => {
     console.log('PWA was installed');
     isInstalled = true;
     updateInstallButtons('Installed Successfully!', true);
-    updateInstallNote('App installed successfully! You can now launch it from your home screen.');
-
-    // Show success message
-    setTimeout(() => {
-        if (confirm('App installed successfully! Would you like to open it now?')) {
-            window.location.href = '../../index.html';
-        }
-    }, 500);
+    updateInstallNote('App installed successfully! You can now launch it from your home screen or app drawer.');
 });
 
 // Screenshot Carousel
