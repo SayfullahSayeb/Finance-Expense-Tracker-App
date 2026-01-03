@@ -383,7 +383,7 @@ body {
 .phone-mockup {
     position: relative;
     width: 300px;
-    height: 600px;
+    height: 620px;
     background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
     border-radius: 40px;
     padding: 12px;
@@ -797,7 +797,7 @@ body {
 
     .phone-mockup {
         width: 250px;
-        height: 500px;
+        height: 520px;
     }
 
     .app-title {
