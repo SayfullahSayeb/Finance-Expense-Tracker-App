@@ -13,6 +13,12 @@
   "categories": [
     "finance"
   ],
+  "protocol_handlers": [
+    {
+      "protocol": "web+amartaka",
+      "url": "/index.html?source=%s"
+    }
+  ],
   "screenshots": [
     {
       "src": "image/screenshot-1.jpg",

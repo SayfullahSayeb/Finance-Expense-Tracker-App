@@ -85,9 +85,9 @@ function setupInstallButtons() {
 
 // Handle install button click
 async function handleInstallClick() {
-    // If already installed, open the app
+    // If already installed, try to open the PWA app
     if (isInstalled) {
-        window.location.href = '../../index.html';
+        openInstalledApp();
         return;
     }
 
@@ -113,6 +113,30 @@ async function handleInstallClick() {
     // Clear the deferredPrompt for next time
     deferredPrompt = null;
 }
+
+// Function to open the installed PWA app
+function openInstalledApp() {
+    // Get the base URL of the app
+    const baseUrl = window.location.origin;
+    const appUrl = baseUrl + '/index.html';
+
+    // Method 1: Try using custom protocol handler
+    try {
+        const protocolUrl = 'web+amartaka://open';
+        window.location.href = protocolUrl;
+
+        // Fallback after a short delay if protocol doesn't work
+        setTimeout(() => {
+            // Method 2: Try opening with scope parameter to hint it should open in PWA
+            const pwaUrl = appUrl + '?standalone=true';
+            window.location.href = pwaUrl;
+        }, 500);
+    } catch (e) {
+        // Method 3: Direct navigation fallback
+        window.location.href = appUrl;
+    }
+}
+
 
 // Update install button states
 function updateInstallButtons(text, disabled = false) {
